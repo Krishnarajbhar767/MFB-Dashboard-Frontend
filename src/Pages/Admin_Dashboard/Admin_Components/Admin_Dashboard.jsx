@@ -1,10 +1,12 @@
 import React from "react";
 import Admin_Active_Student from "./Admin_Active_Student_Components/Admin_Active_Student";
+import Admin_Total_Student_Tabular_Data_Card from "./Admin_User_Management_Components/Sub_Components/Admin_Total_Student_Tabular_Data_Card";
 
 function Admin_Dashboard() {
   return (
     <div className="w-full bg-gray-200 h-full overflow-scroll scroller rounded-lg p-5 flex flex-col gap-5 font-semibold ">
       <h2>Dashboard Navbar</h2>
+      <Admin_Total_Student_Tabular_Data_Card/>
       <div className="flex flex-row gap-5 p-5 bg-gray-500 rounded-lg h-fit w-full">
         <div className="flex flex-col gap-2 w-3/4 ">
           <div className="className w-full h-[100vh] bg-white text-black p-5 font-semibold rounded-lg ">

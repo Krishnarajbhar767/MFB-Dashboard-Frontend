@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 *{
         font-family: "Poppins", serif;
         
@@ -31,4 +32,34 @@
   position: sticky;
   top: 0;
   background-color: #edecec;
+}
+
+#scrollerHide::-webkit-scrollbar {
+  display: none;
+}
+
+.Admin_Total_Student_Tabular_Data_Card{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  letter-spacing: normal;
+}
+
+
+#Admin_Edit_User_Purchase_Modal label{
+  font-size: 14px;
+  color: rgb(39, 38, 38);
+  font-weight: 500;
+}
+
+#Admin_Edit_User_Purchase_Modal input,select {
+outline: none;
+padding: 5px 10px;
+border-radius: 8px;
+font-weight: 400;
+color:rgb(39, 39, 39);
+border: 1px solid rgb(160, 155, 155);
+}
+
+#Admin_Edit_User_Purchase_Modal option{
+ font-size: 15px;
+ 
 }

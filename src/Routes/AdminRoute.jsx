@@ -24,7 +24,7 @@ const AdminRoutes = () => {
 export const adminRoutesConfig = [
     { path: "dashboard", element: <Admin_Dashboard />  },
     { path: "user_management", element: <Admin_User_Managements /> },
-    { path: "course_management", element: <Admin_User_Managements/>  },
+    { path: "course_management", element: <Admin_Course_Management/>  },
     { path: "content_management", element: <Admin_Content_Management /> },
     { path: "repost_&_analytics", element: <Admin_Report_Analytics /> },
     { path: "payment_management", element: <Admin_Payment_Management /> },
