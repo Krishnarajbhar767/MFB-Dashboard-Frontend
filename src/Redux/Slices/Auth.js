@@ -1,18 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user:"Krishna",
-}
+    user: "Krishna",
+};
 
- const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-
-  },
-})
+const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {},
+});
 
 // Action creators are generated for each case reducer function
-export const { } = authSlice.actions
+export const {} = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;
