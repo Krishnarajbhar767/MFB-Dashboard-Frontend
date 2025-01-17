@@ -12,34 +12,75 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 // Component for adding a new lesson within the admin panel
-function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
-    console.log(
-        "Printing Course Module From  Add New LEssons->",
-        courseModules
-    );
+function Admin_Add_New_Lesson({
+    setisAddingLesson,
+    module,
+    courseModules,
+    setCourseModules,
+}) {
     // Initializing form management and state variables
-    console.log("Add Lesson Parent Data ->", module);
     const {
         register,
         handleSubmit,
         getValues,
         setValue,
+        unregister,
         formState: { errors },
     } = useForm();
     const formData = {}; // it is main data tha are going insert in course Single Module.. in the last when evrything is fine
     const [resources, setResources] = useState([]); // State to store additional resources
-    const [lessonVideo, setLessonVideo] = useState(""); // State for lesson video
+    // Using Temperoy Variibale For Hold Resouce File If Exist
+    const [resourceFile, setResourceFile] = useState(null);
+
+    // main handler that create new lesson and update the courseModule state section that are available in upload new course
+
     const addLessonHandler = async (data) => {
+        // unregistering single resource link
+        unregister("resourceLink");
+        // unregistering single resource description
+        unregister("resourceTitle");
+        // setting resources as array that hold multiple object of {resources link title}
+        setValue("resources", resources);
+        // getting video file from reacthookform lessonVideo key That Hold Array where 0 index value are main lesson video
+        const temp_lesson_Video = getValues("lessonVideo");
         try {
-            console.log("Printing Add lessson Form data Main - >", getValues());
-            // Call APi TO Create Lesson With Resources
+            // getting all the lesson data from That Form - React Hook Form
+            const temp_lesson_Data = getValues();
+            // modifying temp_lesson_data for insreting that single video file in lessonVideo
+            temp_lesson_Data.lessonVideo = temp_lesson_Video[0];
+            // inserting parent module id
+            temp_lesson_Data.moduleId = module.id;
+            console.log("Printing That Temp_Lesson_Data", temp_lesson_Data);
+            // erything is fine now we just need to call create lesson api when api...
+
+            // assuimg api response is succesfull
+            setCourseModules((prev) =>
+                prev?.map((module) => {
+                    if (module.id === temp_lesson_Data.moduleId) {
+                        return {
+                            ...module,
+                            lesson: [...module.lesson, temp_lesson_Data],
+                        };
+                    } else {
+                        return module;
+                    }
+                })
+            );
+
+            toast.success("Lesson Created Successfully...");
+            setValue("lessonName", "");
+            setValue("lessonDescription", "");
+            setValue("lessonVideo", "");
         } catch (error) {
-            console.log("Error While Creating The Lesson From JSX -->", error);
+            console.log(
+                "Error While Creating The New Lesson From JSX -->",
+                error
+            );
         }
     };
     return (
         // Modal container for adding a new lesson
-        <div className="fixed top-0 left-[30vw] bg-white p-4 rounded-lg border border-gray-200 text-black z-10 w-[50%] flex flex-col gap-4 h-fit">
+        <div className="fixed top-[10vh] left-[30vw] bg-white p-4 rounded-lg border border-gray-200 text-black z-10 w-[50%] flex flex-col gap-4 h-fit">
             {/* Lesson name input field */}
             <Input
                 type={"text"}
@@ -47,6 +88,7 @@ function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
                 label={"Lesson Name"}
                 register={register}
                 inputName="lessonName"
+                required={true}
                 error={errors?.lessonName}
             />
 
@@ -81,6 +123,10 @@ function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
             <TextArea
                 label={"Lesson Description"}
                 placeholder={"Lesson Description"}
+                required={true}
+                register={register}
+                inputName="lessonDescription"
+                error={errors?.lessonDescription}
             />
 
             {/* Additional resources section */}
@@ -90,20 +136,33 @@ function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
                     {/* Inputs for resource title and link */}
                     <Input
                         label={" Title"}
-                        placeholder={" Title"}
+                        placeholder={"Title"}
                         register={register}
                         inputName="resourceTitle"
-                        required={true}
                         error={errors?.resourceTitle}
                     />
-                    <Input
-                        label={" Link"}
-                        placeholder={" Link"}
-                        register={register}
-                        inputName="resourceLink"
-                        required={true}
-                        error={errors?.resourceLink}
-                    />
+                    <div className="flex  flex-col ">
+                        <Input
+                            label={" Link"}
+                            placeholder={" Link"}
+                            register={register}
+                            inputName="resourceLink"
+                            error={errors?.resourceLink}
+                        />
+                        <h1 className="text-center text-base mt-3">OR</h1>
+                        <div className="-mt-2 flex flex-col">
+                            <label htmlFor="resourceFile">Resource File</label>
+                            <input
+                                type="file"
+                                id="resourceFile"
+                                placeholder="resourceFile"
+                                onChange={(e) => {
+                                    setResourceFile(e.target.files[0]);
+                                }}
+                                className="border-gray-200 border rounded-md px-2 py-1 font-light text-gray-800 outline-none focus:ring-1 ring-blue-600 "
+                            />
+                        </div>
+                    </div>
 
                     {/* Button to add a resource */}
                     <button
@@ -114,19 +173,26 @@ function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
                                 toast.error("Resource Title Is Required");
                                 return;
                             }
-                            if (!formData.resourceLink) {
-                                toast.error("Resource Link Is Required");
-                                return;
+                            console.log(formData.resourceLink, resourceFile);
+                            if (formData.resourceLink || resourceFile) {
+                                setResources((prev) => [
+                                    ...prev,
+                                    {
+                                        resourceLink: formData.resourceLink,
+                                        resourceTitle: formData.resourceTitle,
+                                        resourceFile,
+                                    },
+                                ]);
+                                console.log("Printing Resource", resources);
+                                setValue("resourceTitle", "");
+                                setValue("resourceLink", "");
+                                setResourceFile(null);
+                                toast.success("Resource Added Successfully...");
+                            } else {
+                                toast.error(
+                                    "Resource Link OR Resource File Is Required..."
+                                );
                             }
-                            setResources((prev) => [
-                                ...prev,
-                                {
-                                    resourceLink: formData.resourceLink,
-                                    resourceTitle: formData.resourceTitle,
-                                },
-                            ]);
-                            setValue("resourceTitle", "");
-                            setValue("resourceLink", "");
                         }}
                     >
                         <IconBtn color={"#000f"}>
@@ -165,7 +231,7 @@ function Admin_Add_New_Lesson({ setisAddingLesson, module, courseModules }) {
 
             {/* Action buttons: Add Lesson and Cancel */}
             <div className="flex gap-3 items-center justify-end">
-                <button type="button" onClick={addLessonHandler}>
+                <button type="button" onClick={handleSubmit(addLessonHandler)}>
                     <IconBtn color={"#000f"}>Add Lesson</IconBtn>
                 </button>
                 <button

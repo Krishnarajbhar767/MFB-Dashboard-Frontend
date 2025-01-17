@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import { courseCategories as tempCategory } from "../../../../../Sampple_Data/activeStudent";
 import Admin_Add_Module from "./Add_Module/Admin_Add_Module";
 import Admin_Add_New_Lesson from "./Add_New Lesson/Admin_Add_New_Lesson";
+import toast from "react-hot-toast";
+import DragAndDropList from "./DraggableList";
 // import thumbnailImage from "../../../../../../public/logov2.png";
 // import { useSelector } from "react-redux";
 function Admin_Upload_New_Course() {
@@ -42,13 +44,37 @@ function Admin_Upload_New_Course() {
     const createCourse = async (data) => {
         setValue("tags", [...tags]);
         setValue("courseModules", courseModules);
-        console.log(
-            "Publish Course Clicked --> Complete COurse Form Data --- >",
-            getValues()
-        );
-    };
-    const handleAddModule = (e) => {
-        setIsAddingModule(true);
+        // Handling Error For Module And Lesson This Condition Check Is There Is No aNY Module Or If Any MOdule Do not Include Any Lesson Then Toast An Error
+        if (!courseModules.length) {
+            toast.error("Atleas 1 Module Are Required...");
+            return;
+        }
+
+        // condition for verify theres no any empty module whithout lesson
+        if (
+            courseModules.some((module) => {
+                return module.lesson.length > 0 ? false : true;
+            })
+        ) {
+            toast.error("Atleast One Lesson Is Required In Every Modules...");
+            return;
+        }
+
+        // everything is fine now we can call our create  course api for Creating The Course...
+        try {
+            console.log(
+                "Printing Our Complete Course Data Main JSX ->",
+                getValues()
+            );
+            // Call Api For Create Course
+
+            toast.success("Course Created Successfully...");
+        } catch (error) {
+            console.log(
+                "Error While Creating The New Course From JSX ->",
+                error
+            );
+        }
     };
 
     useEffect(() => {
@@ -59,15 +85,6 @@ function Admin_Upload_New_Course() {
 
     return (
         <form className="w-full px-2 flex gap-4 py-4 relative">
-            {/* Course Add MOdule Modal dynamic It Will Open ONly WHen You CLick on Add MOdule  */}
-            {isAddingModule && (
-                <Admin_Add_Module
-                    setisAddingModule={setIsAddingModule}
-                    courseModules={courseModules}
-                    setCourseModules={setCourseModules}
-                />
-            )}
-
             <div className="w-[65%] rounded-lg flex flex-col gap-5 p-2">
                 <div className="flex justify-between items-center">
                     <h1 className=" text-base">Upload New Course</h1>
@@ -109,13 +126,17 @@ function Admin_Upload_New_Course() {
                     <div className=" rounded-lg border border-gray-200  p-4 flex flex-col gap-4 bg-white ">
                         <div className="flex justify-between items-center ">
                             <h1 className="font-medium">Course Module</h1>
-                            <button onClick={handleAddModule} type="button">
+                            <button
+                                onClick={() => setIsAddingModule(true)}
+                                type="button"
+                            >
                                 <IconBtn color={"#000f"}>
                                     <FiPlus /> Add Module
                                 </IconBtn>
                             </button>
                         </div>
                         {courseModules?.map((module, idx) => (
+                            // Rendering evry module with thair data -> remember main module data are available only in upload new course JSX
                             <Admin_Course_Module
                                 module={module}
                                 moduleIndex={idx}
@@ -123,8 +144,19 @@ function Admin_Upload_New_Course() {
                                 setCourseModules={setCourseModules}
                             />
                         ))}
+
+                        {/* Course Add MOdule Modal dynamic It Will Open ONly WHen You CLick on Add MOdule  */}
+                        {isAddingModule && (
+                            <Admin_Add_Module
+                                setisAddingModule={setIsAddingModule}
+                                courseModules={courseModules}
+                                setCourseModules={setCourseModules}
+                            />
+                        )}
                     </div>
                 </div>
+                {/* Draggble list */}
+                {/* <DragAndDropList /> */}
             </div>
 
             {/* Course SideBar   */}
@@ -168,6 +200,7 @@ function Admin_Upload_New_Course() {
                             Course Category
                         </InputLabel>
                         <Select
+                            required
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             defaultValue={"All"}
@@ -238,7 +271,7 @@ function Admin_Upload_New_Course() {
                 </div>
                 <div>
                     <Input
-                        label={"Price"}
+                        label={"Price *"}
                         placeholder={"Course Price INR"}
                         register={register}
                         inputName={"coursePrice"}
