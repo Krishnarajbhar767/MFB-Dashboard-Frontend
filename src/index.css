@@ -2,64 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-
-*{
-        font-family: "Poppins", serif;
-        
+* {
+    font-family: "Poppins", serif;
 }
 
- table {
-  width: 100%;
-  text-align: center;
-  border-collapse: separate; /* Don't collapse */
-  border-spacing: 0;
-  color: #ff00003b;
+table {
+    width: 100%;
+    text-align: center;
+    border-collapse: separate; /* Don't collapse */
+    border-spacing: 0;
+    color: #ff00003b;
 }
 
- table th {
-  /* Apply both top and bottom borders to the <th> */
-  /* border-top: 1px solid; */
-  border-bottom: 1px solid;
-  border-right: 1px solid;
+table th {
+    /* Apply both top and bottom borders to the <th> */
+    /* border-top: 1px solid; */
+    border-bottom: 1px solid;
+    border-right: 1px solid;
 }
 
- table th:first-child{
-  /* Apply a left border on the first <td> or <th> in a row */
-  border-left: 1px solid;
+table th:first-child {
+    /* Apply a left border on the first <td> or <th> in a row */
+    border-left: 1px solid;
 }
 
- table thead th {
-  position: sticky;
-  top: 0;
-  background-color: #edecec;
+table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #edecec;
 }
 
 #scrollerHide::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
-.Admin_Total_Student_Tabular_Data_Card{
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  letter-spacing: normal;
+#resourceLinksContainer::-webkit-scrollbar {
+    display: none;
+}
+#quizesCardContainer::-webkit-scrollbar {
+    display: none;
+}
+.Admin_Total_Student_Tabular_Data_Card {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    letter-spacing: normal;
 }
 
-
-#Admin_Edit_User_Purchase_Modal label{
-  font-size: 14px;
-  color: rgb(39, 38, 38);
-  font-weight: 500;
+#Admin_Edit_User_Purchase_Modal label {
+    font-size: 14px;
+    color: rgb(39, 38, 38);
+    font-weight: 500;
 }
 
-#Admin_Edit_User_Purchase_Modal input,select {
-outline: none;
-padding: 5px 10px;
-border-radius: 8px;
-font-weight: 400;
-color:rgb(39, 39, 39);
-border: 1px solid rgb(160, 155, 155);
+#Admin_Edit_User_Purchase_Modal input,
+select {
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 400;
+    color: rgb(39, 39, 39);
+    border: 1px solid rgb(160, 155, 155);
 }
 
-#Admin_Edit_User_Purchase_Modal option{
- font-size: 15px;
- 
+#Admin_Edit_User_Purchase_Modal option {
+    font-size: 15px;
+}
+
+.admin_my_course_card {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

@@ -1,4 +1,3 @@
-
 /* scroll bar hide using this class */
 .scroller::-webkit-scrollbar {
     display: none;
@@ -6,8 +5,7 @@
 
 /* active link or page hillited with background color  */
 .active {
-    background-color: #041832;
-    color: white;
-    padding:12px 15px 10px 20px;
-    border-radius: 10px;
+    color: #3b82f6;
+    font-weight: 600;
+    background-color: rgba(128, 128, 128, 0.116);
 }

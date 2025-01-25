@@ -7,17 +7,22 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import Admin_Add_New_Lesson from "./Add_New Lesson/Admin_Add_New_Lesson";
+import { useNavigate } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
+
 function Admin_Course_Module({
     module,
     moduleIndex,
     courseModules,
     setCourseModules,
     isDraggable,
+    setIsEditingModule,
 }) {
-    const { course } = useSelector((state) => state);
     // this state is use to open or closs the add new lesson modal
     const [isAddingLesson, setIsAddingLesson] = useState(false);
-
+    const navigate = useNavigate();
+    const [isEditingLesson, setIsEditingLesson] = useState(false);
+    const [editingLesson, setEditingLesson] = useState(null);
     return (
         <div
             draggable
@@ -32,9 +37,29 @@ function Admin_Course_Module({
                     setCourseModules={setCourseModules}
                 />
             )}
-            <div className="flex justify-between items-center py-1 text-gray-900 font-medium capitalize">
+            {isEditingLesson && (
+                <Admin_Add_New_Lesson
+                    setIsEditingLesson={setIsEditingLesson}
+                    isEditingLesson={isEditingLesson}
+                    module={module}
+                    courseModules={courseModules}
+                    setCourseModules={setCourseModules}
+                    editingLesson={editingLesson}
+                />
+            )}
+            <div
+                className="flex justify-between items-center py-1 text-gray-800
+            text-[14px]
+            font-medium capitalize"
+            >
                 <h1>{module?.moduleName}</h1>
-                <div className="flex gap-2 text-xl cursor-pointer">
+                <div
+                    className="flex gap-2 text-base cursor-pointer "
+                    onClick={() => setIsEditingModule(true)}
+                >
+                    <span>
+                        <FaEdit />
+                    </span>
                     <span>
                         <RiDragMove2Fill />
                     </span>
@@ -60,8 +85,18 @@ function Admin_Course_Module({
                             <FaCirclePlay />
                             <h1>{lesson.lessonName}</h1>
                         </div>
-                        <div className="text-sm font-medium text-gray-800">
+                        <div className="text-sm font-medium text-gray-800 flex items-center gap-6">
                             <p>{lesson.lessonDuration}</p>
+                            <button
+                                type="button"
+                                className="flex gap-1 items-center cursor-pointer"
+                                onClick={() => {
+                                    setEditingLesson(lesson);
+                                    setIsEditingLesson(true);
+                                }}
+                            >
+                                <FaEdit /> Edit
+                            </button>
                         </div>
                     </div>
                 ))}

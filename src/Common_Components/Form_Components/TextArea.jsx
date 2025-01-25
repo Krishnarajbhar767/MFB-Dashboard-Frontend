@@ -11,7 +11,7 @@ function TextArea({
 }) {
     return (
         <div
-            className={`flex flex-col gap-1 text-sm text-gray-800 font-medium ${
+            className={`flex flex-col gap-1 text-[13px] text-gray-800 font-medium ${
                 error ? "text-red-500" : ""
             }`}
         >
@@ -22,7 +22,7 @@ function TextArea({
                 {...register(inputName, { required: required })}
                 id="label"
                 type={type}
-                className="border-gray-200 border rounded-md px-2 py-1 font-light text-gray-800 outline-none focus:ring-1 ring-blue-600 min-h-14 max-h-60"
+                className="border-gray-200 border rounded-md px-2  font-light text-gray-800 outline-none focus:ring-1 ring-blue-600 min-h-[30px] max-h-[60px] py-1 overflow-hidden"
                 placeholder={error ? "This field is required" : placeholder}
             />
         </div>

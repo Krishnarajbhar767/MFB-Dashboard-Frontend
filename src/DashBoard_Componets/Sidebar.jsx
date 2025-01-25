@@ -1,32 +1,86 @@
-import React from 'react';
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 function Sidebar({ sidebarList }) {
+    // State to manage whether the dropdown menu is open or closed
+    const [openDropMenu, setOpenDropMenu] = useState(false);
 
     return (
-        <div className="w-full flex flex-col gap-5 ">
-
-            <ul className="w-full flex flex-col gap-2 h-[100%]  pb-20 pt-5 px-1">
-                {
-                    sidebarList && sidebarList.map((item, i) => (
+        <div className="w-full flex flex-col  " id="sideBar">
+            {/* Main container for the sidebar list */}
+            <ul className="w-full flex flex-col  h-[100%] pb-20  ">
+                {/* Loop through the sidebarList to generate list items dynamically */}
+                {sidebarList &&
+                    sidebarList.map((item, i) => (
                         <li
-                            className=" flex flex-col gap-2 items-center hover:bg-gray-800 hover:text-white text-gray-800 bg  bg-white rounded-xl cursor-pointer"
+                            className="flex flex-col
+                            "
+                            key={i}
                         >
-                            <NavLink to={item.route} className="w-full h-full px-5 py-2" >
-                                {/* <span>{item.route}</span> */}
-                                <div className=" rounded-full w-fit h-fit p-2 bg-gray-600">
-                                    <span className="text-[25px] text-white">{item.icon}</span>
-                                </div>
-                                <span className="text-[0.8rem] uppercase font-semibold  ">{item.lable}</span>
-                            </NavLink>
-                        </li>
-                    ))
-                }
+                            {/* Main item in the sidebar */}
+                            <div
+                                onClick={() => setOpenDropMenu(!openDropMenu)} // Toggle dropdown menu state on click
+                                className="h-fit  flex flex-row gap-2 items-center 
+                                 
+                 text-gray-800 font-normal bg-white cursor-pointer hover:text-blue-500 transition-all duration-75 hover:font-semibold"
+                            >
+                                {/* Link to the route specified in the item */}
+                                <NavLink
+                                    to={item.route}
+                                    className="w-full h-full flex items-center gap-2 px-2 py-1 justify-between "
+                                >
+                                    {/* Icon of the item */}
+                                    <div className="flex items-center gap-2">
+                                        <div className="rounded-full w-fit h-fit p-2">
+                                            <span className="text-[19px]">
+                                                {item.icon}
+                                            </span>
+                                        </div>
+                                        {/* Label for the item */}
+                                        <span className="text-[0.820rem] tracking-wider">
+                                            {item.lable}
+                                        </span>
+                                    </div>
+                                    {item?.children && (
+                                        <span className="text-3xl font-thin">
+                                            <RiArrowDropDownLine />
+                                        </span>
+                                    )}
+                                </NavLink>
+                            </div>
 
+                            {/* Dropdown menu for child items */}
+                            {openDropMenu &&
+                                item?.children &&
+                                item?.children?.map(
+                                    (childrenItem, childIndex) => (
+                                        <NavLink
+                                            //
+                                            to={childrenItem.path}
+                                            key={childIndex}
+                                            className="w-[100%] bg-gray-50  pl-9  border-gray-400 items-start px-2 py-2 flex  flex-col hover:bg-gray-400 hover:text-gray-50 h-fit cursor-pointer transition-all duration-500 "
+                                        >
+                                            {/* Link to the route of the child item */}
+                                            <div className={"flex gap-2 px-2 "}>
+                                                <span className="text-[20px] font-extrabold">
+                                                    {childrenItem.icon}
+                                                </span>
+
+                                                {/* Label for the child item */}
+                                                <span className="text-[0.8rem] uppercase font-normal">
+                                                    {childrenItem.lable}
+                                                </span>
+                                            </div>
+                                        </NavLink>
+                                    )
+                                )}
+                        </li>
+                    ))}
             </ul>
         </div>
-    )
+    );
 }
 
 export default Sidebar;
