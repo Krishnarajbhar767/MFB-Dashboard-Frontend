@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 function Admin_Course_Managemnet_Add_Quize() {
     // Temp Array For Hold Multiple Quizes  And Render Quizes
     const [isEditingQuize, setIsEditingQuize] = useState(false);
+    // Holding Currently Editing Quize
+    const [editingQuizeData, setEditingQuizeData] = useState({});
     const {
         register,
         handleSubmit,
@@ -62,7 +64,7 @@ function Admin_Course_Managemnet_Add_Quize() {
 
         setTempQuizes((prev) => [
             ...prev,
-            { ...data, correctAnswere: data[correctOption] },
+            { ...data, correctAnswere: data[correctOption], id: Math.random() },
         ]);
         // After Quize Insertion Clear All The Temp Data...
         clearInput();
@@ -75,7 +77,7 @@ function Admin_Course_Managemnet_Add_Quize() {
     async function onSubmit(data) {
         if (isEditingQuize) {
             // assuming Quize Editing Is true And Calling Edit Quize FUntion
-            editQuizeHandler(data);
+            editQuizeHandler();
         } else {
             // If not Editing The Quize Then Call The Add Quize FUnction
             addNewQuizeHandler(data);
@@ -342,6 +344,7 @@ function Admin_Course_Managemnet_Add_Quize() {
                                     onClick={(e) => {
                                         setIsEditingQuize(false);
                                         clearInput();
+                                        setEditingQuizeData((prev) => {});
                                     }}
                                 >
                                     <IconBtn color={"#000f"}>
@@ -416,10 +419,7 @@ function Admin_Course_Managemnet_Add_Quize() {
                                             quize.quizeTimeLimit
                                         );
                                         setCorrectOption(null);
-                                        console.log(
-                                            "Printing Quize.....",
-                                            tempQuizes
-                                        );
+                                        setEditingQuizeData((prev) => quize);
                                     }}
                                 >
                                     <FaEdit />
