@@ -70,3 +70,9 @@ select {
 .admin_my_course_card {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
+#student_course_card_Category_container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */

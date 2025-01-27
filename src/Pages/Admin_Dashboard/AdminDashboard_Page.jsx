@@ -95,22 +95,22 @@ function AdminDashboard() {
     ];
 
     return (
-        <div className="flex flex-col h-screen ">
+        <div className="flex flex-col h-screen w-[100vw]">
             {/* our Navbar  */}
             <Navbar />
 
-            <div className="flex flex-row h-screen ">
-                <div className=" h-full lg:w-[250px]  text-black  pb-20 ">
+            <div className="flex flex-row h-screen w-full">
+                <div className=" h-full lg:w-[250px]  text-black  pb-20 w-[20%] py-3">
                     {/* <h1 className="font-semibold cursor-pointer px-4 py-2 text-center uppercase bg-gray-200 text-sm text-gray-800 ">
                         Welcome to Media Fleetblue Course Platform
                     </h1> */}
 
-                    <div className="w-full  h-full overflow-scroll scroller ">
+                    <div className=" h-full overflow-scroll scroller px-4">
                         <Sidebar sidebarList={sidebarList} />
                     </div>
                 </div>
 
-                <div className="flex flex-col flex-1 h-screen bg-[#F5F9FA]">
+                <div className="flex flex-col flex-1 h-screen bg-[#F5F9FA] w-[80%]">
                     <div className="w-full px-5 pt-2 h-[88vh] overflow-scroll scroller flex flex-col gap-3 ">
                         {/* <h1
               className="text-1xl font-semibold border-b-2 border-blue-500 mb-5 text-blue-600 cursor-pointer uppercase  "

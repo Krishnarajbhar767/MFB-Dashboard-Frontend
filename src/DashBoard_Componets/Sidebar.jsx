@@ -9,13 +9,14 @@ function Sidebar({ sidebarList }) {
 
     return (
         <div className="w-full flex flex-col  " id="sideBar">
-            {/* Main container for the sidebar list */}
-            <ul className="w-full flex flex-col  h-[100%] pb-20  ">
+            {/* Main container for the sidebar list LAptop*/}
+            <ul className="w-full flex flex-col  h-[100%] pb-20 ">
                 {/* Loop through the sidebarList to generate list items dynamically */}
                 {sidebarList &&
                     sidebarList.map((item, i) => (
                         <li
                             className="flex flex-col
+                              rounded-lg
                             "
                             key={i}
                         >
@@ -24,7 +25,7 @@ function Sidebar({ sidebarList }) {
                                 onClick={() => setOpenDropMenu(!openDropMenu)} // Toggle dropdown menu state on click
                                 className="h-fit  flex flex-row gap-2 items-center 
                                  
-                 text-gray-800 font-normal bg-white cursor-pointer hover:text-blue-500 transition-all duration-75 hover:font-semibold"
+                 text-gray-700 font-normal  cursor-pointer hover:text-blue-500 transition-all duration-75 "
                             >
                                 {/* Link to the route specified in the item */}
                                 <NavLink
@@ -34,12 +35,12 @@ function Sidebar({ sidebarList }) {
                                     {/* Icon of the item */}
                                     <div className="flex items-center gap-2">
                                         <div className="rounded-full w-fit h-fit p-2">
-                                            <span className="text-[19px]">
+                                            <span className="text-[19px] hover:font-semibold">
                                                 {item.icon}
                                             </span>
                                         </div>
                                         {/* Label for the item */}
-                                        <span className="text-[0.820rem] tracking-wider">
+                                        <span className="text-[0.8rem] font-normal tracking-wider hidden lg:block hover:font-semibold">
                                             {item.lable}
                                         </span>
                                     </div>

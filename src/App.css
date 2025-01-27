@@ -5,7 +5,8 @@
 
 /* active link or page hillited with background color  */
 .active {
-    color: #3b82f6;
+    color: white;
     font-weight: 600;
-    background-color: rgba(128, 128, 128, 0.116);
+    background-color: #23242a;
+    border-radius: 8px;
 }
