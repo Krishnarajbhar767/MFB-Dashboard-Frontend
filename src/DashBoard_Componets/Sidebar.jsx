@@ -8,9 +8,9 @@ function Sidebar({ sidebarList }) {
     const [openDropMenu, setOpenDropMenu] = useState(false);
 
     return (
-        <div className="w-full flex flex-col  " id="sideBar">
+        <div className="w-full  flex flex-col  " id="sideBar">
             {/* Main container for the sidebar list LAptop*/}
-            <ul className="w-full flex flex-col  h-[100%] pb-20 ">
+            <ul className="w-full  flex flex-col  h-[100%] pb-20  ">
                 {/* Loop through the sidebarList to generate list items dynamically */}
                 {sidebarList &&
                     sidebarList.map((item, i) => (
@@ -30,7 +30,7 @@ function Sidebar({ sidebarList }) {
                                 {/* Link to the route specified in the item */}
                                 <NavLink
                                     to={item.route}
-                                    className="w-full h-full flex items-center gap-2 px-2 py-1 justify-between "
+                                    className="w-full   h-full flex items-center gap-2 px-2 py-1 justify-between "
                                 >
                                     {/* Icon of the item */}
                                     <div className="flex items-center gap-2">

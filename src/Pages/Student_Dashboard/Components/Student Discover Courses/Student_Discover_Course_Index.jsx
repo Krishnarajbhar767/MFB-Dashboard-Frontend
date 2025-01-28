@@ -817,11 +817,11 @@ function Student_Discover_Course_Index() {
 
     const [activeCategory, setActiveCategory] = useState("Photography");
     return (
-        <div className="w-auto border border-gray-950">
-            <div className=" h-fit  border-blue-500 border overflow-hidden">
+        <div className="lg:w-auto md:w-[85vw]">
+            <div className=" h-fit  overflow-hidden ">
                 {/* Categorys... Tab Container... */}
                 <div
-                    className="space-x-2 flex  max-w-full"
+                    className="space-x-2   max-w-full overflow-x-scroll hidden md:flex"
                     id="student_course_card_Category_container"
                 >
                     {categories?.map((elem, idx) => (
@@ -842,7 +842,7 @@ function Student_Discover_Course_Index() {
                 </div>
                 {/* Courses Card Container */}
             </div>
-            <div className="my-6  inline-flex flex-wrap  gap-y-4 max-w-[80vw] justify-between  border border-red-500 pb-16 ">
+            <div className="my-3  inline-flex flex-wrap  gap-y-4 lg:max-w-[80vw] sm:max-w-[100vw] justify-between   pb-16 ">
                 {courses?.map((elem, idx) => {
                     if (elem?.category === activeCategory) {
                         return <Student_Discover_Course_Card course={elem} />;

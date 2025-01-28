@@ -77,7 +77,7 @@ function StudentDashboard_Page() {
 
             <div className="w-[100vw] flex flex-row h-screen bg-green-400">
                 {/* Sidebar */}
-                <div className="w-[25vw] h-full  text-black px-2 pb-20 pt-4 hidden md:block bg-[#F8F8F8]">
+                <div className="lg:w-[25vw] h-full  text-black px-2 pb-20 pt-4 hidden md:block bg-[#F8F8F8]">
                     <div className="w-full px-2 h-full overflow-scroll scroller ">
                         {/* Side Bar For Laptop And Tablet */}
                         <Sidebar sidebarList={sidebarList} />
@@ -85,8 +85,8 @@ function StudentDashboard_Page() {
                 </div>
 
                 {/* main section where all outlet will be render  */}
-                <div className="w-[75vw] flex flex-col  h-screen bg-gray-100  border-blue-400 border-2 ">
-                    <div className=" bg-red-500 w-full px-6  py-3 h-fit overflow-y-scroll scroller overflow-x-hidden ">
+                <div className="lg:w-[75vw] flex flex-col  h-screen bg-gray-100  ">
+                    <div className="  w-full lg:px-6 px-4   lg:py-3 h-fit overflow-y-scroll scroller overflow-x-hidden ">
                         {/* <h1 className="text-1xl font-semibold border-b-2 border-blue-500 mb-5 text-blue-600 cursor-pointer uppercase  ">
                             Welcome to Media Fleetblue Course Platform - Teacher
                         </h1> */}

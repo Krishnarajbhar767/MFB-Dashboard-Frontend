@@ -12,11 +12,12 @@ import StudentRoute, { StudentRoutesConfig } from "./Routes/StudentRoute";
 import StudentLogin from "./Pages/Student_Dashboard/Components/StudentLogin";
 import TeacherLogin from "./Pages/Teacher_Dashboard/Components/TeacherLogin";
 import TeacherRoute, { TeacherRoutesConfig } from "./Routes/TeacherRoute";
+import { useSelector } from "react-redux";
 
 function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
-
+    const { user } = useSelector((state) => state.auth);
     return (
         <>
             <Routes>
@@ -27,7 +28,7 @@ function App() {
                 <Route
                     path="/admin"
                     element={
-                        !isAdmin ? (
+                        user?.accoutType === "Admin" ? (
                             <AdminLogin />
                         ) : (
                             // <AdminLogin
@@ -39,7 +40,7 @@ function App() {
                 <Route
                     path="/admin/*"
                     element={
-                        isAdmin ? (
+                        user?.accoutType === "Admin" ? (
                             <AdminRoutes />
                         ) : (
                             <Navigate to="/admin" replace />
@@ -76,7 +77,7 @@ function App() {
                 <Route
                     path="/student"
                     element={
-                        !isAdmin ? (
+                        user?.accoutType !== "Admin" ? (
                             <StudentLogin />
                         ) : (
                             // <AdminLogin
@@ -88,7 +89,7 @@ function App() {
                 <Route
                     path="/student/*"
                     element={
-                        isAdmin ? (
+                        user?.accoutType === "Admin" ? (
                             <StudentRoute />
                         ) : (
                             <Navigate to="/student" replace />
@@ -114,7 +115,7 @@ function App() {
                 <Route
                     path="/teacher"
                     element={
-                        !isAdmin ? (
+                        user?.accoutType !== "Admin" ? (
                             <TeacherLogin />
                         ) : (
                             <Navigate to="teacher" replace />
@@ -125,7 +126,7 @@ function App() {
                 <Route
                     path="/teacher/*"
                     element={
-                        isAdmin ? (
+                        user?.accoutType === "Admin" ? (
                             <TeacherRoute />
                         ) : (
                             <Navigate to="/teacher" replace />

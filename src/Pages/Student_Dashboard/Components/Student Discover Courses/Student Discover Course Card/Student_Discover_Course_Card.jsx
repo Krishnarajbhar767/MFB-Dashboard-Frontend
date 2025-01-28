@@ -29,7 +29,7 @@ function Student_Discover_Course_Card({ course }) {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-3 lg:w-[32.5%]  md:w-[49%] ">
+        <div className="bg-white rounded-lg shadow-md p-3 lg:w-[32.5%]  md:w-[49%] w-[100%] ">
             {/* COurse Image Container.. */}
             <img
                 src={course.thumbnail}
