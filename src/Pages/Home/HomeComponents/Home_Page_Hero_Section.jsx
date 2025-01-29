@@ -2,40 +2,40 @@ import React from "react";
 
 function HomePageHeroSection() {
     return (
-        <div className="max-w-7xl  mx-auto py-8">
+        <div className="max-w-7xl  mx-auto py-8 ">
             {/* Main Title Of HEro Sexxtion */}
-            <h1 className="text-6xl  mx-auto   capitalize font-semibold text-[#2F2F68] text-center leading-snug  mt-10">
+            <h1 className="text-2xl  md:text-5xl lg:text-6xl  mx-auto   capitalize font-semibold text-mainTextColor text-center leading-snug  mt-0 md:mt-6 lg:mt-10 ">
                 Brightening the <span className="text-[#FF696B]">Journey</span>{" "}
                 <br />
-                to to success Ahead
+                to success Ahead
             </h1>
-            <p className="text-center text-wrap lg:w-1/2 mx-auto  text-sm text-[#2F2F68] font-medium">
+            <p className="text-center text-wrap lg:w-1/2 md:w-1/2 mx-auto w-11/12 text-sm text-mainTextColor md:font-medium font-normal  mt-4">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore
                 commodi sit officia porro in voluptas mollitia explicabo earum
                 quod perspiciatis doloremque magnam et ipsa esse quis sapiente,
                 recusandae aliquam? Dolore!
             </p>
             {/* Buttons Container */}
-            <div className="flex  items-center justify-center  gap-4 mt-4 text-[#2E68FF] font-nedium tracking-wide text-sm">
+            <div className="flex flex-col md:flex-row lg:flex-row  items-center justify-center  gap-4 mt-4 text-[#2E68FF] font-nedium tracking-wide text-sm">
                 <button className="px-5 py-4 border bg-[#2E68FF] rounded-full text-gray-200">
                     Start learning today
                 </button>
-                <button className="px-5 py-4 border border-[#2E68FF] rounded-full">
+                <button className="px-5 py-4 border border-[#2E68FF] rounded-full focus:bg-mainBgBlue focus:text-gray-50">
                     Explore programs
                 </button>
             </div>
             {/* Key Static Container And Some Other Image Contaier*/}
-            <div className="flex w-full  gap-12 justify-center   p-3">
+            <div className="w-full  gap-12 justify-center   p-3 hidden md:flex">
                 {/* Key static Container */}
                 <div className="border-[2px] border-gray-300  h-fit rounded-md  p-3 space-y-2">
-                    <h2 className="text-2xl font-medium text-[#2F2F68]">
+                    <h2 className="text-2xl font-medium text-mainTextColor">
                         Key Static
                     </h2>
                     {/* Total COurse */}
                     <div className=" bg-blue-100 px-3 py-4 rounded-lg">
                         <h3 className="text-blue-500 text-xl font-medium">
                             500+
-                            <span className="text-[#2F2F68] ml-3 text-sm font-medium">
+                            <span className="text-mainTextColor ml-3 text-sm font-medium">
                                 Total Courses
                             </span>
                         </h3>
@@ -44,7 +44,7 @@ function HomePageHeroSection() {
                     <div className=" bg-green-100 px-3 py-4 rounded-lg">
                         <h3 className="text-green-500 text-xl font-medium">
                             500+
-                            <span className="text-[#2F2F68] ml-3 text-sm font-medium">
+                            <span className="text-mainTextColor ml-3 text-sm font-medium">
                                 Expert Tutors
                             </span>
                         </h3>
