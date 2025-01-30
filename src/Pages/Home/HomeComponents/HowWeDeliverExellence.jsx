@@ -9,7 +9,7 @@ function HowWeDeliverExellence() {
                     <br />
                     Exellence
                 </h1>
-                <div className="w-full lg:h-[600px] relative text-mainTextColor ">
+                <div className="w-full lg:h-[600px] relative text-mainTextColor hidden md:block">
                     <img
                         src={stepByStepImg}
                         className="bg-transparent object-contain w-full h-full mix-blend-multiply"

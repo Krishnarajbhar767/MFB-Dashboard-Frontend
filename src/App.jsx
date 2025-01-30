@@ -13,16 +13,29 @@ import StudentLogin from "./Pages/Student_Dashboard/Components/StudentLogin";
 import TeacherLogin from "./Pages/Teacher_Dashboard/Components/TeacherLogin";
 import TeacherRoute, { TeacherRoutesConfig } from "./Routes/TeacherRoute";
 import { useSelector } from "react-redux";
+import AboutUsPage from "./Pages/About Us/AboutUsPage";
+
+import HomePageNavbar from "./Home_PageComponents/HomePageNavbar";
+import GlobalFooter from "./Common_Components/GlobalFooter";
+import LoginForm from "./Pages/Login/LoginForm";
+import SignUpForm from "./Pages/SignUp/SIgnUpForm";
 
 function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
     const { user } = useSelector((state) => state.auth);
     return (
-        <>
+        <div className="w-screen h-fit">
+            {/* <HomePageNavbar /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
-
+                <Route path="/aboutus" element={<AboutUsPage />} />
+                <Route path="/signup" element={<SignUpForm />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route
+                    path="/forgot-password"
+                    element={"Hiii This Is FOrgot Page"}
+                />
                 {/* Admin All Routes with auth check  */}
                 {/* Admin Login */}
                 <Route
@@ -146,7 +159,8 @@ function App() {
                     ))}
                 </Route>
             </Routes>
-        </>
+            {/* <GlobalFooter /> */}
+        </div>
     );
 }
 

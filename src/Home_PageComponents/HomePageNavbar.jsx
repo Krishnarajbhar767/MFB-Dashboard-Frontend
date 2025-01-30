@@ -23,7 +23,10 @@ function HomePageNavbar() {
                         <Link className="hover:text-[#2E68FF] transition-all duration-200">
                             Home{" "}
                         </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200">
+                        <Link
+                            className="hover:text-[#2E68FF] transition-all duration-200"
+                            to={"/aboutus"}
+                        >
                             About Us{" "}
                         </Link>
                         <Link className="hover:text-[#2E68FF] transition-all duration-200">
@@ -38,12 +41,18 @@ function HomePageNavbar() {
                     </div>
                     {/* Login And SIgn Up Container and hemberg menu icon */}
                     <div className=" gap-4 px-2 lg:px-10   flex ">
-                        <button className="lg:px-4 lg:py-2 border border-gray-400 rounded-md  text-sm font-medium px-2 text-mainTextColor hidden md:block lg:block">
+                        <Link
+                            to={"/login"}
+                            className="lg:px-4 lg:py-2 border border-gray-400 rounded-md  text-sm font-medium px-2 text-mainTextColor hidden md:block lg:block"
+                        >
                             Log In
-                        </button>
-                        <button className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-200 hidden md:block lg:block">
+                        </Link>
+                        <Link
+                            to={"/signup"}
+                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-200 hidden md:block lg:block"
+                        >
                             Sign Up
-                        </button>
+                        </Link>
                     </div>
                     {/* Mobile Menu Bar..... */}
                     <div className="md:hidden pr-3 text-5xl text-mainTextColor font-medium">

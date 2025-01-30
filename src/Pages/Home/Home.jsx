@@ -9,12 +9,13 @@ import HomeWhyChooseUs from "./HomeComponents/HomeWhyChooseUs";
 import HowWeDeliverExellence from "./HomeComponents/HowWeDeliverExellence";
 import HomeWhatOurStudentSays from "./HomeComponents/HomeWhatOurStudentSays";
 import HomeMeetOurTutors from "./HomeComponents/HomeMeetOurTutors";
+import GlobalFooter from "../../Common_Components/GlobalFooter";
 
 function Home() {
     const navigate = useNavigate();
 
     return (
-        <div className="w-screen h-screen overflow-x-hidden bg-gray-50 ">
+        <div className="w-screen h-screen overflow-x-hidden">
             <div className="w-full h-fit">
                 {/* Navbar */}
                 <div className="">
@@ -43,6 +44,7 @@ function Home() {
                     <HomeMeetOurTutors />
                 </div>
             </div>
+            <GlobalFooter />
         </div>
     );
 }
