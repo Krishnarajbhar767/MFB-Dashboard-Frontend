@@ -1,6 +1,6 @@
 import React from "react";
 
-function StyledInput({
+function ContactUsInput({
     label,
     placeholder,
     type,
@@ -15,7 +15,7 @@ function StyledInput({
     return (
         <input
             type={type}
-            className={` pl-10 p-3 w-full rounded-md bg-gray-800 border border-gray-700 focus:border-blue-500 outline-none font-normal `}
+            className={` pl-10 p-2 w-full rounded-md text-sm text-gray-600  border border-gray-200 shadow-sm focus:border-blue-500 outline-none font-normal `}
             placeholder={placeholder}
             {...register(inputName, {
                 required: required,
@@ -26,4 +26,4 @@ function StyledInput({
     );
 }
 
-export default StyledInput;
+export default ContactUsInput;

@@ -11,7 +11,7 @@ function HomePageNavbar() {
             {!isMobileMenuOpen && (
                 <nav className="max-w-7xl  h-[60px] mx-auto flex items-center justify-between ">
                     {/* Logo Container */}
-                    <div className="lg:w-36  w-28 h-full border-green-600 ">
+                    <div className="lg:w-32  w-28 h-full border-green-600 ">
                         <img
                             src={sampleLogo}
                             className="w-full h-full object-contain"
@@ -20,7 +20,10 @@ function HomePageNavbar() {
                     </div>
                     {/* Items Container */}
                     <div className="space-x-6 text-sm md:text-xs lg:text-sm font-medium text-mainTextColor bg-[#F2F2F2]  capitalize lg:px-10 lg:py-3 py-3 px-3  rounded-3xl  hidden md:block lg:block">
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200">
+                        <Link
+                            to={"/"}
+                            className="hover:text-[#2E68FF] transition-all duration-200"
+                        >
                             Home{" "}
                         </Link>
                         <Link
@@ -29,7 +32,10 @@ function HomePageNavbar() {
                         >
                             About Us{" "}
                         </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200">
+                        <Link
+                            className="hover:text-[#2E68FF] transition-all duration-200"
+                            to={"/contactus"}
+                        >
                             Contact Us{" "}
                         </Link>
                         <Link className="hover:text-[#2E68FF] transition-all duration-200">
@@ -41,15 +47,21 @@ function HomePageNavbar() {
                     </div>
                     {/* Login And SIgn Up Container and hemberg menu icon */}
                     <div className=" gap-4 px-2 lg:px-10   flex ">
-                        <Link
+                        {/* <Link
                             to={"/login"}
-                            className="lg:px-4 lg:py-2 border border-gray-400 rounded-md  text-sm font-medium px-2 text-mainTextColor hidden md:block lg:block"
+                            className="lg:px-4 lg:py-2 border border-gray-400 rounded-md  text-sm font-medium px-2 text-mainTextColor hidden md:block lg:block "
                         >
                             Log In
+                        </Link> */}
+                        <Link
+                            to={"/login"}
+                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md  text-sm font-medium text-gray-600 border border-gray-300 hidden md:block lg:block"
+                        >
+                            Log in
                         </Link>
                         <Link
                             to={"/signup"}
-                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-200 hidden md:block lg:block"
+                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-50 hidden md:block lg:block"
                         >
                             Sign Up
                         </Link>

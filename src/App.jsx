@@ -19,19 +19,21 @@ import HomePageNavbar from "./Home_PageComponents/HomePageNavbar";
 import GlobalFooter from "./Common_Components/GlobalFooter";
 import LoginForm from "./Pages/Login/LoginForm";
 import SignUpForm from "./Pages/SignUp/SIgnUpForm";
+import ContactUsPage from "./Pages/Contact Us/ContactUsPage";
 
 function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
     const { user } = useSelector((state) => state.auth);
     return (
-        <div className="w-screen h-fit">
-            {/* <HomePageNavbar /> */}
+        <div className="w-full min-h-screen flex flex-col  justify-between">
+            <HomePageNavbar />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/aboutus" element={<AboutUsPage />} />
                 <Route path="/signup" element={<SignUpForm />} />
                 <Route path="/login" element={<LoginForm />} />
+                <Route path="/contactus" element={<ContactUsPage />} />
                 <Route
                     path="/forgot-password"
                     element={"Hiii This Is FOrgot Page"}
@@ -159,7 +161,7 @@ function App() {
                     ))}
                 </Route>
             </Routes>
-            {/* <GlobalFooter /> */}
+            <GlobalFooter />
         </div>
     );
 }

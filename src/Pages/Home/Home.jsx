@@ -15,12 +15,10 @@ function Home() {
     const navigate = useNavigate();
 
     return (
-        <div className="w-screen h-screen overflow-x-hidden">
+        <div className="">
             <div className="w-full h-fit">
                 {/* Navbar */}
-                <div className="">
-                    <HomePageNavbar />
-                </div>
+                <div className="">{/* <HomePageNavbar /> */}</div>
                 {/* Home Page First Section */}
                 <div>
                     <HomePageHeroSection />
@@ -44,7 +42,7 @@ function Home() {
                     <HomeMeetOurTutors />
                 </div>
             </div>
-            <GlobalFooter />
+            {/* <GlobalFooter /> */}
         </div>
     );
 }

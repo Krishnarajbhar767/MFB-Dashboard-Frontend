@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import StyledInput from "../../Common_Components/Form_Components/StyledInput";
 
 const LoginForm = () => {
     const {
@@ -23,9 +24,9 @@ const LoginForm = () => {
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-950 to-gray-800 relative">
             <Link
                 to={"/"}
-                className="absolute  md:pl-0 top-3 md:top-10 md:left-[10%] -translate-x-[50%] text-gray-300 capitalize  items-center gap-3 font-medium text-sm hidden md:flex"
+                className="absolute  md:pl-0 top-3  lg:top-10 md:left-[9%] -translate-x-[50%] text-gray-300 capitalize  items-center gap-2 font-medium text-xs lg:text-sm hidden md:flex"
             >
-                <span className="md:text-3xl">
+                <span className="lg:text-3xl text-xl">
                     <IoArrowBackOutline />
                 </span>{" "}
                 Back To Home
@@ -42,7 +43,7 @@ const LoginForm = () => {
                 >
                     <div className="relative">
                         <FaEnvelope className="absolute left-3 top-4 text-gray-500" />
-                        <input
+                        {/* <input
                             type="email"
                             {...register("email", {
                                 required: "Email is required",
@@ -53,6 +54,20 @@ const LoginForm = () => {
                             })}
                             placeholder="Email"
                             className="pl-10 p-3 w-full rounded-md bg-gray-800 border border-gray-700 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition outline-none"
+                        /> */}
+                        <StyledInput
+                            type={"email"}
+                            placeholder={"Email"}
+                            required={"Email Is Required"}
+                            register={register}
+                            inputName="email"
+                            error={errors.email}
+                            validation={{
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: "Invalid email address",
+                                },
+                            }}
                         />
                         {errors.email && (
                             <p className="text-red-500 text-sm mt-1">
@@ -62,7 +77,7 @@ const LoginForm = () => {
                     </div>
                     <div className="relative">
                         <FaLock className="absolute left-3 top-4 text-gray-500" />
-                        <input
+                        {/* <input
                             type={showPassword ? "text" : "password"}
                             {...register("password", {
                                 required: "Password is required",
@@ -73,6 +88,20 @@ const LoginForm = () => {
                             })}
                             placeholder="Password"
                             className="pl-10 p-3 w-full rounded-md bg-gray-800 border border-gray-700 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition outline-none"
+                        /> */}
+                        <StyledInput
+                            type={showPassword ? "text" : "password"}
+                            placeholder={"Password"}
+                            required={"Password Is Required"}
+                            register={register}
+                            inputName="password"
+                            error={errors.password}
+                            validation={{
+                                minLength: {
+                                    value: 6,
+                                    message: "Must be at least 6 characters",
+                                },
+                            }}
                         />
                         <span
                             className="absolute right-3 top-4 cursor-pointer text-gray-500"

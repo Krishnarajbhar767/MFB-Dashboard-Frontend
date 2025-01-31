@@ -6,6 +6,9 @@
     font-family: "Poppins", serif;
 }
 
+#about-us-page {
+    overflow: visible !important;
+}
 table {
     width: 100%;
     text-align: center;

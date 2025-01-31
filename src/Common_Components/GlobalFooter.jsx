@@ -1,13 +1,19 @@
 import React from "react";
+import {
+    FaFacebook,
+    FaLinkedin,
+    FaSquareInstagram,
+    FaTwitter,
+} from "react-icons/fa6";
 import { IoMdCall } from "react-icons/io";
 import { TfiEmail } from "react-icons/tfi";
 
 function GlobalFooter() {
     return (
-        <div className="w-full bg-[#F2F2F2] py-4">
-            <div className="max-w-7xl mx-auto flex md:flex-row flex-col justify-between py-8 text-mainTextColor">
+        <div className="w-full bg-[#F2F2F2] py-4 border-t border-gray-300">
+            <div className="max-w-7xl mx-auto flex md:flex-row flex-col md:justify-between gap-5 items-center  md:gap-0 py-4 md:py-8 text-gray-700 px-4 md:px-4">
                 {/* Logo ANd ABout COmapny */}
-                <div className="md:max-w-[30%] space-y-4">
+                <div className="lg:max-w-[30%] md:max-w-[20%] space-y-4 ">
                     {/* Logo */}
                     <img
                         src="https://www.mediafleetblue.com/images/logo-v1.png"
@@ -22,9 +28,9 @@ function GlobalFooter() {
                     </p>
                 </div>
                 {/* Pages */}
-                <div className="space-y-4">
-                    <h1 className="text-lg font-normal">Pages</h1>
-                    <ul>
+                <div className="md:space-y-4 text-center md:text-start">
+                    <h1 className="lg:text-lg  font-medium">Pages</h1>
+                    <ul className="text-sm font-normal">
                         <li>Home</li>
                         <li>About Us</li>
                         <li>Our Mentors</li>
@@ -32,9 +38,9 @@ function GlobalFooter() {
                     </ul>
                 </div>
                 {/* Acticle */}
-                <div className="space-y-4">
-                    <h1 className="text-lg font-normal">Article</h1>
-                    <ul>
+                <div className="md:space-y-4 text-center md:text-start">
+                    <h1 className="lg:text-lg  font-medium">Article</h1>
+                    <ul className="text-sm font-normal">
                         <li>Study Exam </li>
                         <li>About</li>
                         <li>Study Abroad</li>
@@ -42,9 +48,9 @@ function GlobalFooter() {
                     </ul>
                 </div>
                 {/* Contact us */}
-                <div className="space-y-4">
-                    <h1 className="text-lg font-normal">Contact Us</h1>
-                    <ul>
+                <div className="md:space-y-4 text-center md:text-start">
+                    <h1 className="lg:text-lg  font-medium">Contact Us</h1>
+                    <ul className="text-sm font-normal text-center ">
                         <li className="flex items-center gap-2 font-normal">
                             <span className="text-mainBgBlue">
                                 <TfiEmail />
@@ -60,14 +66,24 @@ function GlobalFooter() {
                     </ul>
                 </div>
                 {/* Conect with us Social Media.. */}
-                <div className="space-y-4">
-                    <h1 className="text-lg font-normal">Connect With Us</h1>
+                <div className="md:space-y-4 text-center md:text-start">
+                    <h1 className=" lg:text-lg  font-medium">
+                        Connect With Us
+                    </h1>
                     {/* Social ICon */}
-                    <div>
-                        <span>A</span>
-                        <span>A</span>
-                        <span>A</span>
-                        <span>A</span>
+                    <div className="flex gap-4 mt-2 text-2xl ">
+                        <span>
+                            <FaSquareInstagram />
+                        </span>
+                        <span>
+                            <FaFacebook />
+                        </span>
+                        <span>
+                            <FaTwitter />
+                        </span>
+                        <span>
+                            <FaLinkedin />
+                        </span>
                     </div>
                 </div>
                 {/* Line */}
