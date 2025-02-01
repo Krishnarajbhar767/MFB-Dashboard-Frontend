@@ -39,8 +39,8 @@ export const adminRoutesConfig = [
             },
             {
                 path: "my_courses/",
-                // element: <Admin_My_Courses />,
-                element: <Admin_Course_Management_Single_Course />,
+                element: <Admin_My_Courses />,
+                // element: <Admin_Course_Management_Single_Course />,
             },
             {
                 path: "upload_new_course/:edit?",

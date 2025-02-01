@@ -1,6 +1,7 @@
 import { Route, Outlet } from "react-router-dom";
 import StudentDashboard_Page from "../Pages/Student_Dashboard/StudentDashboard_Page";
 import Student_Discover_Course_Index from "../Pages/Student_Dashboard/Components/Student Discover Courses/Student_Discover_Course_Index";
+import StudentDiscoverCourseDetailsIndex from "../Pages/Student_Dashboard/Components/Student Discover Courses/StudentDiscoverCourseDetails/StudentDiscoverCourseDetailsIndex";
 
 const StudentRoute = () => {
     return (
@@ -23,7 +24,8 @@ export const StudentRoutesConfig = [
     { path: "profile_settings", element: <h1>Profile Settings</h1> },
     {
         path: "discover",
-        element: <Student_Discover_Course_Index />,
+        // element: <Student_Discover_Course_Index />,
+        element: <StudentDiscoverCourseDetailsIndex />,
     },
 ];
 

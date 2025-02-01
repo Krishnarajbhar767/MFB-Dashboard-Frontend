@@ -27,7 +27,7 @@ function App() {
     const { user } = useSelector((state) => state.auth);
     return (
         <div className="w-full min-h-screen flex flex-col  justify-between">
-            <HomePageNavbar />
+            {/* <HomePageNavbar /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/aboutus" element={<AboutUsPage />} />
@@ -161,7 +161,7 @@ function App() {
                     ))}
                 </Route>
             </Routes>
-            <GlobalFooter />
+            {/* <GlobalFooter /> */}
         </div>
     );
 }
