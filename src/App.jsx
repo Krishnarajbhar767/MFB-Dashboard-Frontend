@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home/Home";
@@ -21,148 +21,209 @@ import LoginForm from "./Pages/Login/LoginForm";
 import SignUpForm from "./Pages/SignUp/SIgnUpForm";
 import ContactUsPage from "./Pages/Contact Us/ContactUsPage";
 
+import UseAnimations from "react-useanimations";
+import CustomCursor from "./Common_Components/CustomCursor";
+// If using SCSS support
+import LocomotiveScroll from "locomotive-scroll";
+import "locomotive-scroll/src/locomotive-scroll.scss";
+
 function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
     const { user } = useSelector((state) => state.auth);
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        // Initialize Locomotive Scroll on the container element
+        const locoScroll = new LocomotiveScroll({
+            el: scrollRef.current,
+            smooth: true, // Enables smooth scrolling
+            // You can add additional options here as needed
+            // e.g., smartphone: { smooth: true }, tablet: { smooth: true },
+        });
+
+        // Optional: Refresh locomotive scroll if you update the DOM dynamically
+        locoScroll.update();
+
+        // Cleanup on unmount
+        return () => {
+            if (locoScroll) locoScroll.destroy();
+        };
+    }, []);
     return (
-        <div className="w-full min-h-screen flex flex-col  justify-between">
-            {/* <HomePageNavbar /> */}
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/aboutus" element={<AboutUsPage />} />
-                <Route path="/signup" element={<SignUpForm />} />
-                <Route path="/login" element={<LoginForm />} />
-                <Route path="/contactus" element={<ContactUsPage />} />
-                <Route
-                    path="/forgot-password"
-                    element={"Hiii This Is FOrgot Page"}
+        <>
+            <div className="hidden md:hidden  lg:block">
+                <CustomCursor
+                    targets={["button", "span", "li", ".hoverTarget"]}
+                    customClass="custom-cursor"
+                    dimensions={30}
+                    opacity={0.5}
+                    strokeColor="#8ED1FC"
+                    fill="#0076CE"
+                    hoverScale={1.4}
+                    smoothness={{ movement: 1.5 }}
+                    targetOpacity={0.2}
                 />
-                {/* Admin All Routes with auth check  */}
-                {/* Admin Login */}
-                <Route
-                    path="/admin"
-                    element={
-                        user?.accoutType === "Admin" ? (
-                            <AdminLogin />
-                        ) : (
-                            // <AdminLogin
-                            <Navigate to="/admin" replace />
-                        )
-                    }
-                />
+            </div>
+            <div
+                className="w-full min-h-screen flex flex-col  justify-between cursor-none"
+                ref={scrollRef}
+                data-scroll-container
+            >
+                <HomePageNavbar />
 
-                <Route
-                    path="/admin/*"
-                    element={
-                        user?.accoutType === "Admin" ? (
-                            <AdminRoutes />
-                        ) : (
-                            <Navigate to="/admin" replace />
-                        )
-                    }
-                >
-                    {/* Nested Admin Routes */}
-                    {/* Default route: Redirect to dashboard */}
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="aboutus" element={<AboutUsPage />} />
+                    <Route path="/user/login" element={<LoginForm />} />
+                    <Route path="/user/signup" element={<SignUpForm />} />
+                    <Route path="/contactus" element={<ContactUsPage />} />
                     <Route
-                        index
-                        element={<Navigate to="dashboard" replace />}
+                        path="/forgot-password"
+                        element={"Hiii This Is FOrgot Page"}
+                    />
+                    {/* Admin All Routes with auth check  */}
+                    {/* Admin Login */}
+                    <Route
+                        path="/admin"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <AdminLogin />
+                            ) : (
+                                // <AdminLogin
+                                <Navigate to="/admin" replace />
+                            )
+                        }
                     />
 
-                    {/* Dynamically render admin-specific child routes with nested structure */}
-                    {adminRoutesConfig.map((route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={route.element}
-                        >
-                            {route.children?.map((childRoute, childIndex) => (
-                                <Route
-                                    key={childIndex}
-                                    path={childRoute.path}
-                                    element={childRoute.element}
-                                />
-                            ))}
-                        </Route>
-                    ))}
-                </Route>
-
-                {/* Student all routes */}
-
-                <Route
-                    path="/student"
-                    element={
-                        user?.accoutType !== "Admin" ? (
-                            <StudentLogin />
-                        ) : (
-                            // <AdminLogin
-                            <Navigate to="/student" replace />
-                        )
-                    }
-                />
-
-                <Route
-                    path="/student/*"
-                    element={
-                        user?.accoutType === "Admin" ? (
-                            <StudentRoute />
-                        ) : (
-                            <Navigate to="/student" replace />
-                        )
-                    }
-                >
-                    {/* Nested Admin Routes */}
                     <Route
-                        index
-                        element={<Navigate to="dashboard" replace />}
-                    />
-                    {StudentRoutesConfig.map((route, index) => (
+                        path="/admin/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <AdminRoutes />
+                            ) : (
+                                <Navigate to="/admin" replace />
+                            )
+                        }
+                    >
+                        {/* Nested Admin Routes */}
+                        {/* Default route: Redirect to dashboard */}
                         <Route
-                            key={index}
-                            path={route.path}
-                            element={route.element}
+                            index
+                            element={<Navigate to="dashboard" replace />}
                         />
-                    ))}
-                </Route>
 
-                {/* Teacher all routes  */}
+                        {/* Dynamically render admin-specific child routes with nested structure */}
+                        {adminRoutesConfig.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={route.element}
+                            >
+                                {route.children?.map(
+                                    (childRoute, childIndex) => (
+                                        <Route
+                                            key={childIndex}
+                                            path={childRoute.path}
+                                            element={childRoute.element}
+                                        />
+                                    )
+                                )}
+                            </Route>
+                        ))}
+                    </Route>
 
-                <Route
-                    path="/teacher"
-                    element={
-                        user?.accoutType !== "Admin" ? (
-                            <TeacherLogin />
-                        ) : (
-                            <Navigate to="teacher" replace />
-                        )
-                    }
-                />
+                    {/* Student all routes */}
 
-                <Route
-                    path="/teacher/*"
-                    element={
-                        user?.accoutType === "Admin" ? (
-                            <TeacherRoute />
-                        ) : (
-                            <Navigate to="/teacher" replace />
-                        )
-                    }
-                >
                     <Route
-                        index
-                        element={<Navigate to="dashboard" replace />}
+                        path="/student"
+                        element={
+                            user?.accoutType !== "Admin" ? (
+                                <StudentLogin />
+                            ) : (
+                                // <AdminLogin
+                                <Navigate to="/student" replace />
+                            )
+                        }
                     />
-                    {TeacherRoutesConfig.map((route, index) => (
+
+                    <Route
+                        path="/student/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <StudentRoute />
+                            ) : (
+                                <Navigate to="/student" replace />
+                            )
+                        }
+                    >
+                        {/* Nested Admin Routes */}
                         <Route
-                            key={index}
-                            path={route.path}
-                            element={route.element}
+                            index
+                            element={<Navigate to="dashboard" replace />}
                         />
-                    ))}
-                </Route>
-            </Routes>
-            {/* <GlobalFooter /> */}
-        </div>
+                        {StudentRoutesConfig.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={route.element}
+                            >
+                                {route.children?.map(
+                                    (childRoute, childIndex) => (
+                                        <Route
+                                            key={childIndex}
+                                            path={childRoute.path}
+                                            element={childRoute.element}
+                                        />
+                                    )
+                                )}
+                            </Route>
+                        ))}
+                    </Route>
+
+                    {/* Teacher all routes  */}
+
+                    <Route
+                        path="/teacher"
+                        element={
+                            user?.accoutType !== "Admin" ? (
+                                <TeacherLogin />
+                            ) : (
+                                <Navigate to="teacher" replace />
+                            )
+                        }
+                    />
+
+                    <Route
+                        path="/teacher/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <TeacherRoute />
+                            ) : (
+                                <Navigate to="/teacher" replace />
+                            )
+                        }
+                    >
+                        <Route
+                            index
+                            element={<Navigate to="dashboard" replace />}
+                        />
+                        {TeacherRoutesConfig.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={route.element}
+                            />
+                        ))}
+                    </Route>
+                </Routes>
+                <Routes>
+                    <Route path="/admin/login" element={<LoginForm />} />
+                    <Route path="/admin/signup" element={<SignUpForm />} />
+                </Routes>
+                <GlobalFooter />
+            </div>
+        </>
     );
 }
 

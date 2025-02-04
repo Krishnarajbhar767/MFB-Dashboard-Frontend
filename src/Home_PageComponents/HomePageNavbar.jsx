@@ -22,26 +22,26 @@ function HomePageNavbar() {
                     <div className="space-x-6 text-sm md:text-xs lg:text-sm font-medium text-mainTextColor bg-[#F2F2F2]  capitalize lg:px-10 lg:py-3 py-3 px-3  rounded-3xl  hidden md:block lg:block">
                         <Link
                             to={"/"}
-                            className="hover:text-[#2E68FF] transition-all duration-200"
+                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget"
                         >
                             Home{" "}
                         </Link>
                         <Link
-                            className="hover:text-[#2E68FF] transition-all duration-200"
+                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget"
                             to={"/aboutus"}
                         >
                             About Us{" "}
                         </Link>
                         <Link
-                            className="hover:text-[#2E68FF] transition-all duration-200"
+                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget  animate-shake"
                             to={"/contactus"}
                         >
                             Contact Us{" "}
                         </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200">
+                        <Link className="hover:text-[#2E68FF] transition-all duration-200   hoverTarget">
                             Our Courses
                         </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200">
+                        <Link className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget">
                             Our Mentors
                         </Link>
                     </div>
@@ -53,23 +53,33 @@ function HomePageNavbar() {
                         >
                             Log In
                         </Link> */}
-                        <Link
-                            to={"/login"}
-                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md  text-sm font-medium text-gray-600 border border-gray-300 hidden md:block lg:block"
+                        {/* <Link
+                            to={"/user/login"}
+                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md  text-sm font-medium text-gray-600 border border-gray-300 hidden md:block lg:block hoverTarget"
                         >
                             Log in
                         </Link>
                         <Link
-                            to={"/signup"}
-                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-50 hidden md:block lg:block"
+                            to={"/user/signup"}
+                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-50 hidden md:block lg:block hoverTarget"
                         >
                             Sign Up
+                        </Link> */}
+                        <Link to={"/user/signup"}>
+                            <IconBtn color={"#2E68FF"} textColor={"#fff"}>
+                                Sign Up
+                            </IconBtn>
+                        </Link>
+                        <Link to={"/user/login"}>
+                            <IconBtn color={"#fff"} textColor={"#1f2937"}>
+                                Log in
+                            </IconBtn>
                         </Link>
                     </div>
                     {/* Mobile Menu Bar..... */}
                     <div className="md:hidden pr-3 text-5xl text-mainTextColor font-medium">
                         <span
-                            className="cursor-pointer "
+                            className="cursor-pointer   hoverTarget"
                             onClick={() => setIsMobileMenuOpen(true)}
                         >
                             <CiMenuFries />

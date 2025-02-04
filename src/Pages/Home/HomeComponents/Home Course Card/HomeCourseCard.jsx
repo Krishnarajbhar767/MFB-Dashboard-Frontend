@@ -4,7 +4,7 @@ import { IoTimeOutline } from "react-icons/io5";
 
 function HomeCourseCard() {
     return (
-        <div className="w-full md:w-[45%] lg:w-1/4 h-fit bg-white p-3 rounded-md space-y-2 shadow-md">
+        <div className="w-full md:w-[45%] lg:w-1/4 h-fit bg-white p-3 rounded-md space-y-2 shadow-md hoverTarget">
             <img
                 src="https://miro.medium.com/v2/resize:fit:1400/0*5ZFFHxD7lu3-leZY"
                 alt="course_thumbnail"

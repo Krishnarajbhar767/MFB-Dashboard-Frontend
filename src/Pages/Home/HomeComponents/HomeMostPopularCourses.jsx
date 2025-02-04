@@ -1,5 +1,7 @@
 import React from "react";
 import HomeCourseCard from "./Home Course Card/HomeCourseCard";
+import ShiningButton from "../../../Common_Components/modal/ShiningButton";
+import { Divider } from "@mui/material";
 
 function HomeMostPopularCourses() {
     return (
@@ -10,9 +12,9 @@ function HomeMostPopularCourses() {
                         Most <span className="text-[#FF696B]">Popular</span>{" "}
                         Courses
                     </h1>
-                    <button className="bg-mainBgBlue px-4 py-3 text-gray-100  rounded-3xl text-xs font-medium hidden md:block lg:block ">
-                        View All Course
-                    </button>
+                    <div className=" hidden md:block lg:block ">
+                        <ShiningButton text={"View all courses"} />
+                    </div>
                 </div>
                 {/* Some Courses Container.... */}
                 <div className="mt-6 flex flex-wrap gap-3 md:gap-4 lg:gap-7 items-center justify-center">
@@ -23,9 +25,9 @@ function HomeMostPopularCourses() {
                     <HomeCourseCard />
                     <HomeCourseCard />
                 </div>
-                <button className="mt-6 mx-auto bg-mainBgBlue px-4 py-3 text-gray-100  rounded-3xl text-xs font-medium block md:hidden lg:hidden ">
-                    View All Course
-                </button>
+                <div className="mt-6 mx-auto block md:hidden lg:hidden ">
+                    <ShiningButton text={"View all courses"} />
+                </div>
             </div>
         </div>
     );

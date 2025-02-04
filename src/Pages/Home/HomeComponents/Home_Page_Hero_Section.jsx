@@ -1,4 +1,6 @@
 import React from "react";
+import ShiningButton from "../../../Common_Components/modal/ShiningButton";
+import CenterFillButton from "../../../Common_Components/modal/CenterFillButton";
 
 function HomePageHeroSection() {
     return (
@@ -17,12 +19,8 @@ function HomePageHeroSection() {
             </p>
             {/* Buttons Container */}
             <div className="flex flex-col md:flex-row lg:flex-row  items-center justify-center  gap-4 mt-4 text-[#2E68FF] font-nedium tracking-wide text-sm">
-                <button className="px-5 py-4 border bg-[#2E68FF] rounded-full text-gray-200">
-                    Start learning today
-                </button>
-                <button className="px-5 py-4 border border-[#2E68FF] rounded-full focus:bg-mainBgBlue focus:text-gray-50">
-                    Explore programs
-                </button>
+                <ShiningButton text={"Start learning now"} />
+                <CenterFillButton text={"Explore programms"} />
             </div>
             {/* Key Static Container And Some Other Image Contaier*/}
             <div className="w-full  gap-12 justify-center   p-3 hidden md:flex">

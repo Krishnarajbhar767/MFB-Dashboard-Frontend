@@ -7,11 +7,16 @@ import {
 } from "react-icons/fa6";
 import { IoMdCall } from "react-icons/io";
 import { TfiEmail } from "react-icons/tfi";
+import UseAnimations from "react-useanimations";
+import linkedin from "react-useanimations/lib/linkedin";
+import facebook from "react-useanimations/lib/facebook";
+import instagram from "react-useanimations/lib/instagram";
+import twitter from "react-useanimations/lib/twitter";
 
 function GlobalFooter() {
     return (
         <div className="w-full bg-[#F2F2F2] py-4 border-t border-gray-300">
-            <div className="max-w-7xl mx-auto flex md:flex-row flex-col md:justify-between gap-5 items-center  md:gap-0 py-4 md:py-8 text-gray-700 px-4 md:px-4">
+            <div className="max-w-7xl mx-auto flex md:flex-row flex-col md:justify-between gap-5 items-center md:items-start  md:gap-0 py-4 md:py-8 text-gray-700 px-4 md:px-4">
                 {/* Logo ANd ABout COmapny */}
                 <div className="lg:max-w-[30%] md:max-w-[20%] space-y-4 ">
                     {/* Logo */}
@@ -73,16 +78,16 @@ function GlobalFooter() {
                     {/* Social ICon */}
                     <div className="flex gap-4 mt-2 text-2xl ">
                         <span>
-                            <FaSquareInstagram />
+                            <UseAnimations animation={linkedin} size={30} />
                         </span>
                         <span>
-                            <FaFacebook />
+                            <UseAnimations animation={twitter} size={30} />
                         </span>
                         <span>
-                            <FaTwitter />
+                            <UseAnimations animation={facebook} size={30} />
                         </span>
                         <span>
-                            <FaLinkedin />
+                            <UseAnimations animation={instagram} size={30} />
                         </span>
                     </div>
                 </div>

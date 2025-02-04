@@ -18,7 +18,9 @@ function Home() {
         <div className="">
             <div className="w-full h-fit">
                 {/* Navbar */}
-                <div className="">{/* <HomePageNavbar /> */}</div>
+                {/* <div className="">
+                    <HomePageNavbar />
+                </div> */}
                 {/* Home Page First Section */}
                 <div>
                     <HomePageHeroSection />

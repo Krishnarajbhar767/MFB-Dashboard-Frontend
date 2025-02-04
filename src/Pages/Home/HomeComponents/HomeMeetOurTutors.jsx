@@ -1,4 +1,6 @@
 import React from "react";
+import ShiningButton from "../../../Common_Components/modal/ShiningButton";
+import CenterFillButton from "../../../Common_Components/modal/CenterFillButton";
 
 function HomeMeetOurTutors() {
     return (
@@ -9,7 +11,7 @@ function HomeMeetOurTutors() {
                     Behind Your Learning Journey
                 </h1>
                 {/* tutors Details container... */}
-                <div className="text-mainTextColor h-fit flex flex-col md:flex-wrap md:flex-row justify-center py-3 gap-10 px-4 md:px-0 lg:px-0">
+                <div className="text-mainTextColor h-fit flex flex-col md:flex-wrap md:flex-row justify-center py-3 gap-8 px-4 md:px-0 lg:px-0">
                     <div className=" space-y-1  ">
                         <img
                             src="https://us.123rf.com/450wm/benzoix/benzoix2004/benzoix200401452/144268568-teaching-education-and-university-lifestyle-concept-good-looking-smart-young-asian-female-teacher.jpg"
@@ -86,12 +88,14 @@ function HomeMeetOurTutors() {
                     </h1>
 
                     <div className="flex flex-col md:flex-row lg:flex-row  items-center justify-center  gap-4 mt-4 text-[#2E68FF] font-nedium tracking-wide text-sm md:max-w-[50%]">
-                        <button className="px-5 py-4 border bg-[#2E68FF] rounded-full text-gray-200">
+                        {/* <button className="px-5 py-4 border bg-[#2E68FF] rounded-full text-gray-200">
                             Meet our all tutors
                         </button>
                         <button className="px-5 py-4 border border-[#2E68FF] rounded-full focus:bg-mainBgBlue focus:text-gray-50">
                             view all courses
-                        </button>
+                        </button> */}
+                        <ShiningButton text={"Meet our all tutors"} />
+                        <CenterFillButton text={"view all courses"} />
                     </div>
                 </div>
             </div>

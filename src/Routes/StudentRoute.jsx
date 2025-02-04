@@ -2,6 +2,7 @@ import { Route, Outlet } from "react-router-dom";
 import StudentDashboard_Page from "../Pages/Student_Dashboard/StudentDashboard_Page";
 import Student_Discover_Course_Index from "../Pages/Student_Dashboard/Components/Student Discover Courses/Student_Discover_Course_Index";
 import StudentDiscoverCourseDetailsIndex from "../Pages/Student_Dashboard/Components/Student Discover Courses/StudentDiscoverCourseDetails/StudentDiscoverCourseDetailsIndex";
+import StudentCourseDetailsAfterEnrolled from "../Pages/Student_Dashboard/Components/StudentCourseDetailsAfterEnrolled/StudentCourseDetailsAfterEnrolledIndex";
 
 const StudentRoute = () => {
     return (
@@ -15,7 +16,20 @@ const StudentRoute = () => {
 
 export const StudentRoutesConfig = [
     { path: "dashboard", element: <h1>Dashboard Student</h1> },
-    { path: "courses", element: <h1>Course</h1> },
+    {
+        path: "courses/*",
+        children: [
+            {
+                path: "",
+                element: <h1>Student Course Main Page </h1>,
+            },
+            {
+                path: "course_details",
+                element: <StudentCourseDetailsAfterEnrolled />,
+                // element: <Admin_Course_Management_Single_Course />,
+            },
+        ],
+    },
     { path: "classroom_&_module", element: <h1>ClassRoom & Modules</h1> },
     { path: "performance", element: <h1>Performance</h1> },
     { path: "discussion_forums", element: <h1>Discussion Forums </h1> },

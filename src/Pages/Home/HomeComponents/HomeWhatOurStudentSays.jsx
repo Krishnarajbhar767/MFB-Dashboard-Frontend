@@ -11,7 +11,7 @@ function HomeWhatOurStudentSays() {
                 </h1>
 
                 {/* Image ANd Main List COntainer */}
-                <div className="w-full md:flex  md:justify-center mt-4 md:gap-8 space-y-6">
+                <div className="w-full md:flex  md:justify-center mt-4 md:gap-8 space-y-8">
                     {/* IMge1 */}
                     <div className="md:w-[18%] h-52 md:self-end">
                         <img
@@ -45,7 +45,7 @@ function HomeWhatOurStudentSays() {
                         </div>
                     </div>
                     {/* Image2 Container */}
-                    <div className="md:w-[15%] h-44 md:mt-14 mt-11">
+                    <div className="md:w-[15%] h-44 md:mt-14 mt-0">
                         <img
                             src="https://img.freepik.com/free-photo/young-brunette-woman-oversized-jacket-jeans-holds-phone-white-notebooks-attractive-girl-with-black-bag-poses-orange-background_197531-29244.jpg"
                             className="w-full h-full object-cover rounded-md"

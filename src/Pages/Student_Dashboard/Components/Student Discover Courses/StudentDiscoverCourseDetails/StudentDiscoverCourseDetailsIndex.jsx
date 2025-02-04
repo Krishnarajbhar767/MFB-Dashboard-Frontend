@@ -52,7 +52,7 @@ const course = {
             lessons: [
                 {
                     lessonName: "What is Cybersecurity?",
-                    id: "63e5b0f8cdea6b6c453b5f23",
+                    id: "63e5b0f7868cdea6b6c453b5f23",
                     lessonDescription:
                         "A comprehensive overview of cybersecurity basics.",
                     lessonVideo: "https://example.com/video1",
@@ -67,7 +67,7 @@ const course = {
                 },
                 {
                     lessonName: "What is Cybersecurity?",
-                    id: "63e5b0f8cdea6b6c453b5f23",
+                    id: "63e5b0f348cdea6b6c453b5f23",
                     lessonDescription:
                         "A comprehensive overview of cybersecurity basics.",
                     lessonVideo: "https://example.com/video1",
@@ -82,7 +82,7 @@ const course = {
                 },
                 {
                     lessonName: "What is Cybersecurity?",
-                    id: "63e5b0f8cdea6b6c453b5f23",
+                    id: "63e5b0f8cdea64343b6c453b5f23",
                     lessonDescription:
                         "A comprehensive overview of cybersecurity basics.",
                     lessonVideo: "https://example.com/video1",
@@ -97,7 +97,7 @@ const course = {
                 },
                 {
                     lessonName: "What is Cybersecurity?",
-                    id: "63e5b0f8cdea6b6c453b5f23",
+                    id: "63e5b0f8cdea6b64343c453b5f23",
                     lessonDescription:
                         "A comprehensive overview of cybersecurity basics.",
                     lessonVideo: "https://example.com/video1",
@@ -112,7 +112,7 @@ const course = {
                 },
                 {
                     lessonName: "What is Cybersecurity?",
-                    id: "63e5b0f8cdea6b6c453b5f23",
+                    id: "63e5b0343f8cdea6b6c453b5f23",
                     lessonDescription:
                         "A comprehensive overview of cybersecurity basics.",
                     lessonVideo: "https://example.com/video1",
@@ -2410,6 +2410,7 @@ const course = {
 
 function StudentDiscoverCourseDetailsIndex() {
     const [numberOfLesson, setNumberOfLesson] = useState(0);
+    const [isAddedToWishList, setIsAddedToWishList] = useState(false);
     const [numberOfResource, setNumberOfResource] = useState(0);
     //    Function For Get Number OF Lesson
     const getNumberOfLesson = () => {
@@ -2542,8 +2543,16 @@ function StudentDiscoverCourseDetailsIndex() {
                         </IconBtn>
                     </button>
                     <div className=" shadow-xl  border w-9 h-9 flex items-center justify-center rounded-md">
-                        <button className="">
-                            <GoHeartFill className="text-red-500 text-xl leading-none" />
+                        <button
+                            onClick={() =>
+                                setIsAddedToWishList(!isAddedToWishList)
+                            }
+                        >
+                            {isAddedToWishList ? (
+                                <GoHeartFill className="text-red-500 text-xl leading-none" />
+                            ) : (
+                                <GoHeart className="text-xl leading-none " />
+                            )}
                         </button>
                     </div>
                 </div>

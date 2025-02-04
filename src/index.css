@@ -1,9 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* tailwind css v4.x */
+@import "tailwindcss";
+@import "tailwindcss-animated";
 * {
     font-family: "Poppins", serif;
+    scroll-behavior: smooth;
 }
 
 #about-us-page {
@@ -15,6 +18,14 @@ table {
     border-collapse: separate; /* Don't collapse */
     border-spacing: 0;
     color: #ff00003b;
+}
+.custom-cursor {
+    /* Ensure the custom cursor appears above other elements */
+    position: sticky;
+    top: 0;
+    left: 0;
+    transition: transform 0.1s linear, opacity 0.1s linear;
+    /* You can add additional styling here if desired */
 }
 
 table th {
