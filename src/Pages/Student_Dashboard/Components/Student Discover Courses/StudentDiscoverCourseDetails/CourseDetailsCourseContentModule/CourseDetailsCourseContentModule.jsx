@@ -70,7 +70,7 @@ const CourseDetailsCourseContentModule = ({
     return (
         <div className="border-b border-gray-200 last:border-b-0">
             <button
-                className="w-full px-4 py-3 flex items-center justify-between text-left transition-colors duration-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-300"
+                className="w-full px-4 py-3 flex items-center justify-between text-left transition-colors duration-300 hover:bg-gray-50 focus:outline-none  "
                 onClick={toggleExpand}
             >
                 <div className="flex items-center space-x-2">

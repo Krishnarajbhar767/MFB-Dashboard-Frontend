@@ -21,12 +21,12 @@ function SIdebarListIconAndText({ item }) {
                 {/* Link to the route specified in the item */}
                 <NavLink
                     to={item.route}
-                    className="w-full   h-full flex items-center gap-2 px-2 py-1 justify-between "
+                    className="w-full   h-full flex items-center gap-2 px-2 py-1 justify-between group"
                 >
                     {/* Icon of the item */}
                     <div className="flex items-center gap-2">
-                        <div className="rounded-full w-fit h-fit p-2">
-                            <span className="text-[19px] hover:font-semibold">
+                        <div className="rounded-full w-fit h-fit p-2 group-hover:animate-wiggle group-hover:animate-once group-hover:animate-duration-200">
+                            <span className="text-[19px] hover:font-semibold ">
                                 {item.icon}
                             </span>
                         </div>
@@ -51,10 +51,14 @@ function SIdebarListIconAndText({ item }) {
                         //
                         to={childrenItem.path}
                         key={childIndex}
-                        className="w-[100%] bg-gray-50  pl-9  border-gray-400 items-start px-2 py-2 flex  flex-col hover:bg-gray-400 hover:text-gray-50 h-fit cursor-pointer transition-all duration-500 "
+                        className="w-[100%] bg-gray-50  pl-9  border-gray-400 items-start px-2 py-2 flex  flex-col hover:bg-gray-400 hover:text-gray-50 h-fit cursor-pointer transition-all duration-500 mt-2 rounded-md"
                     >
                         {/* Link to the route of the child item */}
-                        <div className={"flex gap-2 px-2 "}>
+                        <div
+                            className={
+                                "flex gap-3 px-2 justify-center items-center"
+                            }
+                        >
                             <span className="text-[20px] font-extrabold">
                                 {childrenItem.icon}
                             </span>

@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaRegCircle, FaRegSquareFull } from "react-icons/fa6";
 import { IoTriangleOutline } from "react-icons/io5";
 import { PiShapesLight } from "react-icons/pi";
 import { TbCircleTriangle } from "react-icons/tb";
+import ShiningButton from "../../../Common_Components/modal/ShiningButton";
 
 function HomeWhyChooseUs() {
+    const ratingAndEnrolledStudentRef = useRef();
+    const [isVisible, setIsVisible] = useState(false);
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            console.log("Printing Entries", entries);
+            setIsVisible(entries[0].isIntersecting);
+        });
+
+        observer.observe(ratingAndEnrolledStudentRef.current);
+
+        return () => observer.unobserve(ratingAndEnrolledStudentRef.current);
+    }, []);
     return (
         <div className="max-w-7xl mx-auto py-8 md:py-16 px-4">
             {/* Main Heading */}
@@ -35,45 +48,46 @@ function HomeWhyChooseUs() {
                 />
                 <div className="md:w-[65%] w-[100%]">
                     <h1 className="text-2xl md:text-3xl font-semibold text-mainTextColor md:leading-snug leading-none">
-                        Why Choose <br /> Media Fleet Blue?
+                        Why Choose <br /> Media FleetBlue?
                     </h1>
                     {/* Some Pointer Container */}
 
                     <div className=" w-[100%] flex justify-between flex-wrap gap-y-6 mt-4">
-                        <div className="flex items-center gap-3 w-1/2">
-                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-sm text-mainBgBlue">
+                        <div className="flex items-center gap-3 w-1/2   group">
+                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-sm text-mainBgBlue   group-hover:animate-spin animate-twice animate-duration-300 animate-delay-100">
                                 <TbCircleTriangle />
+                                {/* <AnimatedCircule bgColor="red" /> */}
                             </span>
                             <p className="lg:text-lg text-sm  font-normal text-mainTextColor">
                                 Veriety
                             </p>
                         </div>
-                        <div className="flex items-center gap-3 w-1/2">
-                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue">
+                        <div className="flex items-center gap-3 w-1/2   group">
+                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue group-hover:animate-spin animate-twice animate-duration-300 animate-delay-100">
                                 <FaRegCircle />
                             </span>
                             <p className="lg:text-lg text-sm  font-normal text-mainTextColor">
                                 Career advancement
                             </p>
                         </div>
-                        <div className="flex items-center gap-3 w-1/2">
-                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue">
+                        <div className="flex items-center gap-3 w-1/2   group">
+                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue group-hover:animate-spin animate-twice animate-duration-300 animate-delay-100">
                                 <PiShapesLight />
                             </span>
                             <p className="lg:text-lg text-sm  font-normal text-mainTextColor">
                                 Quality Education
                             </p>
                         </div>
-                        <div className="flex items-center gap-3 w-1/2">
-                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue">
+                        <div className="flex items-center gap-3 w-1/2   group">
+                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue group-hover:animate-spin animate-twice animate-duration-300 animate-delay-100">
                                 <FaRegSquareFull />
                             </span>
                             <p className="lg:text-lg text-sm  font-normal text-mainTextColor">
                                 Flexible learning options
                             </p>
                         </div>
-                        <div className="flex items-center gap-3 w-1/2">
-                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue">
+                        <div className="flex items-center gap-3 w-1/2   group">
+                            <span className="p-3 bg-blue-100 rounded-full lg:text-2xl text-base text-mainBgBlue group-hover:animate-spin animate-twice animate-duration-300 animate-delay-100">
                                 <IoTriangleOutline />
                             </span>
                             <p className="lg:text-lg text-sm  font-normal text-mainTextColor">
@@ -83,14 +97,14 @@ function HomeWhyChooseUs() {
                     </div>
                     {/* Know More About Us Button */}
                     <div className="w-fit mx-auto md:mx-0">
-                        <button className="text-xs px-5 py-4 bg-mainBgBlue rounded-full text-gray-50 font-medium mt-6 ">
-                            More About Us
-                        </button>
+                        <div className=" mt-6 ">
+                            <ShiningButton text={"More About Us"} />
+                        </div>
                     </div>
 
                     {/* avg. course rating and Active Enrolled Student Count Container... */}
                     <div className="w-full bg-[#ffdede] flex md:p-4 p-4    rounded-xl mt-6 items-center justify-evenly gap-16 md:gap-20  lg:gap-0 ">
-                        <div className="">
+                        <div className="" ref={ratingAndEnrolledStudentRef}>
                             <h2 className=" text-2xl text-[#FF696B] font-semibold">
                                 4.8/5
                             </h2>
@@ -100,7 +114,7 @@ function HomeWhyChooseUs() {
                         </div>
                         <div className="">
                             <h2 className="text-2xl text-[#FF696B] font-semibold">
-                                2K
+                                {}
                             </h2>
                             <h3 className="text-xs md:text-sm font-medium text-mainTextColor capitalize">
                                 Active Student Enrolled

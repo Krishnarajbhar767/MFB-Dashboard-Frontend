@@ -12,6 +12,7 @@ import linkedin from "react-useanimations/lib/linkedin";
 import facebook from "react-useanimations/lib/facebook";
 import instagram from "react-useanimations/lib/instagram";
 import twitter from "react-useanimations/lib/twitter";
+import mail from "react-useanimations/lib/twitter";
 
 function GlobalFooter() {
     return (
@@ -55,15 +56,16 @@ function GlobalFooter() {
                 {/* Contact us */}
                 <div className="md:space-y-4 text-center md:text-start">
                     <h1 className="lg:text-lg  font-medium">Contact Us</h1>
-                    <ul className="text-sm font-normal text-center ">
+                    <ul className="text-sm font-normal text-center space-y-2">
                         <li className="flex items-center gap-2 font-normal">
-                            <span className="text-mainBgBlue">
+                            <span className="text-black font-medium text-xl">
                                 <TfiEmail />
                             </span>
+                            {/* <UseAnimations animation={mail} size={30} /> */}
                             <p>hello@example.com</p>
                         </li>
                         <li className="flex items-center gap-2">
-                            <span className="text-mainBgBlue">
+                            <span className="text-black font-medium text-xl">
                                 <IoMdCall />
                             </span>
                             +91XXXXXXXXX

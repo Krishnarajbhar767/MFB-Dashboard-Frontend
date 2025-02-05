@@ -5,7 +5,10 @@ import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoArrowBackOutline, IoCallSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import StyledInput from "../../Common_Components/Form_Components/StyledInput";
-
+import UseAnimations from "react-useanimations";
+import visibility2 from "react-useanimations/lib/visibility2";
+import arrowLeftCircle from "react-useanimations/lib/arrowLeftCircle";
+import IconBtn from "../../Common_Components/IconBtn";
 const SignUpForm = () => {
     const {
         register,
@@ -29,7 +32,11 @@ const SignUpForm = () => {
                 className="absolute  md:pl-0 top-3  lg:top-10 md:left-[9%] -translate-x-[50%] text-gray-300 capitalize  items-center gap-2 font-medium text-xs lg:text-sm hidden md:flex"
             >
                 <span className="lg:text-3xl text-xl">
-                    <IoArrowBackOutline />
+                    {/* <IoArrowBackOutline /> */}
+                    <UseAnimations
+                        animation={arrowLeftCircle}
+                        strokeColor="white"
+                    />
                 </span>{" "}
                 Back To Home
             </Link>
@@ -138,7 +145,11 @@ const SignUpForm = () => {
                             className="absolute right-3 top-4 cursor-pointer"
                             onClick={togglePasswordVisibility}
                         >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
+                            <UseAnimations
+                                animation={visibility2}
+                                strokeColor="white"
+                            />
                         </span>
                         {errors.password && (
                             <p className="text-red-500 text-sm">
@@ -170,9 +181,9 @@ const SignUpForm = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full p-3 bg-blue-500 rounded-md hover:bg-blue-600 transition text-gray-200"
+                        className="w-full bg-mainBgBlue border-non rounded-lg"
                     >
-                        Sign Up
+                        <IconBtn border={"none"}>Sign Up</IconBtn>
                     </button>
                 </form>
                 <div className="text-center mt-4 text-gray-400">

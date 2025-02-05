@@ -11,7 +11,7 @@ const CustomCursor = ({
     hoverScale = 1.5,
     // Adjust smoothness for trailing effect (0.1 is a good starting point)
     smoothness = {
-        movement: 0.5,
+        movement: 1,
     },
     targetOpacity = 0.2,
 }) => {

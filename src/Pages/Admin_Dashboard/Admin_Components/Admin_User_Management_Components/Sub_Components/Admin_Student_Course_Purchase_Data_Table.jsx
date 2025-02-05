@@ -104,7 +104,9 @@ function Admin_Student_Course_Purchase_Data_Table({
                                     className="text-blue-600 text-base"
                                     onClick={() => handleEdit(item)} // Trigger edit handler on click.
                                 >
-                                    <FiEdit />
+                                    <span>
+                                        <FiEdit className="hover:animate-jump" />
+                                    </span>
                                 </button>
 
                                 {/* Delete button */}
@@ -112,6 +114,7 @@ function Admin_Student_Course_Purchase_Data_Table({
                                     <UseAnimations
                                         animation={trash2}
                                         size={25}
+                                        strokeColor="red"
                                     />
                                 </button>
                             </td>

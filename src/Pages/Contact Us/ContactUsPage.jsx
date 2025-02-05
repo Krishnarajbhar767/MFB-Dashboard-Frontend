@@ -2,6 +2,11 @@ import React from "react";
 import HomePageNavbar from "../../Home_PageComponents/HomePageNavbar";
 import GlobalFooter from "../../Common_Components/GlobalFooter";
 import StyledInput from "../../Common_Components/Form_Components/StyledInput";
+import UseAnimations from "react-useanimations";
+import linkedin from "react-useanimations/lib/linkedin";
+import facebook from "react-useanimations/lib/facebook";
+import instagram from "react-useanimations/lib/instagram";
+import twitter from "react-useanimations/lib/twitter";
 import {
     FaEnvelope,
     FaFacebook,
@@ -25,6 +30,7 @@ function ContactUsPage() {
     const onSubmit = async (data) => {
         console.log("Printing Contact Us Form Data", data);
     };
+
     return (
         <>
             {/* <HomePageNavbar /> */}
@@ -74,25 +80,45 @@ function ContactUsPage() {
                             <h2 className="mb-1 font-medium text-base">
                                 Social Media
                             </h2>
-                            <div className="flex gap-4 mt-2 text-2xl">
-                                <span>
-                                    <FaSquareInstagram />
+                            <div className="flex gap-2 mt-2 text-2xl">
+                                <span className="border rounded-full p-1">
+                                    <UseAnimations
+                                        animation={instagram}
+                                        strokeColor="white"
+                                        size={30}
+                                    />
+                                    {/* <FaSquareInstagram /> */}
                                 </span>
-                                <span>
-                                    <FaFacebook />
+                                <span className="border rounded-full p-1 ">
+                                    <UseAnimations
+                                        animation={facebook}
+                                        strokeColor="white"
+                                        size={30}
+                                    />
+                                    {/* <FaFacebook /> */}
                                 </span>
-                                <span>
-                                    <FaTwitter />
+                                <span className="border rounded-full p-1 ">
+                                    <UseAnimations
+                                        animation={twitter}
+                                        strokeColor="white"
+                                        size={30}
+                                    />
+                                    {/* <FaTwitter /> */}
                                 </span>
-                                <span>
-                                    <FaLinkedin />
+                                <span className="border rounded-full p-1 ">
+                                    <UseAnimations
+                                        animation={linkedin}
+                                        size={30}
+                                        strokeColor="white"
+                                    />
+                                    {/* <FaLinkedin /> */}
                                 </span>
                             </div>
                         </div>
                     </div>
                     {/* This FOrm Contain All The Form Input ANd Data.. */}
                     <form
-                        className="lg:w-1/3  space-y-2 border border-gray-300 shadow-sm rounded-md p-4 rou"
+                        className="lg:w-1/3  space-y-2 border border-gray-300 shadow-sm rounded-md p-4 "
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className="flex gap-4">
@@ -187,6 +213,14 @@ function ContactUsPage() {
                             <IconBtn color={"#4789DE"}>Send Message</IconBtn>
                         </button>
                     </form>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3606.358063424892!2d82.99623627438147!3d25.325763126483196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2d12862ccd93%3A0x796782fc90ad6a2f!2sMedia%20FleetBlue!5e0!3m2!1sen!2sin!4v1738743476561!5m2!1sen!2sin"
+                        height="450"
+                        className="border lg:w-[350px]"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
                 </div>
             </div>
             {/* <GlobalFooter /> */}

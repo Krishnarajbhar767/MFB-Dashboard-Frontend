@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import ShiningButton from "../../../Common_Components/modal/ShiningButton";
 import CenterFillButton from "../../../Common_Components/modal/CenterFillButton";
+import { useEffect } from "react";
 
 function HomePageHeroSection() {
+    const [isVisible, setIsVisible] = useState(false);
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
     return (
-        <div className="max-w-7xl  mx-auto py-8 ">
+        <div
+            className={`max-w-7xl  mx-auto py-8 transition-opacity duration-1000 ${
+                isVisible ? "opacity-100" : "opacity-0"
+            }`}
+        >
             {/* Main Title Of HEro Sexxtion */}
-            <h1 className="text-2xl  md:text-5xl lg:text-6xl  mx-auto   capitalize font-semibold text-mainTextColor text-center leading-snug  mt-0 md:mt-6 lg:mt-10 ">
+            <h1
+                className={`text-2xl  md:text-5xl lg:text-6xl  mx-auto   capitalize font-semibold text-mainTextColor text-center leading-snug  mt-0 md:mt-6 lg:mt-10 `}
+            >
                 Brightening the <span className="text-[#FF696B]">Journey</span>{" "}
                 <br />
                 to success Ahead

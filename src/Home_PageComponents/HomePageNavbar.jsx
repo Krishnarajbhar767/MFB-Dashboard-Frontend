@@ -9,20 +9,25 @@ function HomePageNavbar() {
     return (
         <div className="w-full border-b border-gray-300  ">
             {!isMobileMenuOpen && (
-                <nav className="max-w-7xl  h-[60px] mx-auto flex items-center justify-between ">
+                <nav className="max-w-7xl  h-[60px]  flex items-center border justify-between mx-auto">
                     {/* Logo Container */}
-                    <div className="lg:w-32  w-28 h-full border-green-600 ">
+                    <Link
+                        className="lg:w-32  w-28 h-full border-green-600 "
+                        to={"/"}
+                    >
                         <img
-                            src={sampleLogo}
-                            className="w-full h-full object-contain"
+                            src={
+                                "https://www.mediafleetblue.com/images/logo-v1.png"
+                            }
+                            className="w-full h-full object- bg-blue-400 object-contain"
                         />
                         {/* <h1 className="text-sm">Media Fleet Blue </h1> */}
-                    </div>
+                    </Link>
                     {/* Items Container */}
                     <div className="space-x-6 text-sm md:text-xs lg:text-sm font-medium text-mainTextColor bg-[#F2F2F2]  capitalize lg:px-10 lg:py-3 py-3 px-3  rounded-3xl  hidden md:block lg:block">
                         <Link
                             to={"/"}
-                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget"
+                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget "
                         >
                             Home{" "}
                         </Link>
@@ -33,44 +38,26 @@ function HomePageNavbar() {
                             About Us{" "}
                         </Link>
                         <Link
-                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget  animate-shake"
+                            className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget "
                             to={"/contactus"}
                         >
                             Contact Us{" "}
                         </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200   hoverTarget">
-                            Our Courses
-                        </Link>
-                        <Link className="hover:text-[#2E68FF] transition-all duration-200 hoverTarget">
-                            Our Mentors
-                        </Link>
                     </div>
                     {/* Login And SIgn Up Container and hemberg menu icon */}
-                    <div className=" gap-4 px-2 lg:px-10   flex ">
-                        {/* <Link
-                            to={"/login"}
-                            className="lg:px-4 lg:py-2 border border-gray-400 rounded-md  text-sm font-medium px-2 text-mainTextColor hidden md:block lg:block "
-                        >
-                            Log In
-                        </Link> */}
-                        {/* <Link
-                            to={"/user/login"}
-                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md  text-sm font-medium text-gray-600 border border-gray-300 hidden md:block lg:block hoverTarget"
-                        >
-                            Log in
-                        </Link>
+                    <div className=" gap-4 px-2 lg:px-0 flex ">
                         <Link
                             to={"/user/signup"}
-                            className="lg:px-4 lg:py-2 px-2 py-2 rounded-md bg-[#2E68FF] text-sm font-medium text-gray-50 hidden md:block lg:block hoverTarget"
+                            className="hidden md:block lg:block"
                         >
-                            Sign Up
-                        </Link> */}
-                        <Link to={"/user/signup"}>
                             <IconBtn color={"#2E68FF"} textColor={"#fff"}>
                                 Sign Up
                             </IconBtn>
                         </Link>
-                        <Link to={"/user/login"}>
+                        <Link
+                            to={"/user/login"}
+                            className="hidden md:block lg:block"
+                        >
                             <IconBtn color={"#fff"} textColor={"#1f2937"}>
                                 Log in
                             </IconBtn>

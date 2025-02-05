@@ -5,7 +5,7 @@ import { Divider } from "@mui/material";
 
 function HomeMostPopularCourses() {
     return (
-        <div className="w-full bg-[#F2F2F2]">
+        <div className="w-full bg-[#F2F2F2]" id="homeOurCourses">
             <div className="max-w-7xl mx-auto py-6 px-3 md:px-0 lg:px-0">
                 <div className="flex justify-between items-center  px-0 lg:px-32 md:px-7">
                     <h1 className="text-4xl lg:text-5xl  md:text-4xl   capitalize  text-[#2F2F68]  md:leading-tight lg:leading-tight  font-medium md:text-left lg:text-left text-center">

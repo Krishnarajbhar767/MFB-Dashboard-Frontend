@@ -4,7 +4,10 @@ import { FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import StyledInput from "../../Common_Components/Form_Components/StyledInput";
-
+import UseAnimations from "react-useanimations";
+import arrowLeftCircle from "react-useanimations/lib/arrowLeftCircle";
+import visibility2 from "react-useanimations/lib/visibility2";
+import checkbox from "react-useanimations/lib/checkbox";
 const LoginForm = () => {
     const {
         register,
@@ -27,7 +30,11 @@ const LoginForm = () => {
                 className="absolute  md:pl-0 top-3  lg:top-10 md:left-[9%] -translate-x-[50%] text-gray-300 capitalize  items-center gap-2 font-medium text-xs lg:text-sm hidden md:flex"
             >
                 <span className="lg:text-3xl text-xl">
-                    <IoArrowBackOutline />
+                    {/* <IoArrowBackOutline /> */}
+                    <UseAnimations
+                        animation={arrowLeftCircle}
+                        strokeColor="white"
+                    />
                 </span>{" "}
                 Back To Home
             </Link>
@@ -107,7 +114,11 @@ const LoginForm = () => {
                             className="absolute right-3 top-4 cursor-pointer text-gray-500"
                             onClick={togglePasswordVisibility}
                         >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
+                            <UseAnimations
+                                animation={visibility2}
+                                strokeColor="white"
+                            />
                         </span>
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1">
@@ -119,7 +130,11 @@ const LoginForm = () => {
                         <label className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
-                                className="form-checkbox outline-none bg-gray-800 border-gray-700 rounded text-blue-400 focus:ring-blue-400"
+                                className="form-checkbox outline-none bg-gray-800 border-gray-700 rounded text-blue-400 focus:ring-blue-400 hidden"
+                            />
+                            <UseAnimations
+                                animation={checkbox}
+                                strokeColor="white"
                             />
                             <span className="text-gray-400">Remember me</span>
                         </label>

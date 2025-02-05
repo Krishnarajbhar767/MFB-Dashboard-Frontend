@@ -8,7 +8,7 @@ import HomeMostPopularCourses from "./HomeComponents/HomeMostPopularCourses";
 import HomeWhyChooseUs from "./HomeComponents/HomeWhyChooseUs";
 import HowWeDeliverExellence from "./HomeComponents/HowWeDeliverExellence";
 import HomeWhatOurStudentSays from "./HomeComponents/HomeWhatOurStudentSays";
-import HomeMeetOurTutors from "./HomeComponents/HomeMeetOurTutors";
+import HomeMeetOurTutors from "./HomeComponents/HomeMeetOurTutors"; // we can remove it
 import GlobalFooter from "../../Common_Components/GlobalFooter";
 
 function Home() {
@@ -39,9 +39,6 @@ function Home() {
                 </div>
                 <div>
                     <HomeWhatOurStudentSays />
-                </div>
-                <div>
-                    <HomeMeetOurTutors />
                 </div>
             </div>
             {/* <GlobalFooter /> */}

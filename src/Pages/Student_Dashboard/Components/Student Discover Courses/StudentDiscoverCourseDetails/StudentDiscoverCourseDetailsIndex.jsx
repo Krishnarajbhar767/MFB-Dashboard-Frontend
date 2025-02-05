@@ -2537,12 +2537,12 @@ function StudentDiscoverCourseDetailsIndex() {
                 </h2>
                 {/* Buy Now Button And WishList Button */}
                 <div className="flex items-center gap-3 ">
-                    <button className="w-[80%]">
+                    <button className="w-full">
                         <IconBtn color={"#4f43c0"} textColor={"#fff"}>
                             Buy Now
                         </IconBtn>
                     </button>
-                    <div className=" shadow-xl  border w-9 h-9 flex items-center justify-center rounded-md">
+                    {/* <div className=" shadow-xl  border w-9 h-9 flex items-center justify-center rounded-md">
                         <button
                             onClick={() =>
                                 setIsAddedToWishList(!isAddedToWishList)
@@ -2554,7 +2554,7 @@ function StudentDiscoverCourseDetailsIndex() {
                                 <GoHeart className="text-xl leading-none " />
                             )}
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 {/* This Course INclude */}
                 <h2 className="text-sm font-medium  text-gray-800">
