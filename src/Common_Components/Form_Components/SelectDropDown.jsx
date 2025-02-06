@@ -40,7 +40,7 @@ function SelectDropDown({
                 )}
                 {options?.map((option, idx) => (
                     <option
-                        value={option?.name}
+                        value={option?.value}
                         className="text-[13px] font-normal capitalize"
                     >
                         {option?.name}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 function IconBtn({ children, color, handler, textColor, border }) {
     console.log("Icon BTN Is Rendering Need To Sto[ Re-render");
@@ -12,7 +12,9 @@ function IconBtn({ children, color, handler, textColor, border }) {
             }}
             className={`
         group
-          relative overflow-hidden flex gap-1 items-center justify-center 
+          relative overflow-hidden flex gap-1 items-center justify-center \
+          font-medium
+         
           text-sm px-4 py-2 rounded-md transition-all shadow-2xl
           before:content-[''] before:absolute before:h-0 before:w-0 before:rounded-full 
           before:bg-[#143D60] before:duration-500 before:ease-out
@@ -30,4 +32,4 @@ function IconBtn({ children, color, handler, textColor, border }) {
     );
 }
 
-export default IconBtn;
+export default React.memo(IconBtn);

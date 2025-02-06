@@ -17,6 +17,7 @@ import Admin_Course_Management_Index from "../Pages/Admin_Dashboard/Admin_Compon
 import Admin_Course_Managemnet_Add_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add_Quize/Admin_Course_Managemnet_Add_Quize";
 import Admin_Course_Management_Quize_Dashboard from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Quize Dashboard/Admin_Course_Management_Quize_Dashboard";
 import Admin_Course_Management_Single_Course from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/My Courses/Admin_Course_Management_Single_Course/Admin_Course_Management_Single_Course";
+import Admin_Add_Question_To_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add Question/Admin_Add_Question_To_Quize";
 
 const AdminRoutes = () => {
     return (
@@ -55,6 +56,11 @@ export const adminRoutesConfig = [
                 path: "add_new_quize/:edit?",
                 // element: <h2>Upload new course</h2>,
                 element: <Admin_Course_Managemnet_Add_Quize />,
+            },
+            {
+                path: "add_new_quize_questions/:edit?",
+                // element: <h2>Upload new course</h2>,
+                element: <Admin_Add_Question_To_Quize />,
             },
             {
                 path: "add_new_lesson/",

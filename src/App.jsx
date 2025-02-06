@@ -63,172 +63,172 @@ function App() {
                 />
             </div>
             {/* Make All ROutes SMooth */}
-            <LocomotiveScrollProvider>
-                <div className="w-full min-h-screen flex flex-col  justify-between cursor-none">
-                    {!location.pathname?.split("/").includes("admin") &&
-                        !location.pathname?.split("/").includes("student") && (
-                            <div className="">
-                                <HomePageNavbar />
-                            </div>
-                        )}
+            {/* <LocomotiveScrollProvider> */}
+            <div className="w-full min-h-screen flex flex-col  justify-between cursor-none">
+                {!location.pathname?.split("/").includes("admin") &&
+                    !location.pathname?.split("/").includes("student") && (
+                        <div className="">
+                            <HomePageNavbar />
+                        </div>
+                    )}
 
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="aboutus" element={<AboutUsPage />} />
-                        <Route path="/user/login" element={<LoginForm />} />
-                        <Route path="/user/signup" element={<SignUpForm />} />
-                        <Route path="/contactus" element={<ContactUsPage />} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="aboutus" element={<AboutUsPage />} />
+                    <Route path="/user/login" element={<LoginForm />} />
+                    <Route path="/user/signup" element={<SignUpForm />} />
+                    <Route path="/contactus" element={<ContactUsPage />} />
+                    <Route
+                        path="/forgot-password"
+                        element={"Hiii This Is FOrgot Page"}
+                    />
+                    {/* Admin All Routes with auth check  */}
+                    {/* Admin Login */}
+                    <Route
+                        path="/admin"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <AdminLogin />
+                            ) : (
+                                // <AdminLogin
+                                <Navigate to="/admin" replace />
+                            )
+                        }
+                    />
+
+                    <Route
+                        path="/admin/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <AdminRoutes />
+                            ) : (
+                                <Navigate to="/admin" replace />
+                            )
+                        }
+                    >
+                        {/* Nested Admin Routes */}
+                        {/* Default route: Redirect to dashboard */}
                         <Route
-                            path="/forgot-password"
-                            element={"Hiii This Is FOrgot Page"}
-                        />
-                        {/* Admin All Routes with auth check  */}
-                        {/* Admin Login */}
-                        <Route
-                            path="/admin"
-                            element={
-                                user?.accoutType === "Admin" ? (
-                                    <AdminLogin />
-                                ) : (
-                                    // <AdminLogin
-                                    <Navigate to="/admin" replace />
-                                )
-                            }
+                            index
+                            element={<Navigate to="dashboard" replace />}
                         />
 
-                        <Route
-                            path="/admin/*"
-                            element={
-                                user?.accoutType === "Admin" ? (
-                                    <AdminRoutes />
-                                ) : (
-                                    <Navigate to="/admin" replace />
-                                )
-                            }
-                        >
-                            {/* Nested Admin Routes */}
-                            {/* Default route: Redirect to dashboard */}
+                        {/* Dynamically render admin-specific child routes with nested structure */}
+                        {adminRoutesConfig.map((route, index) => (
                             <Route
-                                index
-                                element={<Navigate to="dashboard" replace />}
-                            />
+                                key={index}
+                                path={route.path}
+                                element={route.element}
+                            >
+                                {route.children?.map(
+                                    (childRoute, childIndex) => (
+                                        <Route
+                                            key={childIndex}
+                                            path={childRoute.path}
+                                            element={childRoute.element}
+                                        />
+                                    )
+                                )}
+                            </Route>
+                        ))}
+                    </Route>
 
-                            {/* Dynamically render admin-specific child routes with nested structure */}
-                            {adminRoutesConfig.map((route, index) => (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={route.element}
-                                >
-                                    {route.children?.map(
-                                        (childRoute, childIndex) => (
-                                            <Route
-                                                key={childIndex}
-                                                path={childRoute.path}
-                                                element={childRoute.element}
-                                            />
-                                        )
-                                    )}
-                                </Route>
-                            ))}
-                        </Route>
+                    {/* Student all routes */}
 
-                        {/* Student all routes */}
+                    <Route
+                        path="/student"
+                        element={
+                            user?.accoutType !== "Admin" ? (
+                                <StudentLogin />
+                            ) : (
+                                // <AdminLogin
+                                <Navigate to="/student" replace />
+                            )
+                        }
+                    />
 
+                    <Route
+                        path="/student/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <StudentRoute />
+                            ) : (
+                                <Navigate to="/student" replace />
+                            )
+                        }
+                    >
+                        {/* Nested Admin Routes */}
                         <Route
-                            path="/student"
-                            element={
-                                user?.accoutType !== "Admin" ? (
-                                    <StudentLogin />
-                                ) : (
-                                    // <AdminLogin
-                                    <Navigate to="/student" replace />
-                                )
-                            }
+                            index
+                            element={<Navigate to="dashboard" replace />}
                         />
-
-                        <Route
-                            path="/student/*"
-                            element={
-                                user?.accoutType === "Admin" ? (
-                                    <StudentRoute />
-                                ) : (
-                                    <Navigate to="/student" replace />
-                                )
-                            }
-                        >
-                            {/* Nested Admin Routes */}
+                        {StudentRoutesConfig.map((route, index) => (
                             <Route
-                                index
-                                element={<Navigate to="dashboard" replace />}
-                            />
-                            {StudentRoutesConfig.map((route, index) => (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={route.element}
-                                >
-                                    {route.children?.map(
-                                        (childRoute, childIndex) => (
-                                            <Route
-                                                key={childIndex}
-                                                path={childRoute.path}
-                                                element={childRoute.element}
-                                            />
-                                        )
-                                    )}
-                                </Route>
-                            ))}
-                        </Route>
+                                key={index}
+                                path={route.path}
+                                element={route.element}
+                            >
+                                {route.children?.map(
+                                    (childRoute, childIndex) => (
+                                        <Route
+                                            key={childIndex}
+                                            path={childRoute.path}
+                                            element={childRoute.element}
+                                        />
+                                    )
+                                )}
+                            </Route>
+                        ))}
+                    </Route>
 
-                        {/* Teacher all routes  */}
+                    {/* Teacher all routes  */}
 
+                    <Route
+                        path="/teacher"
+                        element={
+                            user?.accoutType !== "Admin" ? (
+                                <TeacherLogin />
+                            ) : (
+                                <Navigate to="teacher" replace />
+                            )
+                        }
+                    />
+
+                    <Route
+                        path="/teacher/*"
+                        element={
+                            user?.accoutType === "Admin" ? (
+                                <TeacherRoute />
+                            ) : (
+                                <Navigate to="/teacher" replace />
+                            )
+                        }
+                    >
                         <Route
-                            path="/teacher"
-                            element={
-                                user?.accoutType !== "Admin" ? (
-                                    <TeacherLogin />
-                                ) : (
-                                    <Navigate to="teacher" replace />
-                                )
-                            }
+                            index
+                            element={<Navigate to="dashboard" replace />}
                         />
-
-                        <Route
-                            path="/teacher/*"
-                            element={
-                                user?.accoutType === "Admin" ? (
-                                    <TeacherRoute />
-                                ) : (
-                                    <Navigate to="/teacher" replace />
-                                )
-                            }
-                        >
+                        {TeacherRoutesConfig.map((route, index) => (
                             <Route
-                                index
-                                element={<Navigate to="dashboard" replace />}
+                                key={index}
+                                path={route.path}
+                                element={route.element}
                             />
-                            {TeacherRoutesConfig.map((route, index) => (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={route.element}
-                                />
-                            ))}
-                        </Route>
-                    </Routes>
-                    <Routes>
-                        <Route path="/admin/login" element={<LoginForm />} />
-                        <Route path="/admin/signup" element={<SignUpForm />} />
-                    </Routes>
-                    {!location.pathname?.split("/").includes("admin") &&
-                        !location.pathname?.split("/").includes("student") && (
-                            <div>
-                                <GlobalFooter />
-                            </div>
-                        )}
-                </div>
-            </LocomotiveScrollProvider>
+                        ))}
+                    </Route>
+                </Routes>
+                <Routes>
+                    <Route path="/admin/login" element={<LoginForm />} />
+                    <Route path="/admin/signup" element={<SignUpForm />} />
+                </Routes>
+                {!location.pathname?.split("/").includes("admin") &&
+                    !location.pathname?.split("/").includes("student") && (
+                        <div>
+                            <GlobalFooter />
+                        </div>
+                    )}
+            </div>
+            {/* </LocomotiveScrollProvider> */}
         </>
     );
 }

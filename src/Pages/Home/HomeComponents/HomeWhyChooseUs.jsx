@@ -4,20 +4,21 @@ import { IoTriangleOutline } from "react-icons/io5";
 import { PiShapesLight } from "react-icons/pi";
 import { TbCircleTriangle } from "react-icons/tb";
 import ShiningButton from "../../../Common_Components/modal/ShiningButton";
+import Counter from "../../../Common_Components/Counter";
 
 function HomeWhyChooseUs() {
     const ratingAndEnrolledStudentRef = useRef();
     const [isVisible, setIsVisible] = useState(false);
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            console.log("Printing Entries", entries);
-            setIsVisible(entries[0].isIntersecting);
-        });
+    // useEffect(() => {
+    //     const observer = new IntersectionObserver((entries) => {
+    //         console.log("Printing Entries", entries);
+    //         setIsVisible(entries[0].isIntersecting);
+    //     });
 
-        observer.observe(ratingAndEnrolledStudentRef.current);
+    //     observer.observe(ratingAndEnrolledStudentRef.current);
 
-        return () => observer.unobserve(ratingAndEnrolledStudentRef.current);
-    }, []);
+    //     return () => observer.unobserve(ratingAndEnrolledStudentRef.current);
+    // }, []);
     return (
         <div className="max-w-7xl mx-auto py-8 md:py-16 px-4">
             {/* Main Heading */}
@@ -103,8 +104,11 @@ function HomeWhyChooseUs() {
                     </div>
 
                     {/* avg. course rating and Active Enrolled Student Count Container... */}
-                    <div className="w-full bg-[#ffdede] flex md:p-4 p-4    rounded-xl mt-6 items-center justify-evenly gap-16 md:gap-20  lg:gap-0 ">
-                        <div className="" ref={ratingAndEnrolledStudentRef}>
+                    <div
+                        className="w-full bg-[#ffdede] flex md:p-4 p-4    rounded-xl mt-6 items-center justify-evenly gap-16 md:gap-20  lg:gap-0 "
+                        ref={ratingAndEnrolledStudentRef}
+                    >
+                        <div className="">
                             <h2 className=" text-2xl text-[#FF696B] font-semibold">
                                 4.8/5
                             </h2>
@@ -113,9 +117,7 @@ function HomeWhyChooseUs() {
                             </h3>
                         </div>
                         <div className="">
-                            <h2 className="text-2xl text-[#FF696B] font-semibold">
-                                {}
-                            </h2>
+                            <h2 className="text-2xl text-[#FF696B] font-semibold"></h2>
                             <h3 className="text-xs md:text-sm font-medium text-mainTextColor capitalize">
                                 Active Student Enrolled
                             </h3>

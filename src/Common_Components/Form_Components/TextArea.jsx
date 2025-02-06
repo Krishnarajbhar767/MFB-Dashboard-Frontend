@@ -23,7 +23,7 @@ function TextArea({
                 id="label"
                 type={type}
                 className="border-gray-200 border rounded-md px-2  font-light text-gray-800 outline-none focus:ring-1 ring-blue-600 min-h-[30px] max-h-[60px] py-1 overflow-hidden"
-                placeholder={error ? "This field is required" : placeholder}
+                placeholder={error ? "Required" : placeholder}
             />
         </div>
     );

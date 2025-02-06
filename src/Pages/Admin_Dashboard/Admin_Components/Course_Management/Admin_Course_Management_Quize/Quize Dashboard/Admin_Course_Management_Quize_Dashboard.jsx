@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconBtn from "../../../../../../Common_Components/IconBtn";
 import { FaPlus } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
@@ -6,10 +6,15 @@ import SelectDropDown from "../../../../../../Common_Components/Form_Components/
 import { useForm } from "react-hook-form";
 import Admin_Course_Management_Quize_Card from "./Quize Card/Admin_Course_Management_Quize_Card";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Admin_Course_Management_Quize_Dashboard() {
     const { register, handleSubmit, getValues, setValue } = useForm();
+
     const navigate = useNavigate();
+    const { allQuizes } = useSelector((state) => state.quize);
+    // TODO : On First Render Call api/get-all-quizes To get All Quize Data..
+    useEffect(() => {}, [console.log("Printing Quizes", allQuizes)]);
     return (
         <div className="px-8 py-4">
             {/* FIrst Heading And Add Quize Button */}
@@ -60,36 +65,16 @@ function Admin_Course_Management_Quize_Dashboard() {
             </div>
             {/* Quizes Card Container */}
             <div
-                className="flex  gap-2 mt-6 flex-wrap justify-evenly  max-h-[405px] w-full overflow-scroll"
+                className="flex  gap-2 mt-6 flex-wrap justify-start   max-h-[405px] w-full overflow-scroll"
                 id="quizesCardContainer"
             >
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
-                <div className="min-w-[32%] max-w-[32%]">
-                    <Admin_Course_Management_Quize_Card />
-                </div>
+                {allQuizes?.map((quize, idx) => {
+                    return (
+                        <div className="min-w-[32%] max-w-[32.7%]">
+                            <Admin_Course_Management_Quize_Card quize={quize} />
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Quize Analytic And Graph Container.... */}

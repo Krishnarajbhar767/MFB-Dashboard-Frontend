@@ -11,6 +11,8 @@ function Input({
     error = null,
     accept = null,
     validation = null,
+    minLength = null,
+    maxLength = null,
 }) {
     return (
         <div
@@ -25,15 +27,17 @@ function Input({
                 id="label"
                 type={type}
                 className={`border-gray-200 border rounded-md px-2 py-1  text-gray-800 outline-none focus:ring-1 ring-blue-600 `}
-                placeholder={error ? "This field is required" : placeholder}
+                placeholder={error ? "Required" : placeholder}
                 {...register(
                     inputName,
                     validation ? validation : { required: required }
                 )}
                 accept={accept ? accept : "text"}
+                minLength={minLength}
+                maxLength={maxLength}
             />
         </div>
     );
 }
 
-export default Input;
+export default React.memo(Input);
