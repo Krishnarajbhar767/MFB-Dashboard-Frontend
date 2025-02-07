@@ -1,14 +1,31 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { FaRegEye, FaTimesCircle } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdDeleteForever, MdPeople } from "react-icons/md";
 import { RiBarChartFill } from "react-icons/ri";
 import IconBtn from "../../../../../../../Common_Components/IconBtn";
 import { FiEdit } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import ConfirmationModal from "../../../../../../../Common_Components/modal/ConfirmationModal";
 
 const Admin_Course_Management_Quize_Card = memo(
     function Admin_Course_Management_Quize_Card({ quize }) {
+        const navigate = useNavigate();
+        const [confirmationModal, setConfirmationModal] = useState(null);
+        const deleteQuizeHandler = async () => {
+            try {
+                // Call Api For Data Delete
+                const reponse = { quizeId: quize._id };
+                if (!reponse) {
+                    return toast.error("Something went wrong.");
+                }
+                toast.success("Quize Deleted Successfully..");
+            } catch (error) {
+                toast.error(error.message);
+                console.log("Error While Deleting The Quize JSX --->", error);
+            }
+        };
         return (
             <div className="border bg-white shadow-sm rounded-md  w-full p-4 text-sm font-normal text-gray-800">
                 {/* Course TItle And Catgory container */}
@@ -39,19 +56,42 @@ const Admin_Course_Management_Quize_Card = memo(
                     {/* <button className="px-6 py-1 bg-transparent border border-gray-300 rounded-md mt-4 w-1/2">
                     Edit
                 </button> */}
-                    <button>
+                    <button
+                        onClick={() =>
+                            navigate(
+                                `/admin/course_management/quizes/view_quize/:${quize._id}`,
+                                { state: { quiz: quize } }
+                            )
+                        }
+                    >
                         <IconBtn textColor={"#000f"}>
                             View <FaRegEye />{" "}
                         </IconBtn>
                     </button>
-                    <Link
-                        to={"/admin/course_management/add_new_quize_questions/"}
+                    <button
+                        onClick={() => {
+                            navigate(
+                                "/admin/course_management/add_new_quize_questions/",
+                                { state: { quizeId: quize._id } }
+                            );
+                        }}
                     >
                         <IconBtn textColor={"#fff"} color={"#1f2937"}>
                             Add <FiEdit />
                         </IconBtn>
-                    </Link>
-                    <button>
+                    </button>
+                    <button
+                        onClick={() =>
+                            setConfirmationModal({
+                                text1: "Are You Sure",
+                                text2: "Your quize will be deleted.",
+                                btn1Text: "Delete",
+                                btn2Text: "Cancel",
+                                btn1Handler: () => deleteQuizeHandler(),
+                                btn2Handler: () => setConfirmationModal(null),
+                            })
+                        }
+                    >
                         <IconBtn color={"#dc2626"}>
                             Delete <MdDeleteForever />
                         </IconBtn>
@@ -60,6 +100,9 @@ const Admin_Course_Management_Quize_Card = memo(
                     View Stats
                 </button> */}
                 </div>
+                {confirmationModal && (
+                    <ConfirmationModal modalData={confirmationModal} />
+                )}
             </div>
         );
     }

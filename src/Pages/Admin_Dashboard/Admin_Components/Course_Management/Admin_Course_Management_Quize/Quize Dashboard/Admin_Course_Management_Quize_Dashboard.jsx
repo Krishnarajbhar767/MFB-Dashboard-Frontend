@@ -70,7 +70,7 @@ function Admin_Course_Management_Quize_Dashboard() {
             >
                 {allQuizes?.map((quize, idx) => {
                     return (
-                        <div className="min-w-[32%] max-w-[32.7%]">
+                        <div className="min-w-[32%] w-fit">
                             <Admin_Course_Management_Quize_Card quize={quize} />
                         </div>
                     );

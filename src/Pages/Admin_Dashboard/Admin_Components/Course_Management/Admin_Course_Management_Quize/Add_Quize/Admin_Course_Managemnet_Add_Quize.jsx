@@ -38,6 +38,7 @@ function Admin_Course_Managemnet_Add_Quize() {
         try {
             const response = {
                 ...data,
+                questions: [],
                 _id: `ebdere9034j39${Math.random()}`,
             }; // Assuming Got APi Reponse
             if (response) {
