@@ -138,13 +138,13 @@ function Admin_Upload_New_Course() {
         const formCurrentData = getValues();
 
         if (
-            formCurrentData.courseName !== editingCourseData.courseName ||
-            formCurrentData.courseDescription !==
-                editingCourseData.courseDescription ||
-            formCurrentData.courseCategory !==
-                editingCourseData.courseCategory ||
-            formCurrentData.coursePrice !== editingCourseData.coursePrice ||
-            formCurrentData.thumbnail !== editingCourseData.thumbnail ||
+            formCurrentData?.courseName !== editingCourseData.courseName ||
+            formCurrentData?.courseDescription !==
+                editingCourseData?.courseDescription ||
+            formCurrentData?.courseCategory !==
+                editingCourseData?.courseCategory ||
+            formCurrentData?.coursePrice !== editingCourseData.coursePrice ||
+            formCurrentData?.thumbnail !== editingCourseData.thumbnail ||
             isTagUpdated(tags, editingCourseData.tags)
         ) {
             return true;
@@ -444,7 +444,7 @@ function Admin_Upload_New_Course() {
                                 name="courseCatgory"
                                 defaultValue={
                                     isEditingCourse
-                                        ? editingCourseData.courseCategory
+                                        ? editingCourseData?.courseCategory
                                         : "default"
                                 }
                                 className="text-sm w-full h-full font-normal text-gray-800 "

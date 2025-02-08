@@ -54,12 +54,12 @@ export const adminRoutesConfig = [
                 element: <Admin_Course_Management_Quize_Dashboard />,
             },
             {
-                path: "add_new_quize/:edit?",
+                path: "add_new_quize/:quizeId?",
                 // element: <h2>Upload new course</h2>,
                 element: <Admin_Course_Managemnet_Add_Quize />,
             },
             {
-                path: "add_new_quize_questions/:edit?",
+                path: "add_new_quize_questions/:quizeId?",
                 // element: <h2>Upload new course</h2>,
                 element: <Admin_Add_Question_To_Quize />,
             },

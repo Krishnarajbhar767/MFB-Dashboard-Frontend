@@ -20,7 +20,7 @@ function Admin_Course_Management_Index() {
                 Admin Course Management Main Page... Dashboard For COurse
                 Management
             </h1> */}
-            <Admin_Course_Management_Quize_Dashboard />
+            <h1>Admin Course Management Main Page..</h1>
             <Outlet />
             {/* Approve or reject new courses submitted by teachers. */}
             {/* <h2>Approve or reject new courses submitted by teachers.</h2> */}

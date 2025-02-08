@@ -21,7 +21,8 @@ function IconBtn({ children, color, handler, textColor, border }) {
           hover:shadow-[#143D60] hover:before:h-56 hover:before:w-full 
       
           hover:text-white
-          border
+          border border-gray-400
+         
         `}
             id="hoverTarget"
         >

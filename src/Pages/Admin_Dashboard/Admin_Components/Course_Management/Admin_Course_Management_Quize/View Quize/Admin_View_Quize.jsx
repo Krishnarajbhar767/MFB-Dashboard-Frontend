@@ -181,11 +181,13 @@
 
 // export default Admin_View_Quize;
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Admin_View_Quize() {
     const quiz = useLocation().state?.quiz;
 
+    // Importing Navigate For Navigate ANywere
+    const navigate = useNavigate();
     // Initial quiz data
     // const initialQuiz = {
     //     author: "Krishna",
@@ -237,7 +239,13 @@ function Admin_View_Quize() {
 
     // Handler for editing the quiz (demo action)
     const handleEditQuiz = () => {
-        alert("Edit Quiz functionality not implemented yet.");
+        navigate(`/admin/course_management/add_new_quize/:${quiz._id}`, {
+            state: {
+                quize: quiz,
+                viewQuizePage: true,
+                viewQuizePageData: quiz,
+            },
+        });
     };
 
     // Handler for deleting a question by filtering it out from state
@@ -249,9 +257,12 @@ function Admin_View_Quize() {
     };
 
     // Handler for editing a question (demo action)
-    const handleEditQuestion = (questionId) => {
-        alert(
-            `Edit functionality for question ${questionId} is not implemented yet.`
+    const handleEditQuestion = () => {
+        navigate(
+            `/admin/course_management/add_new_quize_questions/:${quiz._id}`,
+            {
+                state: { quizeId: quiz._id, quize: quiz },
+            }
         );
     };
 
@@ -314,6 +325,20 @@ function Admin_View_Quize() {
                     <h2 className="text-2xl font-bold text-black mb-4">
                         Questions
                     </h2>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => handleEditQuestion()}
+                            className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-200"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => handleDeleteQuestion(q.id)}
+                            className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-200"
+                        >
+                            Delete
+                        </button>
+                    </div>
                     {quiz.questions.length === 0 ? (
                         <p className="text-gray-600">No questions available.</p>
                     ) : (
@@ -326,24 +351,6 @@ function Admin_View_Quize() {
                                     <p className="text-lg font-semibold text-black">{`Q${
                                         index + 1
                                     }: ${q.question}`}</p>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() =>
-                                                handleEditQuestion(q.id)
-                                            }
-                                            className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-200"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleDeleteQuestion(q.id)
-                                            }
-                                            className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-200"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
                                 </div>
                                 <ul className="mt-3 space-y-2">
                                     {q.options.map((option, i) => (

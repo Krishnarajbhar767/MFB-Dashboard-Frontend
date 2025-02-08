@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { FaRegEye, FaTimesCircle } from "react-icons/fa";
+import { FaPlus, FaRegEye, FaTimesCircle } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdDeleteForever, MdPeople } from "react-icons/md";
 import { RiBarChartFill } from "react-icons/ri";
@@ -21,6 +21,7 @@ const Admin_Course_Management_Quize_Card = memo(
                     return toast.error("Something went wrong.");
                 }
                 toast.success("Quize Deleted Successfully..");
+                setConfirmationModal(null);
             } catch (error) {
                 toast.error(error.message);
                 console.log("Error While Deleting The Quize JSX --->", error);
@@ -77,7 +78,19 @@ const Admin_Course_Management_Quize_Card = memo(
                         }}
                     >
                         <IconBtn textColor={"#fff"} color={"#1f2937"}>
-                            Add <FiEdit />
+                            Add <FaPlus />
+                        </IconBtn>
+                    </button>
+                    <button
+                        onClick={() => {
+                            navigate(
+                                `/admin/course_management/add_new_quize/:${quize._id}`,
+                                { state: { quize } }
+                            );
+                        }}
+                    >
+                        <IconBtn textColor={"#fff"} color={"#1f2937"}>
+                            Edit <FiEdit />
                         </IconBtn>
                     </button>
                     <button

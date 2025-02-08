@@ -4,7 +4,7 @@ const initialState = {
         {
             author: "Krishna",
             publishDate: "2025-02-27T13:31",
-            course: "8e638fwofuw7hr87y",
+            course: "fdejf93ry8l3p9",
             title: "Web Development 2025",
             timeOut: "22",
             questions: [],
@@ -14,7 +14,7 @@ const initialState = {
         {
             author: "Krishna",
             publishDate: "2025-02-27T13:31",
-            course: "8e638fwofuw7hr87y",
+            course: "fdejf93ry8l3p9",
             title: "Web Crash 2025",
             timeOut: "22",
             questions: [],
