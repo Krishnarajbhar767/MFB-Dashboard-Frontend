@@ -18,6 +18,8 @@
         "@reduxjs/toolkit": "^2.5.0",
         "axios": "^1.7.9",
         "dayjs": "^1.11.13",
+        "dotenv": "^16.4.7",
+        "js-cookie": "^3.0.5",
         "locomotive-scroll": "^4.1.4",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",

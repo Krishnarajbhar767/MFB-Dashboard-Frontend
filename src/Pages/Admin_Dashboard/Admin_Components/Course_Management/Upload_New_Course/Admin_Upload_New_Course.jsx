@@ -30,6 +30,8 @@ import {
     setAllCourses,
     setisEditingCourse,
 } from "../../../../../Redux/Slices/All_Courses";
+import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
+import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 // import thumbnailImage from "../../../../../../public/logov2.png";
 // import { useSelector } from "react-redux";
 function Admin_Upload_New_Course() {
@@ -80,15 +82,17 @@ function Admin_Upload_New_Course() {
         }
 
         // everything is fine now we can call our create  course api for Creating The Course...
+        const loadingToastId = toast.loading("Please wait..."); // toast for loading... and wait for reponse;
         try {
-            const loadingToastId = toast.loading("Please wait...");
             const courseData = getValues();
+            console.log("Complete Course Data ---->", courseData);
             // Call Api For Create Course
-            // assuming evrything is fine;
-
-            setTimeout(() => {
+            const response = await adminCourseManagementApis.createCourse(
+                courseData
+            );
+            if (true) {
                 toast.dismiss(loadingToastId);
-                setValue("courseName", "");
+                setValue("courseTitle", "");
                 setValue("courseDescription", "");
                 setValue("courseModules", "");
                 setCourseModules([]);
@@ -96,17 +100,16 @@ function Admin_Upload_New_Course() {
                 setThumbnailImage("");
                 setValue("courseCategory", "");
 
-                setValue("coursePrice", "");
+                setValue("price", "");
                 setValue("tags", "");
                 setTempTag("");
                 setTags([]);
                 toast.success("Course Created Successfully...");
-            }, 2000);
+            }
         } catch (error) {
-            console.log(
-                "Error While Creating The New Course From JSX ->",
-                error
-            );
+            const err = customApiErrorHandler(error, "Admin Upload New Course");
+            toast.dismiss(loadingToastId);
+            toast.error(err);
         }
     };
 
@@ -138,12 +141,12 @@ function Admin_Upload_New_Course() {
         const formCurrentData = getValues();
 
         if (
-            formCurrentData?.courseName !== editingCourseData.courseName ||
+            formCurrentData?.courseTitle !== editingCourseData.courseTitle ||
             formCurrentData?.courseDescription !==
                 editingCourseData?.courseDescription ||
             formCurrentData?.courseCategory !==
                 editingCourseData?.courseCategory ||
-            formCurrentData?.coursePrice !== editingCourseData.coursePrice ||
+            formCurrentData?.price !== editingCourseData.price ||
             formCurrentData?.thumbnail !== editingCourseData.thumbnail ||
             isTagUpdated(tags, editingCourseData.tags)
         ) {
@@ -158,11 +161,11 @@ function Admin_Upload_New_Course() {
         setValue("courseModules", []);
         if (isEditingCourse && editSearcParamas) {
             setCourseModules((prev) => editingCourseData.courseModules);
-            setValue("courseName", editingCourseData.courseName);
+            setValue("courseTitle", editingCourseData.courseTitle);
             setValue("courseDescription", editingCourseData.courseDescription);
             setValue("thumbnail", editingCourseData.thumbnail);
             setValue("courseCategory", editingCourseData.courseCategory);
-            setValue("coursePrice", editingCourseData.coursePrice);
+            setValue("price", editingCourseData.price);
             setValue("thumbnail", editingCourseData.thumbnail);
             setTags((prev) => editingCourseData.tags);
             console.log("Printing Editable FOrm DAta...", getValues());
@@ -267,12 +270,12 @@ function Admin_Upload_New_Course() {
                                 </h1>
                                 <Input
                                     register={register}
-                                    inputName={"courseName"}
+                                    inputName={"courseTitle"}
                                     required={true}
                                     type={"text"}
                                     placeholder={"Course Name"}
                                     label={"Course Name *"}
-                                    error={errors.courseName}
+                                    error={errors.courseTitle}
                                 />
                                 <TextArea
                                     placeholder={"Course Description"}
@@ -394,37 +397,6 @@ function Admin_Upload_New_Course() {
                     </div>
 
                     <div>
-                        {/* <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">
-                                Course Category
-                            </InputLabel>
-                            <Select
-                                required
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                defaultValue={
-                                    isEditingCourse
-                                        ? editingCourseData?.courseCategory
-                                        : ""
-                                }
-                                label="Course Category *"
-                                {...register("courseCategory", {
-                                    required: true,
-                                })}
-                            >
-                                {courseCategories.length > 0 &&
-                                    courseCategories?.map((category, idx) => {
-                                        return (
-                                            <MenuItem
-                                                value={category?.name}
-                                                key={idx}
-                                            >
-                                                {category?.name}
-                                            </MenuItem>
-                                        );
-                                    })}
-                            </Select>
-                        </FormControl> */}
                         <div>
                             <label
                                 htmlFor="courseCategory"
@@ -519,9 +491,9 @@ function Admin_Upload_New_Course() {
                             label={"Price *"}
                             placeholder={"Course Price INR"}
                             register={register}
-                            inputName={"coursePrice"}
+                            inputName={"price"}
                             required={true}
-                            error={errors.coursePrice}
+                            error={errors.price}
                             type={"number"}
                         />
                     </div>
