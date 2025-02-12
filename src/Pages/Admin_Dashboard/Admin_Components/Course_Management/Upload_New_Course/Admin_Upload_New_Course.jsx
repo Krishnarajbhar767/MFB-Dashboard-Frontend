@@ -90,7 +90,9 @@ function Admin_Upload_New_Course() {
             const response = await adminCourseManagementApis.createCourse(
                 courseData
             );
-            if (true) {
+
+            if (response) {
+                adminCourseManagementApis.get;
                 toast.dismiss(loadingToastId);
                 setValue("courseTitle", "");
                 setValue("courseDescription", "");
@@ -99,7 +101,6 @@ function Admin_Upload_New_Course() {
                 setValue("thumbnail", "");
                 setThumbnailImage("");
                 setValue("courseCategory", "");
-
                 setValue("price", "");
                 setValue("tags", "");
                 setTempTag("");

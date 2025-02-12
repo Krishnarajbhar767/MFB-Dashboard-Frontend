@@ -34,9 +34,9 @@ function Admin_Course_Management_Course_Card({
             </div>
             {/* Card Title */}
             <h1 className="my-2 text-base tracking-wide font-medium text-gray-800 capitalize">
-                {course?.courseName?.length > 30
-                    ? course?.courseName.slice(0, 30) + "..."
-                    : course?.courseName}
+                {course?.courseTitle?.length > 30
+                    ? course?.courseTitle.slice(0, 30) + "..."
+                    : course?.courseTitle}
             </h1>
             {/* Publish Date And Active Student DIv */}
             <div className="flex text-xs font-medium items-center gap-6 lowercase">

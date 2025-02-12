@@ -8,19 +8,30 @@ import { FiEdit } from "react-icons/fi";
 import Admin_Course_Management_Course_Card from "./Admin_Course_Management_Course_Card";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCourses } from "../../../../../Redux/Slices/All_Courses";
+import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
+import toast from "react-hot-toast";
 function Admin_My_Courses() {
     const { allCourses } = useSelector((state) => state.allCourses);
     const dispatch = useDispatch();
     const [isDraftSelected, setIsDraftSelected] = useState(false);
     // fetch All Courses From API ---->
     useEffect(() => {
-        try {
-            // All Real API Here
-            dispatch(setAllCourses(all_courses));
-            console.log("Printing Courses First Render", allCourses);
-        } catch (error) {
-            console.log("Error While Fetching The All Courses JSX --->", error);
-        }
+        const fetchCourse = async () => {
+            try {
+                const response =
+                    await adminCourseManagementApis.getAllCourses();
+                console.log("My Courses Course Data", response.data.data);
+                dispatch(setAllCourses(response.data?.data));
+            } catch (error) {
+                const err = customApiErrorHandler(
+                    error,
+                    "Admin Course Management My Course"
+                );
+                toast.error(err);
+            }
+        };
+        fetchCourse();
     }, []);
 
     return (

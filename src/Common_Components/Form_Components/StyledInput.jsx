@@ -11,11 +11,20 @@ function StyledInput({
     error = null,
     accept = null,
     validation = null,
+    bgColor,
+    textColor,
+    outlineColor,
+    borderColor,
 }) {
     return (
         <input
+            style={{
+                backgroundColor: bgColor ? bgColor : "#1f2937",
+                color: textColor ? textColor : "#9ca3af ",
+                borderColor: borderColor ? borderColor : "#4b5563",
+            }}
             type={type}
-            className={` pl-10 p-3 w-full rounded-md bg-gray-800 border border-gray-700 focus:border-blue-500 outline-none font-normal `}
+            className={`pl-10 p-3 w-full rounded-md  focus:border-blue-500 border outline-none font-normal `}
             placeholder={placeholder}
             {...register(inputName, {
                 required: required,

@@ -3,6 +3,7 @@ import StudentDashboard_Page from "../Pages/Student_Dashboard/StudentDashboard_P
 import Student_Discover_Course_Index from "../Pages/Student_Dashboard/Components/Student Discover Courses/Student_Discover_Course_Index";
 import StudentDiscoverCourseDetailsIndex from "../Pages/Student_Dashboard/Components/Student Discover Courses/StudentDiscoverCourseDetails/StudentDiscoverCourseDetailsIndex";
 import StudentCourseDetailsAfterEnrolled from "../Pages/Student_Dashboard/Components/StudentCourseDetailsAfterEnrolled/StudentCourseDetailsAfterEnrolledIndex";
+import StudentSetting from "../Pages/Student_Dashboard/Setting/StudentSetting";
 
 const StudentRoute = () => {
     return (
@@ -35,7 +36,7 @@ export const StudentRoutesConfig = [
     { path: "discussion_forums", element: <h1>Discussion Forums </h1> },
     { path: "calender", element: <h1>Calender</h1> },
     { path: "support", element: <h1>Support</h1> },
-    { path: "profile_settings", element: <h1>Profile Settings</h1> },
+    { path: "profile_settings", element: <StudentSetting /> },
     {
         path: "discover",
         // element: <Student_Discover_Course_Index />,

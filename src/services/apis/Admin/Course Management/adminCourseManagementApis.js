@@ -1,5 +1,8 @@
+import toast from "react-hot-toast";
+import { customApiErrorHandler } from "../../../../Utils/Error/cutomApiErrorHandler";
 import axiosInstance from "../../../apiConncetor";
 import { adminCourseManagementEndpoints } from "../../../EndPoints/Admin/Course Management/adminCourseManagementEndPoints";
+import { setAllCourses } from "../../../../Redux/Slices/All_Courses";
 
 export const adminCourseManagementApis = {
     createCourse: (courseData) =>
@@ -7,8 +10,8 @@ export const adminCourseManagementApis = {
             adminCourseManagementEndpoints.createCourse,
             courseData
         ),
-    getAllCourse: () =>
-        axiosInstance.get(adminCourseManagementEndpoints.getAllCourseData),
+    // getAllCourse: () =>
+    //     axiosInstance.get(adminCourseManagementEndpoints.getAllCourseData),
     getCourseDataById: (courseId) =>
         axiosInstance.get(
             adminCourseManagementEndpoints.getCourseDataById(courseId)
@@ -22,4 +25,6 @@ export const adminCourseManagementApis = {
         axiosInstance.delete(
             adminCourseManagementEndpoints.deleteCourseById(courseId)
         ),
+    getAllCourses: () =>
+        axiosInstance.get(adminCourseManagementEndpoints.getAllCourseData),
 };

@@ -10,8 +10,7 @@ function IconBtn({ children, color, handler, textColor, border }) {
 
                 border: border,
             }}
-            className={`
-        group
+            className={`        group
           relative overflow-hidden flex gap-1 items-center justify-center \
           font-medium
          

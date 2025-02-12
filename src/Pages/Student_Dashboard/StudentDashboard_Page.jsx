@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Outlet } from "react-router-dom";
+import { Route, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../../DashBoard_Componets/Navbar";
 import { RiDashboardHorizontalFill, RiGlobalLine } from "react-icons/ri";
 import { IoCalendarOutline } from "react-icons/io5";
@@ -12,8 +12,8 @@ import { IoBook } from "react-icons/io5";
 import Sidebar from "../../DashBoard_Componets/Sidebar";
 import { VscFolderLibrary } from "react-icons/vsc";
 import { MdOutlineCloudUpload } from "react-icons/md";
-
 function StudentDashboard_Page() {
+    const location = useLocation();
     const sidebarList = [
         {
             id: 1,
@@ -95,10 +95,10 @@ function StudentDashboard_Page() {
 
                 {/* main section where all outlet will be render  */}
                 <div className="lg:flex-1 flex flex-col  h-full bg-white  ">
-                    <div className="w-full  px-4   py-3 lg:py-3 h-auto overflow-y-scroll scroller overflow-x-hidden mx-auto">
-                        {/* <h1 className="text-1xl font-semibold border-b-2 border-blue-500 mb-5 text-blue-600 cursor-pointer uppercase  ">
-                            Welcome to Media Fleetblue Course Platform - Teacher
-                        </h1> */}
+                    <div className="w-full  px-4  py-3 lg:py-3 h-auto overflow-y-scroll scroller overflow-x-hidden mx-auto">
+                        <h1 className="text-xs font-medium mb-3 text-gray-700 tracking-wide underline">
+                            {location.pathname}
+                        </h1>
 
                         <Outlet />
                     </div>
