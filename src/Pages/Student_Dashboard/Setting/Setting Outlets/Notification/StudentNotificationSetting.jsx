@@ -13,9 +13,9 @@ const StudentNotificationSetting = React.memo(
                     Notification
                 </h1>
                 {/* Email And PUsh Notification Container */}
-                <div className="flex px-4 mt-2">
+                <div className="flex px-4 mt-2 flex-col lg:flex-row gap-3">
                     {/* Email Notification Setting Container */}
-                    <div className="w-1/2">
+                    <div className="lg:w-1/2">
                         <h1 className="text-base font-medium text-gray-800">
                             Email notification
                         </h1>
@@ -37,7 +37,7 @@ const StudentNotificationSetting = React.memo(
                         />
                     </div>
                     {/* Push Notification Settings */}
-                    <div className="w-1/2 border-l border-gray-400 pl-2">
+                    <div className="lg:w-1/2 lg:border-l  lg:border-gray-400 lg:pl-2">
                         <h1 className="text-base font-medium text-gray-800">
                             Push notification
                         </h1>

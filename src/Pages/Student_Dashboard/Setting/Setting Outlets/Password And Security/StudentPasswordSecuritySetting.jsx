@@ -20,7 +20,7 @@ function StudentPasswordSecuritySetting() {
             </h1>
             {/* Input Containers.. */}
             <form
-                className="space-y-4 px-4 mt-2  mx-auto"
+                className="space-y-4 md:px-4 mt-2  mx-auto"
                 onSubmit={handleSubmit(changePasswordHandler, () =>
                     console.log("Error While Submiting Change Password")
                 )}

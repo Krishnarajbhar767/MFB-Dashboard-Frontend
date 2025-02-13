@@ -21,10 +21,10 @@ function StudentSetting() {
         { text: "Delete account", Icon: MdDelete },
     ];
     return (
-        <div className=" shadow-sm border-2  mr-3  rounded-md ">
+        <div className=" md:shadow-sm md:border-2  lg:mr-3  rounded-md overflow-hidden">
             {/* Sidebar */}
-            <div className="min-h-screen flex lg:flex-row  w-full ">
-                <div className="w-[25%] min-h-screen pl-4">
+            <div className=" flex md:flex-row  w-full flex-col ">
+                <div className="md:w-1/2  md:pl-4">
                     <StudentSettingSidebar
                         selectedSettingTab={selectedSettingTab}
                         setSelectedSettingTab={setSelectedSettingTab}
@@ -32,7 +32,7 @@ function StudentSetting() {
                     />
                 </div>
                 {/* Render Selected Setting Outlet */}
-                <div className="w-[75%] min-h-screen  rounded-md   text-gray-800 ">
+                <div className="md:w-full min-h-screen  rounded-md   text-gray-800 mt-3 md:mt-0">
                     {selectedSettingTab === tabs[0].text && (
                         <StudentBasicInformationSetting />
                     )}

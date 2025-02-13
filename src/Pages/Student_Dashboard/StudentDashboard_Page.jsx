@@ -84,7 +84,7 @@ function StudentDashboard_Page() {
             {/* our Navbar  */}
             <Navbar />
 
-            <div className="w-[100vw] flex flex-row h-screen bg-green-400 ">
+            <div className="w-full flex flex-row h-screen bg-green-400 ">
                 {/* Sidebar */}
                 <div className="lg:w-[250px] h-full  text-black px-2 pb-20 pt-4 hidden md:block bg-[#F8F8F8]">
                     <div className="w-full px-2 h-full overflow-scroll scroller ">
@@ -94,7 +94,7 @@ function StudentDashboard_Page() {
                 </div>
 
                 {/* main section where all outlet will be render  */}
-                <div className="lg:flex-1 flex flex-col  h-full bg-white  ">
+                <div className="w-full flex flex-col  h-full bg-white  flex-shrink">
                     <div className="w-full  px-4  py-3 lg:py-3 h-auto overflow-y-scroll scroller overflow-x-hidden mx-auto">
                         <h1 className="text-xs font-medium mb-3 text-gray-700 tracking-wide underline">
                             {location.pathname}

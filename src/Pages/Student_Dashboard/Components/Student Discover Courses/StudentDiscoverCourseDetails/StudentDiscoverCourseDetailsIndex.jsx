@@ -2458,7 +2458,7 @@ function StudentDiscoverCourseDetailsIndex() {
 
     const [expandAll, setExpandAll] = useState(false);
     return (
-        <div className=" w-full h-auto flex flex-col-reverse md:flex-row md:gap-4  lg:gap-8 lg:pr-4 lg:py-5   text-gray-800 md:justify-center gap-4 ">
+        <div className="w-full h-auto flex flex-col-reverse md:flex-row md:gap-4  lg:gap-8 lg:pr-4 lg:py-5   text-gray-800 md:justify-center gap-4 ">
             {/* COurse Details Container */}
             <div className="lg:w-[50%] space-y-2 ">
                 <h1 className="text-2xl font-semibold capitalize">

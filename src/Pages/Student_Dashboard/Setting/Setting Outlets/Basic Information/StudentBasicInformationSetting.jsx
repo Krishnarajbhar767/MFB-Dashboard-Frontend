@@ -11,7 +11,7 @@ export default function StudentBasicInformationSetting() {
     const [isEditing, setIsEditing] = useState(false);
     // State to hold the profile image URL or data URI.
     const [profileImage, setProfileImage] = useState(
-        "/placeholder.svg?height=100&width=100"
+        "https://i.pinimg.com/736x/87/14/55/8714556a52021ba3a55c8e7a3547d28c.jpg"
     );
 
     // Set up react-hook-form with default values and form validation.
@@ -83,7 +83,7 @@ export default function StudentBasicInformationSetting() {
                                 onChange={handleImageChange}
                                 className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 
                            file:rounded-full file:border-0 file:text-sm file:font-semibold 
-                           file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                           file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mx-auto"
                             />
                         )}
                     </div>

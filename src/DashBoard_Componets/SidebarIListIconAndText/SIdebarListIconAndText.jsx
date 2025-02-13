@@ -36,7 +36,7 @@ function SIdebarListIconAndText({ item }) {
                         </span>
                     </div>
                     {item?.children && (
-                        <span className="text-3xl font-thin">
+                        <span className="text-3xl font-thin hidden">
                             <RiArrowDropDownLine />
                         </span>
                     )}
@@ -64,7 +64,7 @@ function SIdebarListIconAndText({ item }) {
                             </span>
 
                             {/* Label for the child item */}
-                            <span className="text-[0.8rem] uppercase font-normal">
+                            <span className="text-[0.8rem] uppercase font-normal hidden lg:block">
                                 {childrenItem.lable}
                             </span>
                         </div>
