@@ -39,6 +39,10 @@ const UploadWrapper = styled.div`
         margin-top: 15px;
         color: green;
         font-weight: bold;
+        width: 300px;
+        height: 150px;
+        font-size: 11px;
+        overflow: hidden;
     }
 `;
 

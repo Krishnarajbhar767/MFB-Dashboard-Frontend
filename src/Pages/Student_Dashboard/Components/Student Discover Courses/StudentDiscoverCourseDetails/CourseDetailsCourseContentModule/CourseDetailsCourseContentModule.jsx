@@ -96,7 +96,7 @@ const CourseDetailsCourseContentModule = ({
             >
                 {module.lessons.map((lesson, index) => (
                     <div
-                        key={lesson.id + Math.random()}
+                        key={lesson.id}
                         className="flex items-center justify-between px-6 py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors duration-200"
                     >
                         <div className="flex items-center space-x-2">

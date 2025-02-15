@@ -4,6 +4,7 @@ import Student_Discover_Course_Index from "../Pages/Student_Dashboard/Components
 import StudentDiscoverCourseDetailsIndex from "../Pages/Student_Dashboard/Components/Student Discover Courses/StudentDiscoverCourseDetails/StudentDiscoverCourseDetailsIndex";
 import StudentCourseDetailsAfterEnrolled from "../Pages/Student_Dashboard/Components/StudentCourseDetailsAfterEnrolled/StudentCourseDetailsAfterEnrolledIndex";
 import StudentSetting from "../Pages/Student_Dashboard/Setting/StudentSetting";
+import { useMemo } from "react";
 
 const StudentRoute = () => {
     return (

@@ -5,11 +5,13 @@ import { adminCourseManagementEndpoints } from "../../../EndPoints/Admin/Course 
 import { setAllCourses } from "../../../../Redux/Slices/All_Courses";
 
 export const adminCourseManagementApis = {
-    createCourse: (courseData) =>
-        axiosInstance.post(
+    createCourse: async (courseData) => {
+        const response = await axiosInstance.post(
             adminCourseManagementEndpoints.createCourse,
             courseData
-        ),
+        );
+        return response.data;
+    },
     // getAllCourse: () =>
     //     axiosInstance.get(adminCourseManagementEndpoints.getAllCourseData),
     getCourseDataById: (courseId) =>

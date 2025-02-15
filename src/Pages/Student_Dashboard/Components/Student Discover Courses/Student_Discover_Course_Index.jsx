@@ -787,32 +787,6 @@ function Student_Discover_Course_Index() {
             thumbnail:
                 "https://random-image-pepebigotes.vercel.app/api/random-image",
         },
-        // Randomly generated additional courses for each category
-        // ...Array.from({ length: 50 }, (_, i) => ({
-        //     name: `Course ${i + 11}`,
-        //     description: `This is a random description for Course ${
-        //         i + 11
-        //     }. It offers an exciting journey into ${
-        //         i % 2 === 0 ? "advanced" : "beginner"
-        //     } topics.`,
-        //     price: Math.floor(Math.random() * 8000) + 1500,
-        //     category: [
-        //         "Web Development",
-        //         "Data Science",
-        //         "Marketing",
-        //         "Design",
-        //         "Cloud Computing",
-        //         "App Development",
-        //         "Cybersecurity",
-        //         "Photography",
-        //         "Business",
-        //         "Game Development",
-        //     ][Math.floor(Math.random() * 10)],
-        //     author: `Author ${String.fromCharCode(65 + (i % 26))}`,
-        //     stars: (Math.random() * 2 + 3).toFixed(1),
-        //     thumbnail:
-        //         "https://random-image-pepebigotes.vercel.app/api/random-image",
-        // })),
     ];
 
     const [activeCategory, setActiveCategory] = useState("Photography");

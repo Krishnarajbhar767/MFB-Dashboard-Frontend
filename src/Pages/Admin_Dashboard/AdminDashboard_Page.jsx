@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Route, Outlet } from "react-router-dom";
 import Navbar from "../../DashBoard_Componets/Navbar";
 import { IoBook } from "react-icons/io5";
@@ -24,9 +24,10 @@ import { FiBookOpen } from "react-icons/fi";
 import { VscFolderLibrary } from "react-icons/vsc";
 import { PiMoneyLight } from "react-icons/pi";
 import { GoQuestion } from "react-icons/go";
+import { FaBookMedical } from "react-icons/fa6";
 
 function AdminDashboard() {
-    const sidebarList = [
+    const sidebarList = useMemo(() => [
         {
             id: 1,
             lable: "Dashboard",
@@ -54,6 +55,11 @@ function AdminDashboard() {
                     path: "/admin/course_management/upload_new_course/",
                     lable: "Upload New Course",
                     icon: <MdOutlineCloudUpload />,
+                },
+                {
+                    path: "/admin/course_management/add_new_module/",
+                    lable: "Add Module",
+                    icon: <FaBookMedical />,
                 },
                 {
                     path: "/admin/course_management/quizes/",
@@ -92,7 +98,7 @@ function AdminDashboard() {
             icon: <IoSettingsOutline />,
             route: "/admin/settings",
         },
-    ];
+    ]);
 
     return (
         <div className="flex flex-col h-screen w-[100vw]">

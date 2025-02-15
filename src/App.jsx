@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
     useNavigate,
     Routes,
@@ -37,7 +37,9 @@ function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
     const { user } = useSelector((state) => state.auth);
-
+    // Memoizing The Routes Array For Stop Re-Creation Or Re-render
+    const memoizedAdminRoutesConfig = useMemo(() => adminRoutesConfig);
+    const memoizedStudentRoutesConfig = useMemo(() => StudentRoutesConfig);
     return (
         <>
             <div className="hidden md:hidden  lg:block">
@@ -114,7 +116,7 @@ function App() {
                         />
 
                         {/* Dynamically render admin-specific child routes with nested structure */}
-                        {adminRoutesConfig.map((route, index) => (
+                        {memoizedAdminRoutesConfig.map((route, index) => (
                             <Route
                                 key={index}
                                 path={route.path}
@@ -162,7 +164,7 @@ function App() {
                             index
                             element={<Navigate to="dashboard" replace />}
                         />
-                        {StudentRoutesConfig.map((route, index) => (
+                        {memoizedStudentRoutesConfig.map((route, index) => (
                             <Route
                                 key={index}
                                 path={route.path}

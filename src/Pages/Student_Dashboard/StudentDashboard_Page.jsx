@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Route, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../../DashBoard_Componets/Navbar";
 import { RiDashboardHorizontalFill, RiGlobalLine } from "react-icons/ri";
@@ -14,7 +14,7 @@ import { VscFolderLibrary } from "react-icons/vsc";
 import { MdOutlineCloudUpload } from "react-icons/md";
 function StudentDashboard_Page() {
     const location = useLocation();
-    const sidebarList = [
+    const sidebarList = useMemo(() => [
         {
             id: 1,
             lable: "Dashboard",
@@ -77,7 +77,7 @@ function StudentDashboard_Page() {
             icon: <RiGlobalLine />,
             route: "/student/discover",
         },
-    ];
+    ]);
 
     return (
         <div className="w-[100vw] flex flex-col h-full ">

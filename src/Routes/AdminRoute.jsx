@@ -1,4 +1,5 @@
 import { Route, Outlet } from "react-router-dom";
+import React, { useState, useMemo } from "react";
 import AdminDashboard from "../Pages/Admin_Dashboard/AdminDashboard_Page";
 // import Admin_User_Managements from "../Pages/Admin_Dashboard/Admin_Components/Admin_User_Managements";
 // import Admin_Course_Management from "../Pages/Admin_Dashboard/Admin_Components/Admin_Course_Management";
@@ -19,6 +20,7 @@ import Admin_Course_Management_Quize_Dashboard from "../Pages/Admin_Dashboard/Ad
 import Admin_Course_Management_Single_Course from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/My Courses/Admin_Course_Management_Single_Course/Admin_Course_Management_Single_Course";
 import Admin_Add_Question_To_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add Question/Admin_Add_Question_To_Quize";
 import Admin_View_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/View Quize/Admin_View_Quize";
+import Admin_Add_Module from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_Module/Admin_Add_Module";
 
 const AdminRoutes = () => {
     return (
@@ -28,7 +30,6 @@ const AdminRoutes = () => {
         </div>
     );
 };
-
 export const adminRoutesConfig = [
     { path: "dashboard", element: <Admin_Dashboard /> },
     { path: "user_management", element: <Admin_User_Managements /> },
@@ -48,6 +49,11 @@ export const adminRoutesConfig = [
                 path: "upload_new_course/:edit?",
                 // element: <h2>Upload new course</h2>,
                 element: <Admin_Upload_New_Course />,
+            },
+            {
+                path: "add_new_module/:edit?",
+                // element: <h2>Upload new course</h2>,
+                element: <Admin_Add_Module />,
             },
             {
                 path: "quizes",
@@ -81,5 +87,4 @@ export const adminRoutesConfig = [
     { path: "support_management", element: <Admin_Support /> },
     { path: "settings", element: <Admin_Settings /> },
 ];
-
 export default AdminRoutes;

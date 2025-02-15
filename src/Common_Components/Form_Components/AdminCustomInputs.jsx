@@ -116,8 +116,12 @@ export const AdminCustomSelect = React.memo(function AdminCustomSelect({
                 className="mt-1 block w-full rounded-md border border-gray-200 shadow-sm 
                    focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50  px-3 py-2"
             >
-                {options.map((option) => (
-                    <option key={option.value} value={option.value}>
+                {options?.map((option) => (
+                    <option
+                        key={option.value}
+                        value={option.value}
+                        id={option?.id}
+                    >
                         {option.label}
                     </option>
                 ))}

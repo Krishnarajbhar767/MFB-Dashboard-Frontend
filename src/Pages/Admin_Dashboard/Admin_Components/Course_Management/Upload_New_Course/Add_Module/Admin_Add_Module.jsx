@@ -1,167 +1,111 @@
 import React, { useState } from "react";
-import IconBtn from "../../../../../../Common_Components/IconBtn";
-import { RxCross1 } from "react-icons/rx";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
-function Admin_Add_Module({
-    setisAddingModule,
-    courseModules,
-    setCourseModules,
-    priviousModuleData,
-    isEditingModule,
-    setIsEditingModule,
-}) {
-    // Holding Temprory Module Name
-    const [moduleName, setModuleNames] = useState("");
-    // Holding Temp Module Description
-    const [moduleDescription, setModuleDescription] = useState("");
-    const addModuleHandler = async (event) => {
-        try {
-            // Todo : Call Real APi FOR Craete MOdule
-            // Seting Modules IN The Main STart Of MOdule That Are Created In The Upload New Course
-            setCourseModules((prev) => [
-                ...prev,
-                {
-                    moduleName,
-                    id: Math.random() * 10,
-                    moduleDescription: moduleDescription,
-                    lesson: [],
-                },
-            ]);
-            // Clearing Temp Module Name After CLicking Create New Module
-            setModuleNames("");
-            // Clearing Temp Module Name After CLicking Create New Module
-            setisAddingModule(false);
-            // Toast Success
-            toast.success("Module Created Successfully...");
-        } catch (error) {
-            // Loging Error If any error accured while creating The Module
-            console.log(
-                "Got Error WHile Creating The Module From JSX ->",
-                error
-            );
-            toast.error(error.message);
-        }
-    };
-    const editModuleHandler = () => {
-        if (isModuleUpdated()) {
-            // Call Real Api TO Update That Module Name And Description
-            setCourseModules((prev) =>
-                prev?.map((singleModule, idx) => {
-                    if (singleModule.id === priviousModuleData.id) {
-                        return {
-                            ...singleModule,
-                            moduleName,
-                            moduleDescription,
-                        };
-                    } else {
-                        return singleModule;
-                    }
-                })
-            );
+import {
+    AdminCustomInput,
+    AdminCustomSelect,
+    AdminCustomTextarea,
+} from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
+import { useForm } from "react-hook-form";
+import { IoIosAddCircle } from "react-icons/io";
+import { IoSaveSharp } from "react-icons/io5";
+import Admin_Module_Card from "./Module Card/Admin_Module_Card";
 
-            // Clearing Temp Module Name After CLicking Edit  Module
-            setModuleNames("");
-            // Clearing Temp Module Desc After CLicking Edit  Module
-            setModuleDescription("");
-
-            setIsEditingModule(false);
-            // Toast Success
-            toast.success("Module Updated Successfully...");
-        } else {
-            toast.error("No changes made to module...");
-        }
+function Admin_Add_Module() {
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        setValue,
+        formState: { errors },
+    } = useForm();
+    // State For Check Is I am on Editing Mode Of Module Or Not?
+    const [isEditingModule, setisEditingModule] = useState(false);
+    // Function Handle Add Module
+    const addModuleHandler = (data) => {
+        console.log("I am On Add Module Mode --->", data);
     };
-    useEffect(() => {
+    // Function Handle Edit Module When I Am On Edit Mode of Module
+    const editModuleHandler = (data) => {
+        console.log("I am On Edit Module Mode --->", data);
+    };
+    // On Submit Handler When Form Submit
+    const onSubmit = (data) => {
         if (isEditingModule) {
-            setModuleNames(priviousModuleData.moduleName);
-            setModuleDescription(priviousModuleData.moduleDescription);
-        }
-    }, []);
-
-    const isModuleUpdated = () => {
-        if (
-            priviousModuleData.moduleName !== moduleName ||
-            priviousModuleData.moduleDescription !== moduleDescription
-        ) {
-            return true;
+            // Calling Edit Handlet When I Am On Edit Mode
+            editModuleHandler(data);
         } else {
-            false;
+            // Call Add Module Handler When I Am Adding Module to Course....
+            addModuleHandler(data);
         }
     };
+
     return (
-        <div
-            className="w-[50%]
-        flex flex-col gap-3 fixed top-1/3 left-[35vw]  bg-white p-4 rounded-lg border border-gray-200 text-black z-10"
-        >
-            <div>
-                <label
-                    htmlFor="courseModule"
-                    className="flex justify-between items-center"
+        <div className="w-full">
+            {/* Create Module Container---> */}
+            <div className="w-1/2 h-auto mx-auto border p-4 ">
+                <h1>Add Module To Course</h1>
+                {/* Inputs Container.. */}
+                <form
+                    className="space-y-4"
+                    onSubmit={handleSubmit(onSubmit, (err) =>
+                        console.log(
+                            `Error While Submitting The Create Or Update Module ----> ${err}`
+                        )
+                    )}
                 >
-                    <span className="text-sm font-light">Module Name</span>
-                    <span
-                        onClick={(e) => {
-                            // Setting False Becouse Add MOdule MOdal are depended at this state if this state is true then add module modal will open
-                            if (isEditingModule) {
-                                setIsEditingModule(false);
-                            } else {
-                                setisAddingModule(false);
-                            }
-                        }}
-                        className="cursor-pointer"
-                    >
-                        <RxCross1 />
-                    </span>
-                </label>
-                <input
-                    required={true}
-                    type="text"
-                    id="courseModule"
-                    name="courseModule"
-                    className="w-full border border-gray-300 rounded-md px-2 py-1 outline-none text-gray-800 font-normal text-sm capitalize"
-                    value={moduleName}
-                    // onchage of  input setting temp module name
-                    onChange={(e) => setModuleNames(e.target.value)}
-                />
+                    {/* Module Belong To Which Course */}
+                    <div className="">
+                        <AdminCustomSelect
+                            label="Course*"
+                            placeholder="Select A Course"
+                            registerOptions={register("courseId", {
+                                required: "Course is required*",
+                            })}
+                            error={errors.courseId}
+                        />
+                    </div>
+                    {/* Module Name */}
+                    <div>
+                        <AdminCustomInput
+                            label="Module Name*"
+                            registerOptions={register("moduletitle", {
+                                required: "Module name is required.*",
+                            })}
+                            error={errors.moduletitle}
+                        />
+                    </div>
+                    <div>
+                        <AdminCustomTextarea
+                            label="Module Description"
+                            registerOptions={register("moduleDescription", {
+                                required: "Module description is required*",
+                            })}
+                            error={errors.moduleDescription}
+                        />
+                    </div>
+                    <div className="w-fit mx-auto">
+                        <button
+                            type="submit"
+                            class="py-2.5 flex items-center gap-2 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900"
+                        >
+                            {isEditingModule ? (
+                                <IoSaveSharp />
+                            ) : (
+                                <IoIosAddCircle />
+                            )}
+                            {isEditingModule ? "Save Module" : "Add Module"}
+                        </button>
+                    </div>
+                </form>
+                {/* Render All Modules ----> */}
             </div>
-            <div>
-                <label
-                    htmlFor="courseModule"
-                    className="flex justify-between items-center"
-                >
-                    <span className="text-sm font-light">
-                        Module Description
-                    </span>
-                </label>
-                <input
-                    required={true}
-                    type="text"
-                    id="courseModule"
-                    name="courseModule"
-                    className="w-full border border-gray-300 rounded-md px-2 py-1 outline-none text-gray-800 font-normal text-sm capitalize"
-                    value={moduleDescription}
-                    // onchage of  input setting temp module name
-                    onChange={(e) => setModuleDescription(e.target.value)}
-                />
+            <div className="w-full mt-10 border-t-2 border-gray-500 ">
+                {/* Cards Container */}
+                <div className="w-full h-full py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <Admin_Module_Card />
+                    <Admin_Module_Card />
+                    <Admin_Module_Card />
+                </div>
             </div>
-            <button
-                type="button"
-                onClick={() => {
-                    // If Module Name And Module description Field are not empty then if block other wise else block
-                    if (moduleName && moduleDescription) {
-                        if (isEditingModule) {
-                            editModuleHandler();
-                        } else {
-                            addModuleHandler();
-                        }
-                    } else {
-                        toast.error("All Field Are Required...");
-                    }
-                }}
-            >
-                <IconBtn color={"#000f"}>Add Module</IconBtn>
-            </button>
         </div>
     );
 }
