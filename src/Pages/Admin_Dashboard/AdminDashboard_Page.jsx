@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Route, Outlet } from "react-router-dom";
 import Navbar from "../../DashBoard_Componets/Navbar";
 import { IoBook } from "react-icons/io5";
@@ -25,6 +25,9 @@ import { VscFolderLibrary } from "react-icons/vsc";
 import { PiMoneyLight } from "react-icons/pi";
 import { GoQuestion } from "react-icons/go";
 import { FaBookMedical } from "react-icons/fa6";
+import { adminCourseManagementApis } from "../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllCourses } from "../../Redux/Slices/All_Courses";
 
 function AdminDashboard() {
     const sidebarList = useMemo(() => [
@@ -99,6 +102,40 @@ function AdminDashboard() {
             route: "/admin/settings",
         },
     ]);
+
+    // Fetch Required Data From Api Call When The Admin Enter Admin Dashboard..
+    const dispatch = useDispatch();
+    const isCoursesLoaded = useSelector((state) => state.allCourses.isLoaded);
+    console.log("Printing Store --->", isCoursesLoaded);
+    // Fetch courses on first mount
+    const fetchCourses = async () => {
+        const all_course_data = await adminCourseManagementApis.getAllCourses();
+
+        dispatch(setAllCourses(all_course_data));
+    };
+
+    // // Fetch modules on first mount
+    // const fetchModules = async () => {
+    //     const response = await fetch("/api/modules");
+    //     const data = await response.json();
+    //     dispatch(setModules(data));
+    // };
+
+    // Fetch data once on mount
+    useEffect(() => {
+        if (!isCoursesLoaded) {
+            fetchCourses();
+            console.log(
+                "First Render Of Amin Dashboard And Fetch All Course Api Called ---->"
+            );
+        }
+        // if (!isModulesLoaded) {
+        //     fetchModules();
+        //     console.log(
+        //         "First Render Of Amin Dashboard And Fetch All Module Api Called ---->"
+        //     );
+        // }
+    }, [isCoursesLoaded]); // Runs only once
 
     return (
         <div className="flex flex-col h-screen w-[100vw]">

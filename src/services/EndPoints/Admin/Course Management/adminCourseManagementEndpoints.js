@@ -2,8 +2,12 @@ export const adminCourseManagementEndpoints = {
     createCourse: "/admin/coursemanagement/create_course",
     getAllCourseData: "/admin/coursemanagement/all_courses",
     getCourseDataById: (courseId) => `/admin/coursemanagement/${courseId}`,
-    deleteCourseById: (courseId) =>
+    deleteCourseByIdRoute: (courseId) =>
         `/admin/coursemanagement/${courseId}/delete`,
+
     updateCourseById: (courseId) =>
         `/admin/coursemanagement/${courseId}/update`,
+    // Routes For Module
+    createModule: (courseId) =>
+        `/admin/coursemanagement/courses/${courseId}/modules`,
 };

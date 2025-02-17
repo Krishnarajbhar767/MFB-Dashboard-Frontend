@@ -8,6 +8,11 @@ import { useForm } from "react-hook-form";
 import { IoIosAddCircle } from "react-icons/io";
 import { IoSaveSharp } from "react-icons/io5";
 import Admin_Module_Card from "./Module Card/Admin_Module_Card";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
+import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
 
 function Admin_Add_Module() {
     const {
@@ -17,11 +22,79 @@ function Admin_Add_Module() {
         setValue,
         formState: { errors },
     } = useForm();
+    // dispach For set Redux State
+    const dispatch = useDispatch();
+    // get all course Data from Redux Toolkit -->
+    const { allCourses } = useSelector((state) => state.allCourses);
+
     // State For Check Is I am on Editing Mode Of Module Or Not?
     const [isEditingModule, setisEditingModule] = useState(false);
+
+    // function for check is module is Exist Or Not ?
+    function isModuleExist(data) {
+        let isModuleExist;
+
+        for (const course of allCourses) {
+            // loop all course and find couse By her Id
+            if (course?._id === data?.courseId) {
+                // after finding course if module length is 0 that mean there is no module so return true and exits the Loopp
+                if (course?.modules.length < 1) {
+                    isModuleExist = false;
+                    break;
+                }
+                // if Module length is >1 then loop aal modules and chek is module name exits or not?
+                for (const module of course?.modules) {
+                    if (module?.moduletitle === data?.moduletitle) {
+                        // if module name match then return modulename ixsit true and breack the loop
+                        isModuleExist = true;
+                        break;
+                    } else {
+                        // if module name match then return modulename false and breack the loop
+                        isModuleExist = false;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        console.log("Entred isModule Exit Function Loop ->", isModuleExist);
+        return isModuleExist;
+    }
+    // Function For ClearInputs
+    function clearInput() {
+        setValue("courseId", "");
+        setValue("moduletitle", "");
+        setValue("moduleDescription", "");
+    }
     // Function Handle Add Module
-    const addModuleHandler = (data) => {
-        console.log("I am On Add Module Mode --->", data);
+    const addModuleHandler = async (data) => {
+        // check is This Module Already Exist Or Not ? If Exist Then Check and Ask are You Sure For Make Copy Of That Module if User Allow Then Create All Api And Create Duplicate Module
+        // step 1 check is moduleExist if
+        if (isModuleExist(data)) {
+            toast.error("A module with this title already exists.");
+            return;
+        }
+        //  if Module dose Not exit then call create Module Api If SuccessFull Then get All Module Data And Set All Module... For Realtime Module Update
+        const loadingToastId = toast.loading("Please wait !");
+        try {
+            const moduleData = await adminCourseManagementApis.createModule(
+                data
+            );
+            if (!moduleData) {
+                toast.error("Something went wrong.");
+                return;
+            }
+            toast.success("Module Created successfully");
+            // If Evrything is fine then set isCoursesModified True Fro Fetch All Courses Data
+            dispatch(setIsCoursesModified(true));
+            // clear inputs
+            clearInput();
+        } catch (error) {
+            const err = customApiErrorHandler(error, "Create Module Page");
+            toast.error(err);
+        } finally {
+            toast.dismiss(loadingToastId);
+        }
     };
     // Function Handle Edit Module When I Am On Edit Mode of Module
     const editModuleHandler = (data) => {
@@ -60,6 +133,11 @@ function Admin_Add_Module() {
                             registerOptions={register("courseId", {
                                 required: "Course is required*",
                             })}
+                            options={allCourses?.map((item) => ({
+                                value: item?._id,
+                                id: item?._id,
+                                label: item?.courseTitle,
+                            }))}
                             error={errors.courseId}
                         />
                     </div>

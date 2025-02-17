@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
         const token =
             Cookies.get("token") ||
             Cookies.get("authenticationToken") ||
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTcwODdkNjhhYTNmNGViYzFlYTFjYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczOTYwOTExOCwiZXhwIjoxNzM5Njk1NTE4fQ.zpymsB9s7DGmGziPNdspqCNKynJ-co6RIwj0YWdyo68"; // Fallback token for development
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTcwODdkNjhhYTNmNGViYzFlYTFjYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczOTc3NTExNiwiZXhwIjoxNzM5ODYxNTE2fQ.tv5w6GRgW1c75de2qMtnGuybj-SSI8w8huvUBb4B5Ww"; // Fallback token for development
         console.log("Verifying is Token Is Valid Or Not...", token);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;

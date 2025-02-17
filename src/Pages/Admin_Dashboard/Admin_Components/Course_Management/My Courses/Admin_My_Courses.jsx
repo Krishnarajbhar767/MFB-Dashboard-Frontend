@@ -15,24 +15,6 @@ function Admin_My_Courses() {
     const { allCourses } = useSelector((state) => state.allCourses);
     const dispatch = useDispatch();
     const [isDraftSelected, setIsDraftSelected] = useState(false);
-    // fetch All Courses From API ---->
-    useEffect(() => {
-        const fetchCourse = async () => {
-            try {
-                const response =
-                    await adminCourseManagementApis.getAllCourses();
-                console.log("My Courses Course Data", response.data.data);
-                dispatch(setAllCourses(response.data?.data));
-            } catch (error) {
-                const err = customApiErrorHandler(
-                    error,
-                    "Admin Course Management My Course"
-                );
-                toast.error(err);
-            }
-        };
-        fetchCourse();
-    }, []);
 
     return (
         <div className="p-4">
@@ -61,7 +43,7 @@ function Admin_My_Courses() {
                         }
                     }}
                 >
-                    <h1>Draft </h1>
+                    <h1>Draft</h1>
                 </div>
             </div>
 
@@ -74,9 +56,8 @@ function Admin_My_Courses() {
                             console.log("Draft True");
                             return (
                                 <Admin_Course_Management_Course_Card
+                                    key={course._id}
                                     course={course}
-                                    allCourses={allCourses}
-                                    setAllCourses={setAllCourses}
                                 />
                             );
                         }
@@ -85,9 +66,8 @@ function Admin_My_Courses() {
                             console.log("Published  True");
                             return (
                                 <Admin_Course_Management_Course_Card
+                                    key={course._id}
                                     course={course}
-                                    allCourses={allCourses}
-                                    setAllCourses={setAllCourses}
                                 />
                             );
                         }

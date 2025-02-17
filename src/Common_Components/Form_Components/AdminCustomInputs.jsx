@@ -118,11 +118,11 @@ export const AdminCustomSelect = React.memo(function AdminCustomSelect({
             >
                 {options?.map((option) => (
                     <option
-                        key={option.value}
-                        value={option.value}
+                        key={option?.value}
+                        value={option?.value}
                         id={option?.id}
                     >
-                        {option.label}
+                        {option?.label}
                     </option>
                 ))}
             </select>

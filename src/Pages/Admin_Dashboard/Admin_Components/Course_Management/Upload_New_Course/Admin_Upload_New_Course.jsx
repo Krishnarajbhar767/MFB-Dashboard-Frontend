@@ -9,9 +9,10 @@ import { useForm } from "react-hook-form";
 import UploadFile from "../../../../../Common_Components/UploadFile";
 import toast from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { useNavigate } from "react-router-dom";
+import { setAllCourses } from "../../../../../Redux/Slices/All_Courses";
 
 const Admin_Upload_New_Course = () => {
     const navigate = useNavigate();
@@ -24,7 +25,8 @@ const Admin_Upload_New_Course = () => {
         getValues,
         setValue,
     } = useForm();
-
+    //importing use Dispatch For Dispatch Redux Actions
+    const dispatch = useDispatch();
     // Key to force re-render of <UploadFile /> component after submitting a course
     const [uploadFileKey, setUploadFileKey] = useState(0);
 
@@ -62,6 +64,13 @@ const Admin_Upload_New_Course = () => {
 
             // Force re-render of UploadFile component to reset image selection
             setUploadFileKey((prev) => prev + 1);
+            // After Creating New Course update All  Course State // For Realtime Data..
+            const updatedCourseData =
+                await adminCourseManagementApis.getAllCourses();
+            if (updatedCourseData) {
+                // if I Got Updated All Course Data Then Dispatch Data To State
+                dispatch(setAllCourses(updatedCourseData));
+            }
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -269,6 +278,52 @@ const Admin_Upload_New_Course = () => {
                             }}
                             placeholder="Enter tags separated by commas"
                             className="w-full border border-gray-300 rounded-md p-2"
+                        />
+                        {/* Display entered tags */}
+                        <div className="mt-3 flex flex-wrap gap-2">
+                            {tempTags.map((item, idx) => (
+                                <span
+                                    key={idx}
+                                    className="bg-gray-200 text-gray-800 px-2 py-1 rounded-full flex items-center gap-1 text-sm"
+                                >
+                                    {item}
+                                    <span
+                                        className="p-[2px] rounded-full bg-gray-500 text-white"
+                                        onClick={() => {
+                                            setTempTags((prev) =>
+                                                prev.filter(
+                                                    (_, index) => index !== idx
+                                                )
+                                            );
+                                        }}
+                                    >
+                                        <RxCross2 />
+                                    </span>
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                    {/* Status */}
+                    <div className="mb-6">
+                        <AdminCustomSelect
+                            label="Status"
+                            placeholder="status"
+                            options={[
+                                {
+                                    value: "Draft",
+                                    label: "Draft",
+                                    id: "Draft",
+                                },
+                                {
+                                    value: "Published",
+                                    label: "Published",
+                                    id: "Published",
+                                },
+                            ]}
+                            registerOptions={register("status", {
+                                required: "status is required.",
+                            })}
+                            error={errors.status}
                         />
                     </div>
                 </div>

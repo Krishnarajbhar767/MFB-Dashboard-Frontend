@@ -8,12 +8,13 @@ import ConfirmationModal from "../../../../../Common_Components/modal/Confirmati
 import Admin_Upload_New_Course from "../Upload_New_Course/Admin_Upload_New_Course";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setisEditingCourse } from "../../../../../Redux/Slices/All_Courses";
-function Admin_Course_Management_Course_Card({
-    course,
-    allCourses,
-    setAllCourses,
-}) {
+import {
+    setIsCoursesModified,
+    setisEditingCourse,
+} from "../../../../../Redux/Slices/All_Courses";
+import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
+function Admin_Course_Management_Course_Card({ course }) {
     const [confirmationModal, setConfirmationModal] = useState(null);
     const [loading, setLoading] = useState(false);
     const { isEditingCourse } = useSelector((state) => state.allCourses);
@@ -87,26 +88,31 @@ function Admin_Course_Management_Course_Card({
                                 setLoading(true);
                                 const loadingToastId =
                                     toast.loading("Please Wait....");
+                                console.log(
+                                    "Deleting Course Data ---->",
+                                    course
+                                );
                                 try {
-                                    const filtredCourse = allCourses.filter(
-                                        (elem, idx) => {
-                                            return elem.id !== course.id;
-                                        }
-                                    );
-                                    dispatch(setAllCourses(filtredCourse));
-                                    const updatedCourse = true; // get response from API Then UPdated New Data // get Updated Purchase Data
-                                    if (updatedCourse) {
-                                        // setUpdated user purchase data
-                                        toast.success(
-                                            "Course Deleted Successfully..."
+                                    const deletedCourse =
+                                        await adminCourseManagementApis.deleteCourseById(
+                                            course._id
                                         );
-                                        setConfirmationModal(null);
+                                    if (!deletedCourse) {
+                                        toast.error("Something went wrong.");
+                                        return;
                                     }
-                                } catch (error) {
-                                    console.log(
-                                        "Course Delete API Error....",
-                                        error
+
+                                    dispatch(setIsCoursesModified(true));
+                                    setConfirmationModal(null);
+                                    toast.success(
+                                        "Course deleted successfully."
                                     );
+                                } catch (error) {
+                                    const err = customApiErrorHandler(
+                                        error,
+                                        "My Course Single Card Delete "
+                                    );
+                                    toast.error(err);
                                 } finally {
                                     toast.dismiss(loadingToastId);
                                 }
