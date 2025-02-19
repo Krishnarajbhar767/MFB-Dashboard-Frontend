@@ -130,6 +130,7 @@ function Admin_Add_Module() {
                         <AdminCustomSelect
                             label="Course*"
                             placeholder="Select A Course"
+                            defaultOption="Choose course"
                             registerOptions={register("courseId", {
                                 required: "Course is required*",
                             })}

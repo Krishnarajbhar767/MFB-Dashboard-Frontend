@@ -7,8 +7,9 @@ import { useSelector } from "react-redux";
 import { Route, Outlet } from "react-router-dom";
 import Course_Management_Index_Tabular_Card from "./Admin_Course_Management_Index_Tabular_Card/Course_Management_Index_Tabular_Card";
 import Admin_Course_Managemnet_Add_Quize from "../Admin_Course_Management_Quize/Add_Quize/Admin_Course_Managemnet_Add_Quize";
-import Admin_Course_Management_Single_Course from "../My Courses/Admin_Course_Management_Single_Course/Admin_Course_Management_Single_Course";
+
 import Admin_Course_Management_Quize_Dashboard from "../Admin_Course_Management_Quize/Quize Dashboard/Admin_Course_Management_Quize_Dashboard";
+import Admin_Course_Preview from "../Admin_Course_Preview/Admin_Course_Preview";
 
 function Admin_Course_Management_Index() {
     return (
@@ -21,6 +22,7 @@ function Admin_Course_Management_Index() {
                 Management
             </h1> */}
             <h1>Admin Course Management Main Page..</h1>
+            <Admin_Course_Preview />
             <Outlet />
             {/* Approve or reject new courses submitted by teachers. */}
             {/* <h2>Approve or reject new courses submitted by teachers.</h2> */}

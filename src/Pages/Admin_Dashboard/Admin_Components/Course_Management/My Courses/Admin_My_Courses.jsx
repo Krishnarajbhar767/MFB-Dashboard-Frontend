@@ -52,7 +52,7 @@ function Admin_My_Courses() {
                 {/* Rendering All The Course Dynamicaly */}
                 {allCourses?.map((course, idx) => {
                     if (isDraftSelected) {
-                        if (course.status === "Draft") {
+                        if (course?.status === "Draft") {
                             console.log("Draft True");
                             return (
                                 <Admin_Course_Management_Course_Card
@@ -62,7 +62,7 @@ function Admin_My_Courses() {
                             );
                         }
                     } else {
-                        if (course.status === "Published") {
+                        if (course?.status === "Published") {
                             console.log("Published  True");
                             return (
                                 <Admin_Course_Management_Course_Card

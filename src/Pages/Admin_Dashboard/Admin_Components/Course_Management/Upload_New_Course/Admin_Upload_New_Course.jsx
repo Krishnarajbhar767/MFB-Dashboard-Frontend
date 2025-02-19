@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { useNavigate } from "react-router-dom";
 import { setAllCourses } from "../../../../../Redux/Slices/All_Courses";
+import { MdCloudUpload } from "react-icons/md";
 
 const Admin_Upload_New_Course = () => {
     const navigate = useNavigate();
@@ -204,9 +205,12 @@ const Admin_Upload_New_Course = () => {
                                 console.log("Submission Error:", err)
                             )}
                             type="button"
-                            className="py-2.5 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900"
+                            className="py-2.5 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900 flex  items-center gap-2"
                         >
-                            Publish Course
+                            <span className="text-xl">
+                                <MdCloudUpload />
+                            </span>
+                            <span>Publish Course</span>
                         </button>
                     </div>
                 </div>
@@ -248,6 +252,7 @@ const Admin_Upload_New_Course = () => {
                             registerOptions={register("category", {
                                 required: "Category is required.",
                             })}
+                            defaultOption="Choose a category"
                             error={errors.category}
                         />
                     </div>
@@ -308,6 +313,7 @@ const Admin_Upload_New_Course = () => {
                         <AdminCustomSelect
                             label="Status"
                             placeholder="status"
+                            defaultOption="Choose status of Course"
                             options={[
                                 {
                                     value: "Draft",
@@ -321,7 +327,7 @@ const Admin_Upload_New_Course = () => {
                                 },
                             ]}
                             registerOptions={register("status", {
-                                required: "status is required.",
+                                required: "Course status is required.",
                             })}
                             error={errors.status}
                         />

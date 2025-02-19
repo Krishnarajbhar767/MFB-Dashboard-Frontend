@@ -14,6 +14,7 @@ import { GrDocumentStore } from "react-icons/gr";
 import {
     MdOutlineCloudUpload,
     MdPayments,
+    MdPlayLesson,
     MdSupportAgent,
 } from "react-icons/md";
 import Sidebar from "../../DashBoard_Componets/Sidebar";
@@ -63,6 +64,11 @@ function AdminDashboard() {
                     path: "/admin/course_management/add_new_module/",
                     lable: "Add Module",
                     icon: <FaBookMedical />,
+                },
+                {
+                    path: "/admin/course_management/add_new_lesson/",
+                    lable: "Add Lesson",
+                    icon: <MdPlayLesson />,
                 },
                 {
                     path: "/admin/course_management/quizes/",

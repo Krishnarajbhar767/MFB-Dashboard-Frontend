@@ -102,6 +102,7 @@ export const AdminCustomSelect = React.memo(function AdminCustomSelect({
     error,
     disabled,
     options,
+    defaultOption,
     ...rest
 }) {
     return (
@@ -113,9 +114,14 @@ export const AdminCustomSelect = React.memo(function AdminCustomSelect({
                 {...registerOptions}
                 disabled={disabled}
                 {...rest}
-                className="mt-1 block w-full rounded-md border border-gray-200 shadow-sm 
-                   focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50  px-3 py-2"
+                className="mt-1 block w-full rounded-md border border-gray-200 shadow-sm text-gray-600 font-normal
+                   focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50  px-3 py-2 text-sm"
             >
+                {defaultOption && (
+                    <option value="" selected disabled>
+                        {defaultOption}
+                    </option>
+                )}
                 {options?.map((option) => (
                     <option
                         key={option?.value}

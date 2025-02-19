@@ -17,7 +17,7 @@ import Admin_My_Courses from "../Pages/Admin_Dashboard/Admin_Components/Course_M
 import Admin_Course_Management_Index from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Index/Admin_Course_Management_Index";
 import Admin_Course_Managemnet_Add_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add_Quize/Admin_Course_Managemnet_Add_Quize";
 import Admin_Course_Management_Quize_Dashboard from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Quize Dashboard/Admin_Course_Management_Quize_Dashboard";
-import Admin_Course_Management_Single_Course from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/My Courses/Admin_Course_Management_Single_Course/Admin_Course_Management_Single_Course";
+
 import Admin_Add_Question_To_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add Question/Admin_Add_Question_To_Quize";
 import Admin_View_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/View Quize/Admin_View_Quize";
 import Admin_Add_Module from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_Module/Admin_Add_Module";
@@ -43,7 +43,6 @@ export const adminRoutesConfig = [
             {
                 path: "my_courses/",
                 element: <Admin_My_Courses />,
-                // element: <Admin_Course_Management_Single_Course />,
             },
             {
                 path: "upload_new_course/:edit?",
@@ -54,6 +53,11 @@ export const adminRoutesConfig = [
                 path: "add_new_module/:edit?",
                 // element: <h2>Upload new course</h2>,
                 element: <Admin_Add_Module />,
+            },
+            {
+                path: "add_new_lesson/:edit?",
+                // element: <h2>Upload new course</h2>,
+                element: <Admin_Add_New_Lesson />,
             },
             {
                 path: "quizes",
@@ -73,11 +77,6 @@ export const adminRoutesConfig = [
                 path: "quizes/view_quize/:quizeId",
 
                 element: <Admin_View_Quize />,
-            },
-            {
-                path: "add_new_lesson/",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Add_New_Lesson />,
             },
         ],
     },

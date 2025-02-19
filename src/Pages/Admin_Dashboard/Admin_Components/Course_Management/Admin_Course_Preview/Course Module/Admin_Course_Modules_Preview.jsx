@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { IoIosArrowDropdown } from "react-icons/io";
+import Admin_Course_Preview_Module_Tab from "./Admin_Course_Preview_Module_Tab";
 
-import Admin_Course_Management_Single_Course_Module_Tab from "./Admin_Course_Management_Single_Course_Module_Tab";
-
-function Admin_Course_Management_Single_Course_Module({ courseData }) {
+function Admin_Course_Modules_Preview({ courseData }) {
     const [showLesson, setShowLesson] = useState(false);
     return (
         <div className="  ">
@@ -12,9 +11,7 @@ function Admin_Course_Management_Single_Course_Module({ courseData }) {
                 {/* Single Module Data */}
                 {courseData.courseModules?.map((module) => (
                     <div className="">
-                        <Admin_Course_Management_Single_Course_Module_Tab
-                            module={module}
-                        />
+                        <Admin_Course_Preview_Module_Tab module={module} />
                     </div>
                 ))}
             </div>
@@ -22,4 +19,4 @@ function Admin_Course_Management_Single_Course_Module({ courseData }) {
     );
 }
 
-export default Admin_Course_Management_Single_Course_Module;
+export default Admin_Course_Modules_Preview;
