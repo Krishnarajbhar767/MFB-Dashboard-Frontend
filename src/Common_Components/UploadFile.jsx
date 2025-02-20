@@ -3,14 +3,15 @@ import { Upload, Button, message, Progress, Card, Alert } from "antd";
 import {
     UploadOutlined,
     FilePdfOutlined,
-    VideoCameraOutlined,
-    FileImageOutlined,
     CheckCircleOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import { uploadFileApi } from "../services/apis/upload/uploadApis"; // Import your upload API
+import {
+    createCancelToken,
+    uploadFileApi,
+} from "../services/apis/upload/uploadApis";
 
-// ✅ Styled Components for Modern UI
+// Styled Components
 const UploadWrapper = styled.div`
     .preview-container {
         margin-top: 15px;
@@ -52,20 +53,19 @@ const UploadFile = ({
     existingFileUrl,
     onUploadComplete,
 }) => {
-    // ✅ State Variables
-    const [file, setFile] = useState(null); // Holds selected file
-    const [previewUrl, setPreviewUrl] = useState(existingFileUrl || ""); // Preview URL (Existing or New)
-    const [uploading, setUploading] = useState(false); // Uploading State
-    const [progress, setProgress] = useState(0); // Upload Progress (%)
+    // State Variables
+    const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(existingFileUrl || "");
+    const [uploading, setUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
     const [uploadedFilePath, setUploadedFilePath] = useState(
         existingFileUrl || ""
-    ); // Stores the uploaded file URL
-    const [uploadSuccess, setUploadSuccess] = useState(!!existingFileUrl); // Upload success state
+    );
+    const [uploadSuccess, setUploadSuccess] = useState(!!existingFileUrl);
 
-    // ✅ Detect Edit Mode (If an existing file URL is provided)
     const isEditMode = !!existingFileUrl;
 
-    // ✅ Reset state when `existingFileUrl` changes (e.g., switching courses)
+    // Reset state when existingFileUrl changes
     useEffect(() => {
         if (existingFileUrl) {
             setPreviewUrl(existingFileUrl);
@@ -74,7 +74,7 @@ const UploadFile = ({
         }
     }, [existingFileUrl]);
 
-    // ✅ Handle File Selection
+    // Clean up previous object URL and set new preview
     const beforeUpload = (selectedFile) => {
         const isValid =
             (allowedType === "image" &&
@@ -88,22 +88,26 @@ const UploadFile = ({
             return false;
         }
 
-        // ✅ Check File Size Limit
         const fileSizeMB = selectedFile.size / (1024 * 1024);
         if (fileSizeMB > maxFileSizeMB) {
             message.error(`File size exceeds ${maxFileSizeMB} MB.`);
             return false;
         }
 
-        // ✅ Reset State Before Uploading a New File
+        // Revoke the previous object URL if it exists
+        if (previewUrl && previewUrl.startsWith("blob:")) {
+            URL.revokeObjectURL(previewUrl);
+        }
+
         setFile(selectedFile);
-        setPreviewUrl(URL.createObjectURL(selectedFile)); // Temporary preview
+        const newPreviewUrl = URL.createObjectURL(selectedFile);
+        setPreviewUrl(newPreviewUrl);
         setUploadedFilePath("");
         setUploadSuccess(false);
-        return false; // Prevent automatic upload
+        return false;
     };
 
-    // ✅ Handle File Upload
+    // Handle file upload
     const handleUpload = async () => {
         if (!file) {
             message.warning("No file selected!");
@@ -117,17 +121,17 @@ const UploadFile = ({
         formData.append("file", file);
 
         try {
-            const response = await uploadFileApi(formData, setProgress); // Upload file using API
-            console.log("File Uploaded:", response);
+            const response = await uploadFileApi(formData, setProgress, {
+                cancelToken: createCancelToken().token,
+            });
 
             setUploadedFilePath(response);
             setPreviewUrl(response);
             setUploadSuccess(true);
-            setFile(null); // ✅ Clear selected file after upload
+            setFile(null);
             message.success("Upload successful!");
-            onUploadComplete(response); // ✅ Pass uploaded URL to parent component
+            onUploadComplete(response);
         } catch (error) {
-            console.error("Upload Failed:", error);
             message.error("Upload failed!");
         } finally {
             setUploading(false);
@@ -136,7 +140,7 @@ const UploadFile = ({
 
     return (
         <UploadWrapper>
-            {/* ✅ Upload Button (Always Available in Normal Mode) */}
+            {/* Upload Button */}
             {(!uploadSuccess || isEditMode) && (
                 <Upload
                     beforeUpload={beforeUpload}
@@ -157,7 +161,7 @@ const UploadFile = ({
                 </Upload>
             )}
 
-            {/* ✅ Preview Section */}
+            {/* Preview Section */}
             {previewUrl && (
                 <div className="preview-container">
                     <Card className="preview-box">
@@ -170,7 +174,12 @@ const UploadFile = ({
                             />
                         )}
                         {allowedType === "video" && (
-                            <video controls width="100%" height="100%">
+                            <video
+                                key={previewUrl} // Force remount when previewUrl changes
+                                controls
+                                width="100%"
+                                height="100%"
+                            >
                                 <source src={previewUrl} type="video/mp4" />
                             </video>
                         )}
@@ -181,7 +190,7 @@ const UploadFile = ({
                 </div>
             )}
 
-            {/* ✅ Confirm Upload Button (Only if a new file is selected) */}
+            {/* Confirm Upload Button */}
             {file && !uploading && (
                 <Button
                     type="primary"
@@ -192,10 +201,10 @@ const UploadFile = ({
                 </Button>
             )}
 
-            {/* ✅ Upload Progress Bar */}
+            {/* Upload Progress Bar */}
             {uploading && <Progress percent={progress} />}
 
-            {/* ✅ Success Message (Only Show if a New File is Uploaded) */}
+            {/* Success Message */}
             {uploadSuccess && !file && (
                 <Alert
                     message="Upload Successful!"

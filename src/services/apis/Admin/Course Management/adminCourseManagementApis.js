@@ -41,4 +41,14 @@ export const adminCourseManagementApis = {
         );
         return response?.data?.data;
     },
+    // Lessons
+    createLesson: async (lessonData) => {
+        const response = await axiosInstance.post(
+            adminCourseManagementEndpoints.createLesson(
+                lessonData?.courseId,
+                lessonData?.moduleId
+            )
+        );
+        return response.data.cousreData;
+    },
 };

@@ -10,4 +10,7 @@ export const adminCourseManagementEndpoints = {
     // Routes For Module
     createModule: (courseId) =>
         `/admin/coursemanagement/courses/${courseId}/modules`,
+    // Routes For Lesson
+    createLesson: (courseId, moduleId) =>
+        `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson`,
 };

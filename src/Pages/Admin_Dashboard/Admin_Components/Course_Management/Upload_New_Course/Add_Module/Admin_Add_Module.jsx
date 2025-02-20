@@ -114,7 +114,7 @@ function Admin_Add_Module() {
     return (
         <div className="w-full">
             {/* Create Module Container---> */}
-            <div className="w-1/2 h-auto mx-auto border p-4 ">
+            <div className="w-1/2 h-auto mx-auto  p-4 border  rounded-md bg-white shadow-sm">
                 <h1>Add Module To Course</h1>
                 {/* Inputs Container.. */}
                 <form

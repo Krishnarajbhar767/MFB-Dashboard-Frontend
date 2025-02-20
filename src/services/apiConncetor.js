@@ -6,8 +6,9 @@ import Cookies from "js-cookie";
 // Create a new Axios instance with default settings
 const axiosInstance = axios.create({
     baseURL:
-        import.meta.env.REACT_APP_API_BASE_URL || "http://localhost:5001/api",
-    timeout: 10000,
+        import.meta.env.VITE_REACT_APP_API_BASE_URL ||
+        "http://localhost:5001/api",
+    timeout: 100000,
 });
 
 // Add a request interceptor to attach a token if available
@@ -16,7 +17,8 @@ axiosInstance.interceptors.request.use(
         const token =
             Cookies.get("token") ||
             Cookies.get("authenticationToken") ||
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTcwODdkNjhhYTNmNGViYzFlYTFjYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczOTk0NTYwOCwiZXhwIjoxNzQwMDMyMDA4fQ.ha48qDFEiHOZLus4JZZLxUkXSUjf_zFMxct6Ren-vYg"; // Fallback token for development
+            import.meta.env.VITE_TEMP_AUTH_TOKEN;
+        // Fallback token for development
         console.log("Verifying is Token Is Valid Or Not...", token);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;

@@ -5,7 +5,6 @@ const initialState = {
     isEditingCourse: false,
     isLoaded: false,
 };
-
 const allCoursesSlice = createSlice({
     name: "all_courses",
     initialState,
