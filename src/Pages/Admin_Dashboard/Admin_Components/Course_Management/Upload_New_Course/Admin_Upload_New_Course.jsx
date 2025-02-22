@@ -127,7 +127,7 @@ const Admin_Upload_New_Course = () => {
             <form className="flex gap-4">
                 {/* Left Section: Course Name and Description */}
                 <div className="w-full lg:w-2/3 bg-white p-6 rounded-md shadow ">
-                    <h2 className="text-xl font-semibold mb-4">
+                    <h2 className="text-xl font-medium mb-4 text-gray-800">
                         Course Details
                     </h2>
 
@@ -282,7 +282,7 @@ const Admin_Upload_New_Course = () => {
                                 }
                             }}
                             placeholder="Enter tags separated by commas"
-                            className="w-full border border-gray-300 rounded-md p-2"
+                            className="w-full border border-gray-300 rounded-md p-2 text-gray-600 outline-none focus:ring-1 ring-blue-500"
                         />
                         {/* Display entered tags */}
                         <div className="mt-3 flex flex-wrap gap-2">

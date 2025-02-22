@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { all_courses } from "../../../../../Sampple_Data/Course_sample_Data";
-import { MdAccessTime, MdDeleteForever } from "react-icons/md";
-import { FaPeopleGroup } from "react-icons/fa6";
-import IconBtn from "../../../../../Common_Components/IconBtn";
-import { FiEdit } from "react-icons/fi";
-import Admin_Course_Management_Course_Card from "./Admin_Course_Management_Course_Card";
+
+// import Admin_Course_Management_Course_Card from "./Admin_Course_Management_Course_Card";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllCourses } from "../../../../../Redux/Slices/All_Courses";
-import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
-import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
-import toast from "react-hot-toast";
+import Admin_My_Course_Course_Card from "./Admin_My_Course_Course_Card";
+
 function Admin_My_Courses() {
     const { allCourses } = useSelector((state) => state.allCourses);
     const dispatch = useDispatch();
@@ -47,7 +40,7 @@ function Admin_My_Courses() {
                 </div>
             </div>
 
-            <div className="courses h-fit w-full  flex flex-wrap gap-3 gap-y-4 py-6 ">
+            <div className="courses h-full w-full  grid grid-cols-3 gap-3 gap-y-4 py-6 ">
                 {/* Single Card */}
                 {/* Rendering All The Course Dynamicaly */}
                 {allCourses?.map((course, idx) => {
@@ -55,7 +48,7 @@ function Admin_My_Courses() {
                         if (course?.status === "Draft") {
                             console.log("Draft True");
                             return (
-                                <Admin_Course_Management_Course_Card
+                                <Admin_My_Course_Course_Card
                                     key={course._id}
                                     course={course}
                                 />
@@ -65,7 +58,7 @@ function Admin_My_Courses() {
                         if (course?.status === "Published") {
                             console.log("Published  True");
                             return (
-                                <Admin_Course_Management_Course_Card
+                                <Admin_My_Course_Course_Card
                                     key={course._id}
                                     course={course}
                                 />

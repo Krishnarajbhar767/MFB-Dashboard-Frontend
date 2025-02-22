@@ -23,6 +23,7 @@ function Admin_Course_Management_Index() {
             </h1> */}
             <h1>Admin Course Management Main Page..</h1>
             <Admin_Course_Preview />
+
             <Outlet />
             {/* Approve or reject new courses submitted by teachers. */}
             {/* <h2>Approve or reject new courses submitted by teachers.</h2> */}

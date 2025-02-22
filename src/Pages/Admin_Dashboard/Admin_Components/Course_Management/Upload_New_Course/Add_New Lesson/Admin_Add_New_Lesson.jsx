@@ -86,6 +86,7 @@ function Admin_Add_New_Lesson() {
         // Now Everything is Fine We Can call Our Real api to Add Lesson TO Course
         const loadingToastId = toast.loading("Creating....");
         try {
+            console.log("Frontent Lesson Data -->", data);
             const response = await adminCourseManagementApis.createLesson(data);
 
             if (!response) {

@@ -1,89 +1,245 @@
 import { Route, Outlet } from "react-router-dom";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, lazy, Suspense } from "react";
 import AdminDashboard from "../Pages/Admin_Dashboard/AdminDashboard_Page";
-// import Admin_User_Managements from "../Pages/Admin_Dashboard/Admin_Components/Admin_User_Managements";
-// import Admin_Course_Management from "../Pages/Admin_Dashboard/Admin_Components/Admin_Course_Management";
 
-import Admin_Content_Management from "../Pages/Admin_Dashboard/Admin_Components/Admin_Content_Management";
-import Admin_Dashboard from "../Pages/Admin_Dashboard/Admin_Components/Admin_Dashboard";
-import Admin_Settings from "../Pages/Admin_Dashboard/Admin_Components/Admin_Settings";
-import Admin_Report_Analytics from "../Pages/Admin_Dashboard/Admin_Components/Admin_Report_Analytics";
-import Admin_Payment_Management from "../Pages/Admin_Dashboard/Admin_Components/Admin_Payment_Management";
-import Admin_Support from "../Pages/Admin_Dashboard/Admin_Components/Admin_Support";
-import Admin_User_Managements from "../Pages/Admin_Dashboard/Admin_Components/Admin_User_Management_Components/Admin_User_Managements";
-import Admin_Add_New_Lesson from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_New Lesson/Admin_Add_New_Lesson";
-import Admin_Upload_New_Course from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Admin_Upload_New_Course";
-import Admin_My_Courses from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/My Courses/Admin_My_Courses";
-import Admin_Course_Management_Index from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Index/Admin_Course_Management_Index";
-import Admin_Course_Managemnet_Add_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add_Quize/Admin_Course_Managemnet_Add_Quize";
-import Admin_Course_Management_Quize_Dashboard from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Quize Dashboard/Admin_Course_Management_Quize_Dashboard";
-
-import Admin_Add_Question_To_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add Question/Admin_Add_Question_To_Quize";
-import Admin_View_Quize from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/View Quize/Admin_View_Quize";
-import Admin_Add_Module from "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_Module/Admin_Add_Module";
+// Lazy-loaded components
+const Admin_Dashboard = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Dashboard")
+);
+const Admin_User_Managements = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Admin_User_Management_Components/Admin_User_Managements"
+    )
+);
+const Admin_Content_Management = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Content_Management")
+);
+const Admin_Settings = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Settings")
+);
+const Admin_Report_Analytics = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Report_Analytics")
+);
+const Admin_Payment_Management = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Payment_Management")
+);
+const Admin_Support = lazy(() =>
+    import("../Pages/Admin_Dashboard/Admin_Components/Admin_Support")
+);
+const Admin_Add_New_Lesson = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_New Lesson/Admin_Add_New_Lesson"
+    )
+);
+const Admin_Upload_New_Course = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Admin_Upload_New_Course"
+    )
+);
+const Admin_My_Courses = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/My Courses/Admin_My_Courses"
+    )
+);
+const Admin_Course_Management_Index = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Index/Admin_Course_Management_Index"
+    )
+);
+const Admin_Course_Managemnet_Add_Quize = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add_Quize/Admin_Course_Managemnet_Add_Quize"
+    )
+);
+const Admin_Course_Management_Quize_Dashboard = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Quize Dashboard/Admin_Course_Management_Quize_Dashboard"
+    )
+);
+const Admin_Add_Question_To_Quize = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/Add Question/Admin_Add_Question_To_Quize"
+    )
+);
+const Admin_View_Quize = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Management_Quize/View Quize/Admin_View_Quize"
+    )
+);
+const Admin_Add_Module = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add_Module/Admin_Add_Module"
+    )
+);
+const Admin_Course_Preview = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Admin_Course_Preview/Admin_Course_Preview"
+    )
+);
 
 const AdminRoutes = () => {
     return (
-        <div className="w-full overflow-hidden  ">
-            {/* Render All Child Routes inside the AdminDashboard */}
-            <AdminDashboard />
+        <div className="w-full overflow-hidden">
+            <Suspense
+                fallback={<div className="text-center p-4">Loading...</div>}
+            >
+                <AdminDashboard />
+            </Suspense>
         </div>
     );
 };
+
+// Helper component for Suspense fallback
+const LazyElement = ({ children }) => (
+    <Suspense
+        fallback={<div className="text-center p-4">Loading module...</div>}
+    >
+        {children}
+    </Suspense>
+);
+
 export const adminRoutesConfig = [
-    { path: "dashboard", element: <Admin_Dashboard /> },
-    { path: "user_management", element: <Admin_User_Managements /> },
     {
-        path: "course_management/*", // This will be the base for nested routes
+        path: "dashboard",
+        element: (
+            <LazyElement>
+                <Admin_Dashboard />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "user_management",
+        element: (
+            <LazyElement>
+                <Admin_User_Managements />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "course_management/*",
         children: [
             {
                 path: "",
-                element: <Admin_Course_Management_Index />,
+                element: (
+                    <LazyElement>
+                        <Admin_Course_Management_Index />
+                    </LazyElement>
+                ),
+            },
+            {
+                path: "my_courses/course_preview/:id",
+                element: (
+                    <LazyElement>
+                        <Admin_Course_Preview />
+                    </LazyElement>
+                ),
             },
             {
                 path: "my_courses/",
-                element: <Admin_My_Courses />,
+                element: (
+                    <LazyElement>
+                        <Admin_My_Courses />
+                    </LazyElement>
+                ),
             },
             {
                 path: "upload_new_course/:edit?",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Upload_New_Course />,
+                element: (
+                    <LazyElement>
+                        <Admin_Upload_New_Course />
+                    </LazyElement>
+                ),
             },
             {
                 path: "add_new_module/:edit?",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Add_Module />,
+                element: (
+                    <LazyElement>
+                        <Admin_Add_Module />
+                    </LazyElement>
+                ),
             },
             {
                 path: "add_new_lesson/:edit?",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Add_New_Lesson />,
+                element: (
+                    <LazyElement>
+                        <Admin_Add_New_Lesson />
+                    </LazyElement>
+                ),
             },
             {
                 path: "quizes",
-                element: <Admin_Course_Management_Quize_Dashboard />,
+                element: (
+                    <LazyElement>
+                        <Admin_Course_Management_Quize_Dashboard />
+                    </LazyElement>
+                ),
             },
             {
                 path: "add_new_quize/:quizeId?",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Course_Managemnet_Add_Quize />,
+                element: (
+                    <LazyElement>
+                        <Admin_Course_Managemnet_Add_Quize />
+                    </LazyElement>
+                ),
             },
             {
                 path: "add_new_quize_questions/:quizeId?",
-                // element: <h2>Upload new course</h2>,
-                element: <Admin_Add_Question_To_Quize />,
+                element: (
+                    <LazyElement>
+                        <Admin_Add_Question_To_Quize />
+                    </LazyElement>
+                ),
             },
             {
                 path: "quizes/view_quize/:quizeId",
-
-                element: <Admin_View_Quize />,
+                element: (
+                    <LazyElement>
+                        <Admin_View_Quize />
+                    </LazyElement>
+                ),
             },
         ],
     },
-    { path: "content_management", element: <Admin_Content_Management /> },
-    { path: "repost_&_analytics", element: <Admin_Report_Analytics /> },
-    { path: "payment_management", element: <Admin_Payment_Management /> },
-    { path: "support_management", element: <Admin_Support /> },
-    { path: "settings", element: <Admin_Settings /> },
+    {
+        path: "content_management",
+        element: (
+            <LazyElement>
+                <Admin_Content_Management />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "repost_&_analytics",
+        element: (
+            <LazyElement>
+                <Admin_Report_Analytics />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "payment_management",
+        element: (
+            <LazyElement>
+                <Admin_Payment_Management />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "support_management",
+        element: (
+            <LazyElement>
+                <Admin_Support />
+            </LazyElement>
+        ),
+    },
+    {
+        path: "settings",
+        element: (
+            <LazyElement>
+                <Admin_Settings />
+            </LazyElement>
+        ),
+    },
 ];
+
 export default AdminRoutes;

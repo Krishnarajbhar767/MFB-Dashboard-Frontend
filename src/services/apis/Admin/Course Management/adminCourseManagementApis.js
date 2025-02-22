@@ -47,7 +47,8 @@ export const adminCourseManagementApis = {
             adminCourseManagementEndpoints.createLesson(
                 lessonData?.courseId,
                 lessonData?.moduleId
-            )
+            ),
+            lessonData
         );
         return response.data.cousreData;
     },
