@@ -4,3 +4,4 @@ installed Dayjs from meterial - 11/01/2025 - admin user management filter filed;
 react-beautiful-dnd - 17/01/2025 - drag and arrange module in upload new course 
 npm install -S react-useanimations - For Micro animation
 $ npm install custom-cursor-react - For Curstom Cursor
+npm install react-quill quill - for embed ric text editor in resource - 25/02/2025

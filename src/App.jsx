@@ -37,9 +37,10 @@ function App() {
     const { authCheck, setAuthCheck, isAdmin, setIsAdmin } =
         useParentContextValue();
     const { user } = useSelector((state) => state.auth);
-    // Memoizing The Routes Array For Stop Re-Creation Or Re-render
-    const memoizedAdminRoutesConfig = useMemo(() => adminRoutesConfig);
-    const memoizedStudentRoutesConfig = useMemo(() => StudentRoutesConfig);
+    // Memoizing Routes Configs
+    const memoizedAdminRoutesConfig = useMemo(() => adminRoutesConfig, []);
+    const memoizedStudentRoutesConfig = useMemo(() => StudentRoutesConfig, []);
+    const memoizedTeacherRoutesConfig = useMemo(() => TeacherRoutesConfig, []);
     return (
         <>
             <div className="hidden md:hidden  lg:block">
@@ -210,7 +211,7 @@ function App() {
                             index
                             element={<Navigate to="dashboard" replace />}
                         />
-                        {TeacherRoutesConfig.map((route, index) => (
+                        {memoizedTeacherRoutesConfig.map((route, index) => (
                             <Route
                                 key={index}
                                 path={route.path}

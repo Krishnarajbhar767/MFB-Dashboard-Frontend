@@ -43,29 +43,35 @@ function Admin_My_Courses() {
             <div className="courses h-full w-full  grid grid-cols-3 gap-3 gap-y-4 py-6 ">
                 {/* Single Card */}
                 {/* Rendering All The Course Dynamicaly */}
-                {allCourses?.map((course, idx) => {
-                    if (isDraftSelected) {
-                        if (course?.status === "Draft") {
-                            console.log("Draft True");
-                            return (
-                                <Admin_My_Course_Course_Card
-                                    key={course._id}
-                                    course={course}
-                                />
-                            );
+                {allCourses?.length ? (
+                    allCourses?.map((course, idx) => {
+                        if (isDraftSelected) {
+                            if (course?.status === "Draft") {
+                                console.log("Draft True");
+                                return (
+                                    <Admin_My_Course_Course_Card
+                                        key={course._id}
+                                        course={course}
+                                    />
+                                );
+                            }
+                        } else {
+                            if (course?.status === "Published") {
+                                console.log("Published  True");
+                                return (
+                                    <Admin_My_Course_Course_Card
+                                        key={course._id}
+                                        course={course}
+                                    />
+                                );
+                            }
                         }
-                    } else {
-                        if (course?.status === "Published") {
-                            console.log("Published  True");
-                            return (
-                                <Admin_My_Course_Course_Card
-                                    key={course._id}
-                                    course={course}
-                                />
-                            );
-                        }
-                    }
-                })}
+                    })
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                        <h1>Opps! Theres No Course Available To Show.</h1>
+                    </div>
+                )}
             </div>
         </div>
     );

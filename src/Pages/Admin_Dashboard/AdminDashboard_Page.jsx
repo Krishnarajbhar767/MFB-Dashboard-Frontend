@@ -5,7 +5,7 @@ import { IoBook } from "react-icons/io5";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { IoCalendarOutline } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
-import { GiDiscussion } from "react-icons/gi";
+import { GiDiscussion, GiNotebook } from "react-icons/gi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { SiGoogleclassroom } from "react-icons/si";
 import { BsGraphUpArrow } from "react-icons/bs";
@@ -69,6 +69,11 @@ function AdminDashboard() {
                     path: "/admin/course_management/add_new_lesson/",
                     lable: "Add Lesson",
                     icon: <MdPlayLesson />,
+                },
+                {
+                    path: "/admin/course_management/add_resource/",
+                    lable: "Add Resourse",
+                    icon: <GiNotebook />,
                 },
                 {
                     path: "/admin/course_management/quizes/",

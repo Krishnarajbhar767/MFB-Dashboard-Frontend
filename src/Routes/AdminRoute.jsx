@@ -3,6 +3,11 @@ import React, { useState, useMemo, lazy, Suspense } from "react";
 import AdminDashboard from "../Pages/Admin_Dashboard/AdminDashboard_Page";
 
 // Lazy-loaded components
+const Admin_Add_Resource = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Add Resource/Admin_Add_Resource"
+    )
+);
 const Admin_Dashboard = lazy(() =>
     import("../Pages/Admin_Dashboard/Admin_Components/Admin_Dashboard")
 );
@@ -81,7 +86,11 @@ const AdminRoutes = () => {
     return (
         <div className="w-full overflow-hidden">
             <Suspense
-                fallback={<div className="text-center p-4">Loading...</div>}
+                fallback={
+                    <div className="flex w-full h-full items-center justify-center">
+                        <span className="loader text-xl"></span>
+                    </div>
+                }
             >
                 <AdminDashboard />
             </Suspense>
@@ -92,7 +101,11 @@ const AdminRoutes = () => {
 // Helper component for Suspense fallback
 const LazyElement = ({ children }) => (
     <Suspense
-        fallback={<div className="text-center p-4">Loading module...</div>}
+        fallback={
+            <div className="w-full h-full flex items-center justify-center text-center p-4">
+                <span className="loader"></span>
+            </div>
+        }
     >
         {children}
     </Suspense>
@@ -163,6 +176,14 @@ export const adminRoutesConfig = [
                 element: (
                     <LazyElement>
                         <Admin_Add_New_Lesson />
+                    </LazyElement>
+                ),
+            },
+            {
+                path: "add_resource/:edit?",
+                element: (
+                    <LazyElement>
+                        <Admin_Add_Resource />
                     </LazyElement>
                 ),
             },

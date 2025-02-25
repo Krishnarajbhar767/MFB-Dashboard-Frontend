@@ -178,7 +178,7 @@ function Admin_Add_New_Lesson() {
                             label: item?.courseTitle,
                         }))}
                         registerOptions={register("courseId", {
-                            required: "Course is required Please Choose.",
+                            required: "Course are required*",
                         })}
                         defaultOption="Select Course"
                         error={errors.courseId}

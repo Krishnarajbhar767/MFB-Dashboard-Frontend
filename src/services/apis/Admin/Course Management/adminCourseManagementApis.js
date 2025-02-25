@@ -52,4 +52,16 @@ export const adminCourseManagementApis = {
         );
         return response.data.cousreData;
     },
+    // Resource
+    createResource: async (resourceData) => {
+        const response = await axiosInstance.post(
+            adminCourseManagementEndpoints.createResource(
+                resourceData.courseId,
+                resourceData.moduleId,
+                resourceData.lessonId
+            ),
+            resourceData
+        );
+        return response.data;
+    },
 };
