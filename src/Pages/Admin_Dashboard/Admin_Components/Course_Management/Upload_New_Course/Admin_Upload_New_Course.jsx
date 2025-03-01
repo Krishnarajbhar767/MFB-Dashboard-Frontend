@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IoCloudUpload } from "react-icons/io5";
+import { IoCloudUpload, IoSaveSharp } from "react-icons/io5";
 import {
     AdminCustomInput,
     AdminCustomSelect,
@@ -11,13 +11,17 @@ import toast from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
-import { useNavigate } from "react-router-dom";
-import { setAllCourses } from "../../../../../Redux/Slices/All_Courses";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+    setAllCourses,
+    setIsCoursesModified,
+} from "../../../../../Redux/Slices/All_Courses";
 import { MdCloudUpload } from "react-icons/md";
+import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
 
 const Admin_Upload_New_Course = () => {
     const navigate = useNavigate();
-
+    const location = useLocation(); // use location for get editingCourseData and IsEditingCourse
     // Initializing react-hook-form for form validation and handling
     const {
         handleSubmit,
@@ -32,7 +36,14 @@ const Admin_Upload_New_Course = () => {
     const [uploadFileKey, setUploadFileKey] = useState(0);
 
     // State to determine if the course is being edited
-    const [isEditingCourse, setIsEditingCourse] = useState(false);
+    const [isEditingCourse, setIsEditingCourse] = useState(
+        location?.state?.isEditingCourse ? true : false
+    );
+    const [currentlyEditingCourse, setCurrentlyEditingCourse] = useState(
+        location?.state?.currentlyEditingCourse
+            ? location?.state?.currentlyEditingCourse
+            : null
+    );
 
     // State for temporarily storing course tags
     const [tempTags, setTempTags] = useState([]);
@@ -83,8 +94,76 @@ const Admin_Upload_New_Course = () => {
      * Handles editing an existing course.
      * @param {Object} data - Form data with updated course details.
      */
-    const editCourseHandler = (data) => {
-        console.log("Editing Course Data:", data);
+    const editCourseHandler = async (data) => {
+        console.log("Course Data EDIT --->", data);
+        if (!isCourseUpdated(data)) {
+            toast.error("Oops! No Changes Heppend In The Course..");
+            return;
+        }
+        const toastId = toast.loading("Upading Course...");
+        try {
+            const response = await adminCourseManagementApis.editCourse(data); // Send Complete New Course Data
+            if (!response) {
+                toast.error("Something Went Wrong!");
+            }
+            toast.success("Course Updated...");
+            dispatch(setIsCoursesModified(true));
+            navigate("/admin/course_management/my_courses");
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "From Upload Course While Editing The Course"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
+    };
+
+    // Function to check if the course data has been updatedc or not?
+    const isCourseUpdated = (newCourseData) => {
+        if (coursethumbnailurl !== currentlyEditingCourse?.coursethumbnailurl) {
+            return true;
+        }
+
+        if (
+            newCourseData?.courseTitle !== currentlyEditingCourse?.courseTitle
+        ) {
+            return true;
+        }
+        if (
+            newCourseData?.courseDescription !==
+            currentlyEditingCourse?.courseDescription
+        ) {
+            return true;
+        }
+
+        if (newCourseData?.price !== currentlyEditingCourse?.price) {
+            return true;
+        }
+
+        if (newCourseData?.category !== currentlyEditingCourse?.category) {
+            return true;
+        }
+
+        if (newCourseData?.status !== currentlyEditingCourse?.status) {
+            return true;
+        }
+
+        //  tag comparison
+        if (tempTags.length !== currentlyEditingCourse?.tags?.length) {
+            return true;
+        }
+
+        if (
+            !tempTags.every(
+                (tag, index) => tag === currentlyEditingCourse?.tags[index]
+            )
+        ) {
+            return true;
+        }
+
+        return false;
     };
 
     /**
@@ -106,7 +185,11 @@ const Admin_Upload_New_Course = () => {
      * @param {Object} data - The form data.
      */
     const onSubmit = (data) => {
+        // Add tags and thumbnail URL to the data object before submitting
+        data.tags = tempTags;
+        data.coursethumbnailurl = coursethumbnailurl;
         if (isEditingCourse) {
+            data.id = currentlyEditingCourse._id; // inserting Id For Update Course BY ID
             editCourseHandler(data);
         } else {
             // Ensure thumbnail is uploaded before submitting
@@ -115,13 +198,30 @@ const Admin_Upload_New_Course = () => {
                 return;
             }
 
-            // Add tags and thumbnail URL to the data object before submitting
-            data.tags = tempTags;
-            data.coursethumbnailurl = coursethumbnailurl;
             addCourseHandler(data);
         }
     };
 
+    // On First Render Check For Is I am On Edit Mode --->
+    useEffect(() => {
+        if (isEditingCourse && currentlyEditingCourse) {
+            setValue("courseTitle", currentlyEditingCourse?.courseTitle);
+            setValue(
+                "courseDescription",
+                currentlyEditingCourse?.courseDescription
+            );
+            setValue(
+                "coursethumbnailurl",
+                currentlyEditingCourse?.coursethumbnailurl
+            );
+
+            setValue("price", currentlyEditingCourse?.price);
+            setValue("category", currentlyEditingCourse?.category);
+            setValue("status", currentlyEditingCourse.status);
+            setTempTags(currentlyEditingCourse?.tags);
+            setCoursethumbnailurl(currentlyEditingCourse?.coursethumbnailurl);
+        }
+    }, []);
     return (
         <div className="container mx-auto p-4 transition-all ease-linear duration-500">
             <form className="flex gap-4">
@@ -140,7 +240,11 @@ const Admin_Upload_New_Course = () => {
                             key={uploadFileKey}
                             allowedType={"image"}
                             maxFileSizeMB={100}
-                            existingFileUrl={""}
+                            existingFileUrl={
+                                isEditingCourse && currentlyEditingCourse
+                                    ? currentlyEditingCourse.coursethumbnailurl
+                                    : ""
+                            }
                             onUploadComplete={(url) =>
                                 setCoursethumbnailurl(url)
                             }
@@ -199,7 +303,7 @@ const Admin_Upload_New_Course = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="w-fit mx-auto mt-4">
+                    <div className="w-fit mx-auto mt-4 flex gap-4">
                         <button
                             onClick={handleSubmit(onSubmit, (err) =>
                                 console.log("Submission Error:", err)
@@ -208,10 +312,31 @@ const Admin_Upload_New_Course = () => {
                             className="py-2.5 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900 flex  items-center gap-2"
                         >
                             <span className="text-xl">
-                                <MdCloudUpload />
+                                {isEditingCourse ? (
+                                    <IoSaveSharp />
+                                ) : (
+                                    <MdCloudUpload />
+                                )}
                             </span>
-                            <span>Publish Course</span>
+                            <span>
+                                {isEditingCourse
+                                    ? "Save Course"
+                                    : "Publish Course"}
+                            </span>
                         </button>
+                        {isEditingCourse && (
+                            <button
+                                onClick={() =>
+                                    navigate(
+                                        "/admin/course_management/my_courses"
+                                    )
+                                }
+                                class="font-medium rounded-md border border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                type="button"
+                            >
+                                Cancel
+                            </button>
+                        )}
                     </div>
                 </div>
 

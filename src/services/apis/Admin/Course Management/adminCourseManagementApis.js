@@ -13,7 +13,13 @@ export const adminCourseManagementApis = {
         );
         return response.data;
     },
-
+    editCourse: async (courseData) => {
+        const response = await axiosInstance.patch(
+            adminCourseManagementEndpoints.editCourse(courseData.id),
+            courseData
+        );
+        return response.data;
+    },
     getCourseDataById: (courseId) =>
         axiosInstance.get(
             adminCourseManagementEndpoints.getCourseDataById(courseId)

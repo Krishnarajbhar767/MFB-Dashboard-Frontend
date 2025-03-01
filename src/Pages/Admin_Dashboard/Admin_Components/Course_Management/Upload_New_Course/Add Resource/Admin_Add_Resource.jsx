@@ -4,22 +4,22 @@ import React, { useState } from "react";
 import {
     AdminCustomInput,
     AdminCustomSelect,
-} from "../../../../../Common_Components/Form_Components/AdminCustomInputs";
+} from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
 // Rich text editor components
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // Form handling utilities
 import { useForm } from "react-hook-form";
 // File upload component and icons
-import UploadFile from "../../../../../Common_Components/UploadFile";
+import UploadFile from "../../../../../../Common_Components/UploadFile";
 import { MdCloudUpload } from "react-icons/md";
 // Redux hooks for state management
 import { useDispatch, useSelector } from "react-redux";
-import { setIsCoursesModified } from "../../../../../Redux/Slices/All_Courses";
+import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
 import toast from "react-hot-toast";
-import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
-import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
 
+import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
+import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 function Admin_Add_Resource() {
     // REDUX STATE MANAGEMENT
     const { allCourses } = useSelector((state) => state.allCourses);

@@ -2,14 +2,13 @@ import { Route, Outlet } from "react-router-dom";
 import React, { useState, useMemo, lazy, Suspense } from "react";
 import AdminDashboard from "../Pages/Admin_Dashboard/AdminDashboard_Page";
 
-// Lazy-loaded components
-const Admin_Add_Resource = lazy(() =>
-    import(
-        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Add Resource/Admin_Add_Resource"
-    )
-);
 const Admin_Dashboard = lazy(() =>
     import("../Pages/Admin_Dashboard/Admin_Components/Admin_Dashboard")
+);
+const Admin_Add_Resource = lazy(() =>
+    import(
+        "../Pages/Admin_Dashboard/Admin_Components/Course_Management/Upload_New_Course/Add Resource/Admin_Add_Resource"
+    )
 );
 const Admin_User_Managements = lazy(() =>
     import(

@@ -74,7 +74,17 @@ function Admin_Course_Preview() {
                             <button
                                 type="button"
                                 className="py-2.5 px-6 text-sm rounded-lg bg-gray-700 text-gray-100 cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900 flex gap-2 items-center"
-                                onClick={() => {}}
+                                onClick={() =>
+                                    navigate(
+                                        "/admin/course_management/upload_new_course/edit",
+                                        {
+                                            state: {
+                                                isEditingCourse: true,
+                                                currentlyEditingCourse: course,
+                                            },
+                                        }
+                                    )
+                                }
                             >
                                 <FiEdit />
                                 <span>Edit Basic Details</span>
