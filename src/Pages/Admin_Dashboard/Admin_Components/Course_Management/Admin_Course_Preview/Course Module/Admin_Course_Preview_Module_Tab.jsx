@@ -4,8 +4,13 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoIosPlayCircle } from "react-icons/io";
 
 import { FiEdit } from "react-icons/fi";
-const Admin_Course_Preview_Module_Tab = React.memo(({ module }) => {
+import { useNavigate } from "react-router-dom";
+const Admin_Course_Preview_Module_Tab = React.memo(({ module, courseId }) => {
     const [showLesson, setShowLesson] = useState(false);
+    // Navigate For Edit Module Page
+    // Delete Module Handler
+    const deleteModuleHandler = async () => {};
+    const navigate = useNavigate();
     return (
         <div className="relative transition-all duration-200  bg-white shadow-xl rounded-2xl px-2 py-3">
             <div
@@ -19,10 +24,26 @@ const Admin_Course_Preview_Module_Tab = React.memo(({ module }) => {
                     </h2>
                 </div>
                 <div className="flex items-center gap-4">
-                    <span className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 border text-blue-500 transition-none duration-500 text-xl hover:text-blue-700">
+                    <span
+                        className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 border text-blue-500 transition-none duration-500 text-xl hover:text-blue-700"
+                        onClick={() =>
+                            navigate(
+                                "/admin/course_management/add_new_module/edit",
+                                {
+                                    state: {
+                                        courseId,
+                                        currentlyEditingModule: module,
+                                    },
+                                }
+                            )
+                        }
+                    >
                         <FiEdit />
                     </span>
-                    <span className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 border text-red-500 transition-none duration-500 text-xl hover:text-red-700">
+                    <span
+                        className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 border text-red-500 transition-none duration-500 text-xl hover:text-red-700"
+                        onClick={deleteModuleHandler}
+                    >
                         <RiDeleteBin6Line />
                     </span>
                     <span

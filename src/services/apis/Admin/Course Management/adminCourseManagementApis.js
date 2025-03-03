@@ -47,6 +47,14 @@ export const adminCourseManagementApis = {
         );
         return response?.data?.data;
     },
+    editModule: async (courseId, module) => {
+        console.log("Course ID From !1 --->", module);
+        const response = await axiosInstance.patch(
+            adminCourseManagementEndpoints.editModule(courseId, module.id)
+        );
+        console.log("Repsonse OF Edit Module ---->", response.data.data);
+        return response.data.data;
+    },
     // Lessons
     createLesson: async (lessonData) => {
         const response = await axiosInstance.post(

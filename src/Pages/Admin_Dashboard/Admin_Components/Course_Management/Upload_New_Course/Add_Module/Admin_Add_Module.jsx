@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     AdminCustomInput,
     AdminCustomSelect,
@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Admin_Add_Module() {
     const {
@@ -22,13 +23,22 @@ function Admin_Add_Module() {
         setValue,
         formState: { errors },
     } = useForm();
+
+    const location = useLocation();
+    const navigate = useNavigate();
     // dispach For set Redux State
     const dispatch = useDispatch();
     // get all course Data from Redux Toolkit -->
     const { allCourses } = useSelector((state) => state.allCourses);
-
+    // Get Editing Module Data
+    const currentlyEditingModule =
+        location?.state?.currentlyEditingModule ?? null;
+    // get courseId
+    const courseId = location?.state?.courseId ?? null;
     // State For Check Is I am on Editing Mode Of Module Or Not?
-    const [isEditingModule, setisEditingModule] = useState(false);
+    const [isEditingModule, setisEditingModule] = useState(
+        courseId && currentlyEditingModule ? true : false
+    );
 
     // function for check is module is Exist Or Not ?
     function isModuleExist(data) {
@@ -77,9 +87,11 @@ function Admin_Add_Module() {
         //  if Module dose Not exit then call create Module Api If SuccessFull Then get All Module Data And Set All Module... For Realtime Module Update
         const loadingToastId = toast.loading("Please wait !");
         try {
+            console.log("New Module Data ---->", data);
             const moduleData = await adminCourseManagementApis.createModule(
                 data
             );
+
             if (!moduleData) {
                 toast.error("Something went wrong.");
                 return;
@@ -96,9 +108,64 @@ function Admin_Add_Module() {
             toast.dismiss(loadingToastId);
         }
     };
+
+    // Function For Check Is Module Updated Or Not While Editing The Module
+    const isModuleUpdated = (data) => {
+        // Check Is Course Changed Or Not
+        if (courseId !== data.courseId) {
+            return true;
+        }
+        // Check Is Module Title Is Updated OR Nor ?
+        if (currentlyEditingModule.moduletitle !== data.moduletitle) {
+            return true;
+        }
+        // Check Is Module Description Is Updated Or NOr ?
+        if (
+            currentlyEditingModule.moduleDescription !== data.moduleDescription
+        ) {
+            return true;
+        }
+        // Is Nothing Changed Then Return False and stop api call
+        return false;
+    };
     // Function Handle Edit Module When I Am On Edit Mode of Module
-    const editModuleHandler = (data) => {
-        console.log("I am On Edit Module Mode --->", data);
+    const editModuleHandler = async (data) => {
+        if (!isModuleUpdated(data)) {
+            toast.error("Opps! No Changes Made Module.");
+            return;
+        }
+
+        // Now Evrything Is Fine.. We Can Call Our Edit Module API...
+        const toastId = toast.loading("Updating Module...");
+        try {
+            // step1 - call api
+            console.log("Course Id --->", courseId);
+            // Inserting Module Id ----> For Fetch Module Id
+            data.id = currentlyEditingModule._id;
+            const response = await adminCourseManagementApis.editModule(
+                courseId,
+                data
+            );
+            // step2 - check is response succesfull or not
+            if (!response) {
+                toast.error("Opps! something went wrong");
+            }
+            // step3 - setcourse modified true
+            dispatch(setIsCoursesModified(true));
+            // step4 - toast.success
+            toast.success("Module updated Successfully.");
+            // step5 - go back to coursePreview
+            navigate(-1);
+        } catch (error) {
+            // step get err in variable by custom error handler
+            const err = customApiErrorHandler(
+                error,
+                "Error Add Module While Editing Module Page --->"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
     };
     // On Submit Handler When Form Submit
     const onSubmit = (data) => {
@@ -111,6 +178,17 @@ function Admin_Add_Module() {
         }
     };
 
+    useEffect(() => {
+        if (currentlyEditingModule && courseId) {
+            setValue("courseId", courseId);
+
+            setValue("moduletitle", currentlyEditingModule.moduletitle);
+            setValue(
+                "moduleDescription",
+                currentlyEditingModule.moduleDescription
+            );
+        }
+    }, [currentlyEditingModule, courseId]);
     return (
         <div className="w-full">
             {/* Create Module Container---> */}

@@ -12,7 +12,10 @@ const Admin_Course_Modules_Preview = React.memo(
                     {/* Single Module Data */}
                     {course?.modules?.map((module) => (
                         <div className="">
-                            <Admin_Course_Preview_Module_Tab module={module} />
+                            <Admin_Course_Preview_Module_Tab
+                                module={module}
+                                courseId={course._id}
+                            />
                         </div>
                     ))}
                 </div>
