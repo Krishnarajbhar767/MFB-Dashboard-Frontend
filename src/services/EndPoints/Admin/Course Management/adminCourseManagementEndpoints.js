@@ -13,9 +13,13 @@ export const adminCourseManagementEndpoints = {
         `/admin/coursemanagement/courses/${courseId}/modules`,
     editModule: (courseId, moduleId) =>
         `/admin/coursemanagement/course/${courseId}/module/${moduleId}`,
+    deleteModule: (courseId, moduleId) =>
+        `/admin/coursemanagement/course/${courseId}/module/${moduleId}`,
     // Routes For Lesson
     createLesson: (courseId, moduleId) =>
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson`,
+    editLesson: (courseId, moduleId, lessonId) =>
+        `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}`,
     createResource: (courseId, moduleId, lessonId) =>
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource`,
 };

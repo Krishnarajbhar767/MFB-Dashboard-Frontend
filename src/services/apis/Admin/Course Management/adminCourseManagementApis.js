@@ -50,10 +50,17 @@ export const adminCourseManagementApis = {
     editModule: async (courseId, module) => {
         console.log("Course ID From !1 --->", module);
         const response = await axiosInstance.patch(
-            adminCourseManagementEndpoints.editModule(courseId, module.id)
+            adminCourseManagementEndpoints.editModule(courseId, module.id),
+            module
         );
         console.log("Repsonse OF Edit Module ---->", response.data.data);
         return response.data.data;
+    },
+    deleteModule: async (courseId, moduleId) => {
+        const response = await axiosInstance.delete(
+            adminCourseManagementEndpoints.deleteModule(courseId, moduleId)
+        );
+        return response?.data;
     },
     // Lessons
     createLesson: async (lessonData) => {
@@ -65,6 +72,17 @@ export const adminCourseManagementApis = {
             lessonData
         );
         return response.data.cousreData;
+    },
+    editLesson: async (courseId, lessonId, moduleId, lessonData) => {
+        const response = await axiosInstance.patch(
+            adminCourseManagementEndpoints.editLesson(
+                courseId,
+                lessonId,
+                moduleId
+            ),
+            lessonData
+        );
+        return response.data;
     },
     // Resource
     createResource: async (resourceData) => {

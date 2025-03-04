@@ -5,11 +5,42 @@ import { IoIosPlayCircle } from "react-icons/io";
 
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
+import ConfirmationModal from "../../../../../../Common_Components/modal/ConfirmationModal";
 const Admin_Course_Preview_Module_Tab = React.memo(({ module, courseId }) => {
     const [showLesson, setShowLesson] = useState(false);
+    // State For Controll Modal FOR DELETE
+    const [confirmationModal, setConfirmationModal] = useState(null);
+    const dispatch = useDispatch();
     // Navigate For Edit Module Page
     // Delete Module Handler
-    const deleteModuleHandler = async () => {};
+    const deleteModuleHandler = async (courseId, moduletitle) => {
+        const toastId = toast.loading("Deleting Module...");
+        try {
+            const response = await adminCourseManagementApis.deleteModule(
+                courseId,
+                module._id
+            );
+            if (!response) {
+                toast.error("Something went wrong...");
+                return;
+            }
+            dispatch(setIsCoursesModified(true));
+            setConfirmationModal(null);
+            toast.dismiss(toastId);
+            toast.success("Module Deleted Successfully...");
+        } catch (error) {
+            console.log("ERROR FROM DELETE MODULE ------>", error);
+            const err = customApiErrorHandler(error, "Delete Module API ERROR");
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
+    };
     const navigate = useNavigate();
     return (
         <div className="relative transition-all duration-200  bg-white shadow-xl rounded-2xl px-2 py-3">
@@ -42,7 +73,20 @@ const Admin_Course_Preview_Module_Tab = React.memo(({ module, courseId }) => {
                     </span>
                     <span
                         className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 border text-red-500 transition-none duration-500 text-xl hover:text-red-700"
-                        onClick={deleteModuleHandler}
+                        onClick={() =>
+                            setConfirmationModal({
+                                text1: "Are You Sure",
+                                text2: "Do You Really Want To Delete This Module.",
+                                btn1Handler: () =>
+                                    deleteModuleHandler(
+                                        courseId,
+                                        module?.moduletitle
+                                    ),
+                                btn1Text: "Delete",
+                                btn2Handler: () => setConfirmationModal(null),
+                                btn2Text: "Cancel",
+                            })
+                        }
                     >
                         <RiDeleteBin6Line />
                     </span>
@@ -80,7 +124,26 @@ const Admin_Course_Preview_Module_Tab = React.memo(({ module, courseId }) => {
                                         </div>
                                         {/* Lesson Button Container*/}
                                         <div className="flex items-center gap-4">
-                                            <FiEdit className="text-lg text-blue-500 hover:text-blue-700" />
+                                            <FiEdit
+                                                className="text-lg text-blue-500 hover:text-blue-700"
+                                                onClick={() =>
+                                                    navigate(
+                                                        "/admin/course_management/add_new_lesson/edit",
+                                                        {
+                                                            state: {
+                                                                moduleId:
+                                                                    module._id,
+                                                                courseId:
+                                                                    courseId,
+                                                                currentlyEditingLesson:
+                                                                    lesson,
+                                                                lessonId:
+                                                                    lesson._id,
+                                                            },
+                                                        }
+                                                    )
+                                                }
+                                            />
                                             <RiDeleteBin6Line className="text-lg text-red-500 hover:text-red-700" />
                                         </div>
                                     </div>
@@ -99,6 +162,9 @@ const Admin_Course_Preview_Module_Tab = React.memo(({ module, courseId }) => {
                     </div>
                 )}
             </div>
+            {confirmationModal && (
+                <ConfirmationModal modalData={confirmationModal} />
+            )}
         </div>
     );
 });

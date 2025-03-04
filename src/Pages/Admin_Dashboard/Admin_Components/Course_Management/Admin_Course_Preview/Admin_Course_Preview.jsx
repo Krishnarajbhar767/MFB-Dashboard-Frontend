@@ -1,5 +1,5 @@
 // Import necessary libraries and components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowDownCircle } from "react-icons/bs";
 import Admin_Course_Modules_Preview from "./Course Module/Admin_Course_Modules_Preview";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -9,17 +9,19 @@ import ConfirmationModal from "../../../../../Common_Components/modal/Confirmati
 import toast from "react-hot-toast";
 import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { setIsCoursesModified } from "../../../../../Redux/Slices/All_Courses";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
 
-function Admin_Course_Preview() {
+const Admin_Course_Preview = React.memo(function Admin_Course_Preview() {
+    const { isLoaded, allCourses } = useSelector((state) => state.allCourses);
+
     // Dispatch For Dispatch Redux action
     const dispatch = useDispatch();
     // Navigate For Navigate Other Route
     const navigate = useNavigate();
     // Get course data from navigation state
 
-    const course = useLocation()?.state?.course;
+    const [course, setCourse] = useState(useLocation()?.state?.course ?? null); // Value Will Update Dynamically If Course Id Modified
 
     // Extract course ID from URL parameters (format: "id+other_params")
     const courseId = useParams()?.id?.split("+")?.at(0);
@@ -62,6 +64,16 @@ function Admin_Course_Preview() {
             btn2Text: "Cancel",
         });
     };
+    // use Effect For Update Course If Course Updated if course Updated Then Set New Updated Course data --->
+    useEffect(() => {
+        // If Course Id Avalable Then Check
+        if (courseId) {
+            const updatedCourse = allCourses?.filter(
+                (course) => course._id === courseId
+            );
+            setCourse(updatedCourse[0]);
+        }
+    }, [isLoaded, courseId]);
     return (
         <div>
             {/* Conditional rendering based on course data availability */}
@@ -172,6 +184,6 @@ function Admin_Course_Preview() {
             )}
         </div>
     );
-}
+});
 
 export default Admin_Course_Preview;

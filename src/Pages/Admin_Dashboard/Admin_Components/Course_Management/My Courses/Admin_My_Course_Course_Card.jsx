@@ -9,7 +9,7 @@ import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorH
 import { adminCourseManagementApis } from "../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { setIsCoursesModified } from "../../../../../Redux/Slices/All_Courses";
 
-const Admin_My_Course_Course_Card = ({ course }) => {
+function Admin_My_Course_Course_Card({ course }) {
     // Common Hook Import
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -134,6 +134,6 @@ const Admin_My_Course_Course_Card = ({ course }) => {
             )}
         </>
     );
-};
+}
 
 export default Admin_My_Course_Course_Card;

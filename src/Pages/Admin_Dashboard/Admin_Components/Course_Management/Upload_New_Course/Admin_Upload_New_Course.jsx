@@ -108,7 +108,7 @@ const Admin_Upload_New_Course = () => {
             }
             toast.success("Course Updated...");
             dispatch(setIsCoursesModified(true));
-            navigate("/admin/course_management/my_courses");
+            navigate(-1);
         } catch (error) {
             const err = customApiErrorHandler(
                 error,
