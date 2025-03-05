@@ -7,13 +7,14 @@ import {
 import { useForm } from "react-hook-form";
 import { IoIosAddCircle } from "react-icons/io";
 import { IoSaveSharp } from "react-icons/io5";
-import Admin_Module_Card from "./Module Card/Admin_Module_Card";
+
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MdOutlineCancel } from "react-icons/md";
 
 function Admin_Add_Module() {
     const {
@@ -239,7 +240,7 @@ function Admin_Add_Module() {
                             error={errors.moduleDescription}
                         />
                     </div>
-                    <div className="w-fit mx-auto">
+                    <div className="w-fit mx-auto flex items-center justify-center gap-4">
                         <button
                             type="submit"
                             class="py-2.5 flex items-center gap-2 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900"
@@ -251,17 +252,18 @@ function Admin_Add_Module() {
                             )}
                             {isEditingModule ? "Save Module" : "Add Module"}
                         </button>
+                        {isEditingModule && (
+                            <button
+                                type="button"
+                                class="py-2.5 flex items-center gap-2 px-6 text-sm rounded-lg bg-gray-200 text-gray-900 cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-300 border border-gray-300"
+                                onClick={() => navigate(-1)}
+                            >
+                                <MdOutlineCancel /> Cancel
+                            </button>
+                        )}
                     </div>
                 </form>
                 {/* Render All Modules ----> */}
-            </div>
-            <div className="w-full mt-10 border-t-2 border-gray-500 ">
-                {/* Cards Container */}
-                <div className="w-full h-full py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <Admin_Module_Card />
-                    <Admin_Module_Card />
-                    <Admin_Module_Card />
-                </div>
             </div>
         </div>
     );

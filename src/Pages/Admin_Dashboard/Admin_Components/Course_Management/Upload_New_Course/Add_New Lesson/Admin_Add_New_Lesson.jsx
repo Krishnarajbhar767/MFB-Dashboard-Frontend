@@ -13,7 +13,7 @@ import IconBtn from "../../../../../../Common_Components/IconBtn"; // Custom Ico
 import { FaPlus } from "react-icons/fa6"; // Plus icon from react-icons
 import { RxCross1 } from "react-icons/rx"; // Cross icon from react-icons
 import { FcLink } from "react-icons/fc"; // Link icon from react-icons
-import { MdDeleteForever } from "react-icons/md"; // Delete icon from react-icons
+import { MdDeleteForever, MdOutlineCancel } from "react-icons/md"; // Delete icon from react-icons
 import { set, useForm } from "react-hook-form"; // Form management hook and utilities from react-hook-form
 import toast from "react-hot-toast"; // Toast notification library
 import {
@@ -422,7 +422,7 @@ function Admin_Add_New_Lesson() {
                         })} // Register isFree field with validation
                     />
                 </div>
-                <div className="w-fit mx-auto">
+                <div className="w-fit mx-auto flex items-center justify-center gap-4">
                     {/* Button to trigger form submission */}
                     <button
                         onClick={handleSubmit(onSubmit)}
@@ -433,6 +433,15 @@ function Admin_Add_New_Lesson() {
                             ? "Update Lesson"
                             : "Add Lesson"}
                     </button>
+                    {isEditingLesson && (
+                        <button
+                            type="button"
+                            class="py-2.5 flex items-center gap-2 px-6 text-sm rounded-lg bg-gray-200 text-gray-900 cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-300 border border-gray-300"
+                            onClick={() => navigate(-1)}
+                        >
+                            <MdOutlineCancel /> Cancel
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

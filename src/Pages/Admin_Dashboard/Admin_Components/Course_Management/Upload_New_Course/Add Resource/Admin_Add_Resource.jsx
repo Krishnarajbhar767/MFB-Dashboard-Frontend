@@ -1,5 +1,5 @@
 // Import required React hooks and libraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // Import custom form components
 import {
     AdminCustomInput,
@@ -12,19 +12,23 @@ import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
 // File upload component and icons
 import UploadFile from "../../../../../../Common_Components/UploadFile";
-import { MdCloudUpload } from "react-icons/md";
+import { MdCloudUpload, MdOutlineCancel } from "react-icons/md";
 // Redux hooks for state management
 import { useDispatch, useSelector } from "react-redux";
 import { setIsCoursesModified } from "../../../../../../Redux/Slices/All_Courses";
 import toast from "react-hot-toast";
+import { IoSaveSharp } from "react-icons/io5";
 
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 function Admin_Add_Resource() {
     // REDUX STATE MANAGEMENT
     const { allCourses } = useSelector((state) => state.allCourses);
     const dispatch = useDispatch();
-
+    const currentlyEditingResourceData =
+        useLocation().state?.currentlyEditingResourceData ?? null;
+    const navigate = useNavigate();
     // FORM HANDLING SETUP
     const {
         register,
@@ -37,7 +41,9 @@ function Admin_Add_Resource() {
 
     // COMPONENT STATE MANAGEMENT
     const [pdfsfile, Setpdfsfile] = useState(null); // Holds uploaded PDF file URL
-    const [isEditingResource, setIsEditingResource] = useState(false); // Edit mode flag
+    const [isEditingResource, setIsEditingResource] = useState(
+        currentlyEditingResourceData ? true : false
+    ); // Edit mode flag
     const [modules, setModules] = useState(null); // Stores modules for selected course
     const [lessons, setLessons] = useState(null); // Stores lessons for selected module
     // Key to force re-render of <UploadFile /> component after submitting a course
@@ -82,9 +88,58 @@ function Admin_Add_Resource() {
             toast.dismiss(loadingToastId);
         }
     };
+    // Function For Check Is Resource Uupdated Or Not ?
+    const isResourceupdated = (newResourceData) => {
+        if (
+            newResourceData.resourcetitle !==
+            currentlyEditingResourceData?.resource?.resourcetitle
+        ) {
+            return true;
+        }
+        if (currentlyEditingResourceData?.resource?.content) {
+            if (
+                newResourceData.content !==
+                currentlyEditingResourceData?.resource?.content
+            ) {
+                return true;
+            }
+        }
+        if (
+            newResourceData.pdfsfile !==
+            currentlyEditingResourceData.resource.pdfsfile
+        ) {
+            return true;
+        }
+        return false;
+    };
+    const editResourceHandler = async (data) => {
+        data.pdfsfile = pdfsfile;
+        data.content = data?.content?.replace("<p><br></p>", "");
+        if (!isResourceupdated(data)) {
+            toast.error("No Changes Detected..");
+            return;
+        }
 
-    const editResourceHandler = (data) => {
-        console.log("Editing Resource Data --->", data);
+        const toastId = toast.loading("Updating Resource...");
+        try {
+            const response = await adminCourseManagementApis.editResource(
+                data,
+                currentlyEditingResourceData.resourceId
+            );
+            if (!response) {
+                toast.error("Opps! Something went wrong.");
+                return;
+            }
+            toast.dismiss(toastId);
+            toast.success("Resource updated succssfully.");
+            dispatch(setIsCoursesModified(true));
+            navigate(-1);
+        } catch (error) {
+            const err = customApiErrorHandler(error, "Add Resource Page --->");
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
     };
 
     // RICH TEXT EDITOR HANDLER
@@ -92,6 +147,41 @@ function Admin_Add_Resource() {
         setValue("content", editorState);
     };
 
+    // On First render Check For Is I Am On Edit Mode
+    useEffect(() => {
+        console.log(
+            "Currently Editing Lesson Data ---->",
+            currentlyEditingResourceData
+        );
+        if (isEditingResource) {
+            setValue("courseId", currentlyEditingResourceData?.courseId);
+            setModules([
+                {
+                    value: currentlyEditingResourceData.moduleId,
+                    label: "Changing module not allowed.",
+                },
+            ]);
+            setValue("moduleId", currentlyEditingResourceData.moduleId);
+            setLessons([
+                {
+                    value: currentlyEditingResourceData.lessonId,
+                    label: "Changing lesson not allowed.",
+                },
+            ]);
+            setValue("lessonId", currentlyEditingResourceData.lessonId);
+            setValue(
+                "resourcetitle",
+                currentlyEditingResourceData?.resource?.resourcetitle
+            );
+            setValue(
+                "content",
+                currentlyEditingResourceData?.resource?.content
+            );
+            if (currentlyEditingResourceData?.resource?.pdfsfile) {
+                Setpdfsfile(currentlyEditingResourceData?.resource?.pdfsfile);
+            }
+        }
+    }, [isEditingResource, currentlyEditingResourceData]);
     return (
         <div className="w-1/2 h-auto bg-white mx-auto p-4 rounded-md shadow-sm border">
             <h1 className="text-lg line font-medium text-gray-800">
@@ -134,6 +224,7 @@ function Admin_Add_Resource() {
                         setValue("lessonId", "");
                         setLessons(null);
                     }}
+                    disabled={isEditingResource}
                 />
 
                 {/* MODULE SELECTION DROPDOWN */}
@@ -160,7 +251,7 @@ function Admin_Add_Resource() {
                         setLessons(lessons);
                         setValue("lessonId", "");
                     }}
-                    disabled={!modules}
+                    disabled={!modules || isEditingResource}
                 />
 
                 {/* LESSON SELECTION DROPDOWN */}
@@ -172,7 +263,7 @@ function Admin_Add_Resource() {
                     })}
                     options={lessons}
                     error={errors.lessonId}
-                    disabled={!lessons}
+                    disabled={!lessons || isEditingResource}
                 />
 
                 {/* RESOURCE TITLE INPUT */}
@@ -208,17 +299,41 @@ function Admin_Add_Resource() {
                         allowedType={"pdf"}
                         maxFileSizeMB={100}
                         onUploadComplete={(url) => Setpdfsfile(url)}
+                        existingFileUrl={
+                            currentlyEditingResourceData?.resource?.pdfsfile
+                                ? currentlyEditingResourceData?.resource
+                                      ?.pdfsfile
+                                : ""
+                        }
                     />
 
                     {/* SUBMIT BUTTON */}
-                    <div className="w-fit mx-auto">
+                    <div className="w-fit mx-auto flex items-center justify-center gap-4">
                         <button
                             type="submit"
                             className="py-2.5 px-6 text-sm rounded-lg bg-gray-700 text-white cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-900 flex items-center gap-2 mt-2"
                         >
-                            <MdCloudUpload className="text-xl" />
-                            <span>Publish Resource</span>
+                            {isEditingResource ? (
+                                <IoSaveSharp className="text-xl" />
+                            ) : (
+                                <MdCloudUpload className="text-xl" />
+                            )}
+                            <span>
+                                {isEditingResource
+                                    ? "Save Resource"
+                                    : "Publish Resource"}
+                            </span>
                         </button>
+                        {isEditingResource && (
+                            <button
+                                type="button"
+                                className="py-2.5 px-6 text-sm rounded-lg bg-gray-200 text-gray-900 cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-300 flex items-center gap-2 mt-2"
+                                onClick={() => navigate(-1)}
+                            >
+                                <MdOutlineCancel className="text-xl" />
+                                <span>Cancel</span>
+                            </button>
+                        )}
                     </div>
                 </div>
             </form>

@@ -20,6 +20,12 @@ export const adminCourseManagementEndpoints = {
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson`,
     editLesson: (courseId, moduleId, lessonId) =>
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}`,
+    deleteLesson: (courseId, moduleId, lessonId) =>
+        `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}`,
     createResource: (courseId, moduleId, lessonId) =>
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource`,
+    editResource: (courseId, moduleId, lessonId, resourceId) =>
+        `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource/${resourceId}`,
+    deleteResource: (resourceId, lessonId, moduleId, courseId) =>
+        `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource/${resourceId}`,
 };

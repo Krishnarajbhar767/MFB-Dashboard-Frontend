@@ -71,7 +71,14 @@ function Admin_My_Course_Course_Card({ course }) {
         });
     };
     // Edit Course Handler For Edit Course
-    const editCourseHandler = () => {};
+    const editCourseHandler = () => {
+        navigate("/admin/course_management/upload_new_course/edit", {
+            state: {
+                isEditingCourse: true,
+                currentlyEditingCourse: course,
+            },
+        });
+    };
 
     // State
     // State For controll COnfirmationModal

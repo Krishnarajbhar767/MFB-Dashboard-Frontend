@@ -84,6 +84,17 @@ export const adminCourseManagementApis = {
         );
         return response.data;
     },
+    // Delete Lesson
+    deleteLesson: async (courseId, moduleId, lessonId) => {
+        const response = await axiosInstance.delete(
+            adminCourseManagementEndpoints.deleteLesson(
+                courseId,
+                moduleId,
+                lessonId
+            )
+        );
+        return response.data;
+    },
     // Resource
     createResource: async (resourceData) => {
         const response = await axiosInstance.post(
@@ -93,6 +104,29 @@ export const adminCourseManagementApis = {
                 resourceData.lessonId
             ),
             resourceData
+        );
+        return response.data;
+    },
+    editResource: async (resource, resourceId) => {
+        const response = await axiosInstance.patch(
+            adminCourseManagementEndpoints.editResource(
+                resource.courseId,
+                resource.moduleId,
+                resource.lessonId,
+                resourceId
+            ),
+            resource
+        );
+        return response.data;
+    },
+    deleteResource: async (resourceId, lessonId, moduleId, courseId) => {
+        const response = await axiosInstance.delete(
+            adminCourseManagementEndpoints.deleteResource(
+                resourceId,
+                lessonId,
+                moduleId,
+                courseId
+            )
         );
         return response.data;
     },

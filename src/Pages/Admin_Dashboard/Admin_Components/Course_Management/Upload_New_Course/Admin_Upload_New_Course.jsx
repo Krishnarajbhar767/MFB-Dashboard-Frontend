@@ -16,7 +16,7 @@ import {
     setAllCourses,
     setIsCoursesModified,
 } from "../../../../../Redux/Slices/All_Courses";
-import { MdCloudUpload } from "react-icons/md";
+import { MdCloudUpload, MdOutlineCancel } from "react-icons/md";
 import { customApiErrorHandler } from "../../../../../Utils/Error/cutomApiErrorHandler";
 
 const Admin_Upload_New_Course = () => {
@@ -326,15 +326,11 @@ const Admin_Upload_New_Course = () => {
                         </button>
                         {isEditingCourse && (
                             <button
-                                onClick={() =>
-                                    navigate(
-                                        "/admin/course_management/my_courses"
-                                    )
-                                }
-                                class="font-medium rounded-md border border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 type="button"
+                                class="py-2.5 flex items-center gap-2 px-6 text-sm rounded-lg bg-gray-200 text-gray-900 cursor-pointer font-normal text-center shadow-xs transition-all duration-500 hover:bg-gray-300 border border-gray-300"
+                                onClick={() => navigate(-1)}
                             >
-                                Cancel
+                                <MdOutlineCancel /> Cancel
                             </button>
                         )}
                     </div>
