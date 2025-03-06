@@ -1,108 +1,188 @@
-import React, { useEffect } from "react";
-import IconBtn from "../../../../../../Common_Components/IconBtn";
-import { FaPlus } from "react-icons/fa";
-import { IoSearch } from "react-icons/io5";
-import SelectDropDown from "../../../../../../Common_Components/Form_Components/SelectDropDown";
 import { useForm } from "react-hook-form";
-import Admin_Course_Management_Quize_Card from "./Quize Card/Admin_Course_Management_Quize_Card";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { FaPlus } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+import {
+    HiOutlineChartBar,
+    HiOutlineUsers,
+    HiOutlineClock,
+} from "react-icons/hi";
+import { FiFilter } from "react-icons/fi";
+import SelectDropDown from "../../../../../../Common_Components/Form_Components/SelectDropDown";
+import Admin_Course_Management_Quize_Card from "./Quize Card/Admin_Course_Management_Quize_Card";
 
 function Admin_Course_Management_Quize_Dashboard() {
     const { register, handleSubmit, getValues, setValue } = useForm();
-
     const navigate = useNavigate();
-    const { allQuizes } = useSelector((state) => state.quize);
-    // TODO : On First Render Call api/get-all-quizes To get All Quize Data..
-    useEffect(() => {}, [console.log("Printing Quizes", allQuizes)]);
+    const { allQuizzes } = useSelector((state) => state.quize);
+
     return (
-        <div className="px-8 py-4">
-            {/* FIrst Heading And Add Quize Button */}
-            <div className="flex items-center justify-between">
-                <h1>Quize Dashboard</h1>
+        <div className="bg-gray-50 min-h-screen p-6">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                    Quiz Dashboard
+                </h1>
                 <button
                     onClick={() => {
                         navigate("/admin/course_management/add_new_quize/");
                     }}
+                    className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors shadow-sm"
                 >
-                    <IconBtn color={"#000f"}>
-                        <FaPlus />
-                        Create New Quize
-                    </IconBtn>
+                    <FaPlus size={14} />
+                    <span>Create New Quiz</span>
                 </button>
             </div>
-            {/* Search Field and Drop Down Filter Container*/}
-            <div className="flex gap-4 mt-6">
-                {/* Search Main Container */}
-                <div className="w-[60%] shadow-sm rounded-md">
-                    <div className=" relative px-5 py-1 h-fit flex items-center gap-4 rounded-md border bg-white text-sm">
-                        <span className="text-gray-500">
-                            <IoSearch /> {/* Search button with icon */}
-                        </span>
+
+            {/* Search and Filter Section */}
+            <div className="bg-white p-5 rounded-xl shadow-sm mb-8">
+                <div className="flex flex-col md:flex-row gap-4">
+                    {/* Search Field */}
+                    <div className="md:w-1/2 relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <IoSearch className="text-gray-400" size={18} />
+                        </div>
                         <input
                             type="text"
-                            placeholder="Search Quizes....."
-                            className="bg-transparent outline-none w-full text-gray-700 font-light tracking-wide"
+                            placeholder="Search quizzes by title, category or author..."
+                            className="w-full pl-10 pr-4 py-1 border border-gray-200 rounded-lg  focus:border-transparent outline-none transition-all focus:ring-2 text-sm font-normal"
                         />
                     </div>
-                </div>
-                {/* Filter by Category */}
-                <div className="w-[20%] text-gray-800 shadow-sm rounded-md">
-                    <SelectDropDown
-                        register={register}
-                        inputName={"quizeFilterCategory"}
-                        defaultOption={"Choose A Category"}
-                    />
-                </div>
-                {/* Filter Some Other OPtion */}
-                <div className="w-[205] text-gray-800 shadow-sm rounded-md">
-                    <SelectDropDown
-                        register={register}
-                        inputName={"quizeFilterOptions"}
-                        defaultOption={"Other Filter Option"}
-                    />
-                </div>
-            </div>
-            {/* Quizes Card Container */}
-            <div
-                className="flex  gap-2 mt-6 flex-wrap justify-start   max-h-[405px] w-full overflow-scroll"
-                id="quizesCardContainer"
-            >
-                {allQuizes?.map((quize, idx) => {
-                    return (
-                        <div className="min-w-[32%] w-fit">
-                            <Admin_Course_Management_Quize_Card quize={quize} />
+
+                    {/* Filters */}
+                    <div className="flex flex-col md:flex-row gap-4 md:w-1/2">
+                        <div className="relative md:w-1/2">
+                            {/* <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <FiFilter className="text-gray-400" size={16} />
+                            </div> */}
+                            <SelectDropDown
+                                register={register}
+                                inputName={"quizeFilterCategory"}
+                                defaultOption={"Filter by Category"}
+                                className="w-full pl-10 appearance-none"
+                            />
                         </div>
-                    );
-                })}
+                        <div className="relative md:w-1/2">
+                            {/* <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <FiFilter className="text-gray-400" size={16} />
+                            </div> */}
+                            <SelectDropDown
+                                register={register}
+                                inputName={"quizeFilterOptions"}
+                                defaultOption={"Sort by"}
+                                className="w-full pl-10 appearance-none"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {/* Quize Analytic And Graph Container.... */}
-            <div className="h-[600px] bg-white mt-6 shadow-sm border border-gray-200 rounded-md px-4 py-6">
-                <h1 className="text-gray-700">Quize Analytics Overview</h1>
-                {/* ANylayitic Cards  */}
-                <div className="flex items-center my-2 gap-2">
-                    <div className="w-1/3 bg-gray-200 rounded-md px-3 py-2 text-sm font-normal text-gray-800 space-y-1">
-                        <h1>Total Participiant</h1>
-                        <h2 className="text-base font-medium text-gray-900">
-                            1234
-                        </h2>
-                        <h3>+12% last Month</h3>
+            {/* Quiz Cards Section */}
+            <div className="mb-8">
+                <h2 className="text-lg font-semibold text-gray-700 mb-4">
+                    Your Quizzes
+                </h2>
+                <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[500px] overflow-y-auto pr-2"
+                    id="quizesCardContainer"
+                >
+                    {allQuizzes?.map((item, idx) => {
+                        return item?.quizes?.map((quize) => (
+                            <div key={quize._id} className="w-full">
+                                <Admin_Course_Management_Quize_Card
+                                    quize={quize}
+                                />
+                            </div>
+                        ));
+                    })}
+                </div>
+            </div>
+
+            {/* Analytics Section */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">
+                    Quiz Analytics Overview
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Analytics Card 1 */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 transition-all hover:shadow-md">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm font-medium mb-1">
+                                    Total Participants
+                                </p>
+                                <h3 className="text-3xl font-bold text-gray-900">
+                                    1,234
+                                </h3>
+                                <p className="text-green-600 text-sm font-medium mt-2 flex items-center">
+                                    <span className="mr-1">↑</span> 12% last
+                                    month
+                                </p>
+                            </div>
+                            <div className="bg-black bg-opacity-5 p-3 rounded-lg">
+                                <HiOutlineUsers
+                                    className="text-gray-700"
+                                    size={24}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="w-1/3 bg-gray-200 rounded-md px-3 py-2 text-sm font-normal text-gray-800 space-y-1">
-                        <h1>Total Participiant</h1>
-                        <h2 className="text-base font-medium text-gray-900">
-                            1234
-                        </h2>
-                        <h3>+12% last Month</h3>
+
+                    {/* Analytics Card 2 */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 transition-all hover:shadow-md">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm font-medium mb-1">
+                                    Average Score
+                                </p>
+                                <h3 className="text-3xl font-bold text-gray-900">
+                                    76%
+                                </h3>
+                                <p className="text-red-600 text-sm font-medium mt-2 flex items-center">
+                                    <span className="mr-1">↓</span> 3% last
+                                    month
+                                </p>
+                            </div>
+                            <div className="bg-black bg-opacity-5 p-3 rounded-lg">
+                                <HiOutlineChartBar
+                                    className="text-gray-700"
+                                    size={24}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="w-1/3 bg-gray-200 rounded-md px-3 py-2 text-sm font-normal text-gray-800 space-y-1">
-                        <h1>Total Participiant</h1>
-                        <h2 className="text-base font-medium text-gray-900">
-                            1234
-                        </h2>
-                        <h3>+12% last Month</h3>
+
+                    {/* Analytics Card 3 */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 transition-all hover:shadow-md">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm font-medium mb-1">
+                                    Avg. Completion Time
+                                </p>
+                                <h3 className="text-3xl font-bold text-gray-900">
+                                    14:32
+                                </h3>
+                                <p className="text-green-600 text-sm font-medium mt-2 flex items-center">
+                                    <span className="mr-1">↑</span> 8% faster
+                                </p>
+                            </div>
+                            <div className="bg-black bg-opacity-5 p-3 rounded-lg">
+                                <HiOutlineClock
+                                    className="text-gray-700"
+                                    size={24}
+                                />
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                {/* Placeholder for charts */}
+                <div className="mt-8 h-64 bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                    <p className="text-gray-400">
+                        Quiz performance charts will appear here
+                    </p>
                 </div>
             </div>
         </div>

@@ -12,14 +12,19 @@ import { IoSaveSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 // Import the Redux action to add a new quiz
-import { addNewQuize } from "../../../../../../Redux/Slices/quizesSlice";
+import {
+    addNewQuize,
+    setIsQuizModified,
+} from "../../../../../../Redux/Slices/quizesSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 
 function Admin_Course_Managemnet_Add_Quize() {
     // Retrieve all quizzes from the Redux store (if needed for rendering elsewhere)
     const { allQuizes } = useSelector((state) => state.quize);
-
+    const { allCourses } = useSelector((state) => state.allCourses);
     // Get quizId from URL parameters and quiz object from the location state.
     // If either is not provided, we default to false.
     const quizeId = useParams()?.quizeId ?? false;
@@ -67,9 +72,9 @@ function Admin_Course_Managemnet_Add_Quize() {
         if (
             data.author !== currentlyEditingQuize.author ||
             data.title !== currentlyEditingQuize.title ||
-            data.publishDate !== currentlyEditingQuize.publishDate ||
+            data.time_date !== currentlyEditingQuize.time_date ||
             data.course !== currentlyEditingQuize.course ||
-            data.timeOut !== currentlyEditingQuize.timeOut
+            data.timelimit !== currentlyEditingQuize.timelimit
         ) {
             return true;
         } else {
@@ -85,9 +90,10 @@ function Admin_Course_Managemnet_Add_Quize() {
     function clearInput() {
         setValue("author", "");
         setValue("course", "");
-        setValue("publishDate", "");
-        setValue("timeOut", "");
+        setValue("time_date", "");
+        setValue("timelimit", "");
         setValue("title", "");
+        setValue("status", "");
     }
 
     /**
@@ -99,20 +105,27 @@ function Admin_Course_Managemnet_Add_Quize() {
      */
     const addQuize = async (data) => {
         console.log("Printing Data From....JSX", data);
+        const toastId = toast.loading("Creating Quize...");
         try {
-            const response = {
+            const response = await adminCourseManagementApis.createQuize({
                 ...data,
                 questions: [],
-                _id: `ebdere9034j39${Math.random()}`,
-            }; // Simulated API response with a unique _id.
-            if (response) {
-                dispatch(addNewQuize(response));
-                toast.success("Quize created successfully..");
-                clearInput();
+            });
+            if (!response) {
+                toast.error("Something went wrong.");
             }
+            dispatch(setIsQuizModified(true));
+            toast.dismiss(toastId);
+            toast.success("Quize created successfully..");
+            clearInput();
         } catch (error) {
-            console.log(error.message);
-            toast.error(error.message);
+            const err = customApiErrorHandler(
+                error,
+                "Error While Creating New Quize"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
         }
     };
 
@@ -170,11 +183,13 @@ function Admin_Course_Managemnet_Add_Quize() {
      */
     useEffect(() => {
         if (isEditingQuize) {
+            console.log("Editing  Quize Data --->", quize);
             setValue("title", quize.title);
             setValue("author", quize.author);
-            setValue("publishDate", quize.publishDate);
-            setValue("course", quize.course);
-            setValue("timeOut", quize.timeOut);
+            setValue("time_date", quize.time_date);
+            setValue("course", quize.courseId);
+            setValue("timelimit", quize.timelimit);
+            setValue("status", quize.status);
         }
     }, []); // Empty dependency array so this runs only once on mount.
 
@@ -245,9 +260,9 @@ function Admin_Course_Managemnet_Add_Quize() {
                                 placeholder={"Quize Publish Date"}
                                 type={"datetime-local"}
                                 register={register}
-                                inputName="publishDate"
+                                inputName="time_date"
                                 required={true}
-                                error={errors?.publishDate}
+                                error={errors?.time_date}
                                 validation={{
                                     required: "Date is required",
                                     // Validate that the selected date is in the future.
@@ -288,11 +303,17 @@ function Admin_Course_Managemnet_Add_Quize() {
                             selectName={"Quize Course"}
                             selectId={"course"}
                             label={"Select Course*"}
-                            options={[
-                                { value: "8e278eh28746b78", name: "Option 1" },
-                                { value: "nd89y3r4349j39r", name: "Option 2" },
-                                { value: "fdejf93ry8l3p9", name: "Option 3" },
-                            ]}
+                            // options={[
+                            //     { value: "8e278eh28746b78", name: "Option 1" },
+                            //     { value: "nd89y3r4349j39r", name: "Option 2" },
+                            //     { value: "fdejf93ry8l3p9", name: "Option 3" },
+                            // ]}
+                            options={allCourses?.map((course) => {
+                                return {
+                                    value: course._id,
+                                    name: course.courseTitle,
+                                };
+                            })}
                             defaultOption={"Choose A Course"}
                         />
                     </div>
@@ -304,12 +325,27 @@ function Admin_Course_Managemnet_Add_Quize() {
                             placeholder={"Enter Quize Time Limit"}
                             type={"number"}
                             register={register}
-                            inputName="timeOut"
+                            inputName="timelimit"
                             required={true}
-                            error={errors?.timeOut}
+                            error={errors?.timelimit}
                         />
                     </div>
-
+                    <div className="mt-2">
+                        <SelectDropDown
+                            register={register}
+                            inputName={"status"}
+                            required={true}
+                            error={errors?.status}
+                            selectName={"Status"}
+                            selectId={"status"}
+                            label={"Status of quize*"}
+                            options={[
+                                { value: "draft", name: "Darft" },
+                                { value: "public", name: "Public" },
+                            ]}
+                            defaultOption={"Status"}
+                        />
+                    </div>
                     {/* Action Buttons: Submit (Add/Update) and Cancel (if editing) */}
                     <div className="mt-4 space-x-2">
                         <button type="submit">

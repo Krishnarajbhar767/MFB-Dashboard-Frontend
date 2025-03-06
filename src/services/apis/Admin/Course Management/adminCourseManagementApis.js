@@ -4,6 +4,7 @@ import axiosInstance from "../../../apiConncetor";
 
 import { setAllCourses } from "../../../../Redux/Slices/All_Courses";
 import { adminCourseManagementEndpoints } from "../../../EndPoints/Admin/Course Management/adminCourseManagementEndpoints";
+import axios from "axios";
 
 export const adminCourseManagementApis = {
     createCourse: async (courseData) => {
@@ -129,5 +130,26 @@ export const adminCourseManagementApis = {
             )
         );
         return response.data;
+    },
+    // Get ALl Quizzes
+    getAllQuizzes: async () => {
+        const response = await axiosInstance.get(
+            adminCourseManagementEndpoints.getAllQuizzes
+        );
+        return response.data;
+    },
+    //Create OR ADD New Quizzes
+    createQuize: async (quize) => {
+        const res = await axiosInstance.post(
+            adminCourseManagementEndpoints.createQuize(quize.course),
+            quize
+        );
+        return res.data;
+    },
+    deleteQuiz: async (quiz) => {
+        const res = await axiosInstance.delete(
+            adminCourseManagementEndpoints.deleteQuiz(quiz.courseId, quiz._id)
+        );
+        return res.data;
     },
 };

@@ -29,7 +29,7 @@ function SelectDropDown({
                 {...register(inputName, {
                     required: required ? required : false,
                 })}
-                className="text-sm font-normal px-4 py-[3px]
+                className="text-sm font-normal px-4 py-1
                 border border-gray-200 focus:border-blue-500
                 "
             >

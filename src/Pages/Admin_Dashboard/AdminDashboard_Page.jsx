@@ -29,6 +29,9 @@ import { FaBookMedical } from "react-icons/fa6";
 import { adminCourseManagementApis } from "../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCourses } from "../../Redux/Slices/All_Courses";
+import { customApiErrorHandler } from "../../Utils/Error/cutomApiErrorHandler";
+import toast from "react-hot-toast";
+import { setAllQuizzes } from "../../Redux/Slices/quizesSlice";
 
 function AdminDashboard() {
     const sidebarList = useMemo(() => [
@@ -117,36 +120,48 @@ function AdminDashboard() {
     // Fetch Required Data From Api Call When The Admin Enter Admin Dashboard..
     const dispatch = useDispatch();
     const isCoursesLoaded = useSelector((state) => state.allCourses.isLoaded);
-    console.log("Printing Store --->", isCoursesLoaded);
+    const isQuizeLoaded = useSelector((state) => state.quize.isLoaded);
     // Fetch courses on first mount
     const fetchCourses = async () => {
-        const all_course_data = await adminCourseManagementApis.getAllCourses();
-
-        dispatch(setAllCourses(all_course_data));
+        try {
+            const all_course_data =
+                await adminCourseManagementApis.getAllCourses();
+            dispatch(setAllCourses(all_course_data));
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "Error While Fetching All Courses Api -->"
+            );
+            toast.error(`Can Not get All Course Data. Becouse ${err}`);
+        }
     };
-
-    // // Fetch modules on first mount
-    // const fetchModules = async () => {
-    //     const response = await fetch("/api/modules");
-    //     const data = await response.json();
-    //     dispatch(setModules(data));
-    // };
+    //Fetch All Quizes From Backend
+    const fetchQuizzes = async () => {
+        try {
+            const all_quizzes_data =
+                await adminCourseManagementApis.getAllQuizzes();
+            dispatch(setAllQuizzes(all_quizzes_data));
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "Error While Fetching All Courses Api -->"
+            );
+            toast.error(`Can Not get All Quizzes Data. Becouse ${err}`);
+        }
+    };
 
     // Fetch data once on mount
     useEffect(() => {
         if (!isCoursesLoaded) {
             fetchCourses();
-            console.log(
-                "First Render Of Amin Dashboard And Fetch All Course Api Called ---->"
-            );
         }
-        // if (!isModulesLoaded) {
-        //     fetchModules();
-        //     console.log(
-        //         "First Render Of Amin Dashboard And Fetch All Module Api Called ---->"
-        //     );
-        // }
-    }, [isCoursesLoaded]); // Runs only once
+    }, [isCoursesLoaded]);
+
+    useEffect(() => {
+        if (!isQuizeLoaded) {
+            fetchQuizzes();
+        }
+    }, [isQuizeLoaded]);
 
     return (
         <div className="flex flex-col h-screen w-[100vw]">

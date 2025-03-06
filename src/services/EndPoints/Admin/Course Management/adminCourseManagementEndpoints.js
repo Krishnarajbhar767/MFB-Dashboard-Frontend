@@ -5,7 +5,6 @@ export const adminCourseManagementEndpoints = {
     getCourseDataById: (courseId) => `/admin/coursemanagement/${courseId}`,
     deleteCourseByIdRoute: (courseId) =>
         `/admin/coursemanagement/${courseId}/delete`,
-
     updateCourseById: (courseId) =>
         `/admin/coursemanagement/${courseId}/update`,
     // Routes For Module
@@ -28,4 +27,8 @@ export const adminCourseManagementEndpoints = {
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource/${resourceId}`,
     deleteResource: (resourceId, lessonId, moduleId, courseId) =>
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource/${resourceId}`,
+    getAllQuizzes: "/admin/coursemanagement/course/quizzes/",
+    createQuize: (courseId) => `admin/coursemanagement/course/${courseId}/quiz`,
+    deleteQuiz: (courseId, quizId) =>
+        `/admin/coursemanagement/course/${courseId}/quiz/${quizId}`,
 };

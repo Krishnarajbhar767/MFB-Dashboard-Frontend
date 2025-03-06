@@ -1,62 +1,108 @@
-import React, { memo, useState } from "react";
-import { FaPlus, FaRegEye, FaTimesCircle } from "react-icons/fa";
-import { IoTimeOutline } from "react-icons/io5";
-import { MdDeleteForever, MdPeople } from "react-icons/md";
-import { RiBarChartFill } from "react-icons/ri";
-import IconBtn from "../../../../../../../Common_Components/IconBtn";
-import { FiEdit } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+"use client";
+
+import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaPlus, FaRegEye } from "react-icons/fa";
+import { FiEdit, FiClock } from "react-icons/fi";
+import { HiOutlineUsers, HiOutlineChartBar } from "react-icons/hi";
+import { MdDeleteOutline } from "react-icons/md";
 import ConfirmationModal from "../../../../../../../Common_Components/modal/ConfirmationModal";
+import { adminCourseManagementApis } from "../../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { customApiErrorHandler } from "../../../../../../../Utils/Error/cutomApiErrorHandler";
+import { useDispatch } from "react-redux";
+import { setIsQuizModified } from "../../../../../../../Redux/Slices/quizesSlice";
 
 const Admin_Course_Management_Quize_Card = memo(
     function Admin_Course_Management_Quize_Card({ quize }) {
         const navigate = useNavigate();
+        const dispatch = useDispatch();
         const [confirmationModal, setConfirmationModal] = useState(null);
-        const deleteQuizeHandler = async () => {
+
+        const deleteQuizeHandler = async (quiz) => {
+            const toastId = toast.loading("Deleting Quiz...");
             try {
                 // Call Api For Data Delete
-                const reponse = { quizeId: quize._id };
-                if (!reponse) {
+                // const reponse = { quizeId: quize._id };
+                const response = await adminCourseManagementApis.deleteQuiz(
+                    quiz
+                );
+                if (!response) {
                     return toast.error("Something went wrong.");
                 }
-                toast.success("Quize Deleted Successfully..");
+                toast.dismiss(toastId);
                 setConfirmationModal(null);
+                dispatch(setIsQuizModified(true));
+                toast.success("Quiz deleted successfully");
             } catch (error) {
-                toast.error(error.message);
-                console.log("Error While Deleting The Quize JSX --->", error);
+                const err = customApiErrorHandler(
+                    error,
+                    "error while deleting quiz"
+                );
+                toast.error(err);
+            } finally {
+                toast.dismiss(toastId);
             }
         };
+
         return (
-            <div className="border bg-white shadow-sm rounded-md  w-full p-4 text-sm font-normal text-gray-800">
-                {/* Course TItle And Catgory container */}
-                <div className="flex items-center justify-between">
-                    {/* COurse Title */}
-                    <h1 className="text-base font-medium">{quize?.title}</h1>
-                    {/* COurse Category */}
-                    {/* <h2 className="bg-gray-200 px-6 py-1 rounded-2xl text-gray-700 capitalize">
-                    Course Cat
-                </h2> */}
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden h-full">
+                {/* Card Header */}
+                <div className="p-5 border-b border-gray-100">
+                    <div className="flex justify-between items-start mb-3">
+                        <h3 className="font-semibold text-gray-800 line-clamp-1">
+                            {quize?.title}
+                        </h3>
+                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                            {quize?.questions?.length || 0} questions
+                        </span>
+                    </div>
+                    {/* 
+                    <p className="text-gray-500 text-sm line-clamp-2 h-10">
+                        {quize?.summary ||
+                            "No description available for this quiz."}
+                    </p> */}
                 </div>
-                {/* Created At Participaint AVG. Score Container */}
-                <div className="space-y-1 text-xs mt-2">
-                    <span className="flex items-center gap-2">
-                        <IoTimeOutline />{" "}
-                        {quize?.createdAt ? quize?.createdAt : "None"}
-                    </span>
-                    <span className="flex items-center gap-2">
-                        <MdPeople /> 256 Participiants
-                    </span>
-                    <span className="flex items-center gap-2">
-                        <RiBarChartFill />
-                        AVG. Score: 75%
-                    </span>
+
+                {/* Card Stats */}
+                <div className="px-5 py-3 bg-gray-50">
+                    <div className="grid grid-cols-3 gap-2">
+                        <div className="flex flex-col">
+                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                                <FiClock className="mr-1" size={12} />
+                                <span>Created</span>
+                            </div>
+                            <p className="text-xs font-medium text-gray-700">
+                                {new Date(
+                                    quize?.createdAt || Date.now()
+                                ).toLocaleDateString()}
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                                <HiOutlineUsers className="mr-1" size={12} />
+                                <span>Participants</span>
+                            </div>
+                            <p className="text-xs font-medium text-gray-700">
+                                256
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                                <HiOutlineChartBar className="mr-1" size={12} />
+                                <span>Avg. Score</span>
+                            </div>
+                            <p className="text-xs font-medium text-gray-700">
+                                75%
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                {/* Button Container */}
-                <div className="flex items-center justify-around gap-2 mt-4 ">
-                    {/* <button className="px-6 py-1 bg-transparent border border-gray-300 rounded-md mt-4 w-1/2">
-                    Edit
-                </button> */}
+
+                {/* Card Actions */}
+                <div className="p-4 grid grid-cols-4 gap-2">
                     <button
                         onClick={() =>
                             navigate(
@@ -64,11 +110,12 @@ const Admin_Course_Management_Quize_Card = memo(
                                 { state: { quiz: quize } }
                             )
                         }
+                        className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                        <IconBtn textColor={"#000f"}>
-                            View <FaRegEye />{" "}
-                        </IconBtn>
+                        <FaRegEye className="text-gray-700 mb-1" size={16} />
+                        <span className="text-xs text-gray-600">View</span>
                     </button>
+
                     <button
                         onClick={() => {
                             navigate(
@@ -76,11 +123,12 @@ const Admin_Course_Management_Quize_Card = memo(
                                 { state: { quizeId: quize._id } }
                             );
                         }}
+                        className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                        <IconBtn textColor={"#fff"} color={"#1f2937"}>
-                            Add <FaPlus />
-                        </IconBtn>
+                        <FaPlus className="text-gray-700 mb-1" size={16} />
+                        <span className="text-xs text-gray-600">Add</span>
                     </button>
+
                     <button
                         onClick={() => {
                             navigate(
@@ -88,31 +136,33 @@ const Admin_Course_Management_Quize_Card = memo(
                                 { state: { quize } }
                             );
                         }}
+                        className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                        <IconBtn textColor={"#fff"} color={"#1f2937"}>
-                            Edit <FiEdit />
-                        </IconBtn>
+                        <FiEdit className="text-gray-700 mb-1" size={16} />
+                        <span className="text-xs text-gray-600">Edit</span>
                     </button>
+
                     <button
                         onClick={() =>
                             setConfirmationModal({
-                                text1: "Are You Sure",
-                                text2: "Your quize will be deleted.",
+                                text1: "Delete Quiz?",
+                                text2: "This action cannot be undone.",
                                 btn1Text: "Delete",
                                 btn2Text: "Cancel",
-                                btn1Handler: () => deleteQuizeHandler(),
+                                btn1Handler: () => deleteQuizeHandler(quize),
                                 btn2Handler: () => setConfirmationModal(null),
                             })
                         }
+                        className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                        <IconBtn color={"#dc2626"}>
-                            Delete <MdDeleteForever />
-                        </IconBtn>
+                        <MdDeleteOutline
+                            className="text-red-500 mb-1"
+                            size={16}
+                        />
+                        <span className="text-xs text-gray-600">Delete</span>
                     </button>
-                    {/* <button className="px-6 py-1 bg-gray-800 border border-gray-300 rounded-md mt-4 w-1/2 text-gray-200">
-                    View Stats
-                </button> */}
                 </div>
+
                 {confirmationModal && (
                     <ConfirmationModal modalData={confirmationModal} />
                 )}
