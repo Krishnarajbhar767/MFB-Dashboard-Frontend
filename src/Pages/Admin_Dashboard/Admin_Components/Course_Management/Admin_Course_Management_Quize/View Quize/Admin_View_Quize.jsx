@@ -12,16 +12,18 @@ import {
     FiInfo,
 } from "react-icons/fi";
 import "../View Quize/quize_style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
 import { setIsQuizModified } from "../../../../../../Redux/Slices/quizesSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import ConfirmationModal from "../../../../../../Common_Components/modal/ConfirmationModal";
 
 function Admin_View_Quize() {
-    const quiz = useLocation().state?.quiz;
+    const tempQuize = useLocation()?.state?.quiz;
+    const [quiz, setQuiz] = useState([]);
+    const { allQuizzes } = useSelector((state) => state.quize);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [confirmationModal, setConfirmationModal] = useState(null);
@@ -84,19 +86,33 @@ function Admin_View_Quize() {
         navigate(
             `/admin/course_management/add_new_quize_questions/:${quiz._id}`,
             {
-                state: { quizeId: quiz._id, quize: quiz },
+                state: {
+                    quizeId: quiz._id,
+                    quize: quiz,
+
+                    courseId: quiz.courseId,
+                },
             }
         );
     };
 
+    useEffect(() => {
+        allQuizzes.forEach((course) =>
+            course.quizes.map((quiz) => {
+                if (quiz._id === tempQuize._id) {
+                    setQuiz(quiz);
+                }
+            })
+        );
+    }, []);
     return (
         <div className="quiz-container">
             <div className="quiz-card">
                 {/* Quiz Header */}
                 <header className="quiz-header">
                     <div className="quiz-title-section">
-                        <h1 className="quiz-title">{quiz.title}</h1>
-                        <p className="quiz-summary">{quiz.summary}</p>
+                        <h1 className="quiz-title">{quiz?.title}</h1>
+                        <p className="quiz-summary">{quiz?.summary}</p>
                     </div>
                     <div className="quiz-actions">
                         <button
@@ -129,14 +145,14 @@ function Admin_View_Quize() {
                     <div className="metadata-item">
                         <FiUser className="icon" />
                         <span className="label">Author:</span>
-                        <span className="value">{quiz.author}</span>
+                        <span className="value">{quiz?.author}</span>
                     </div>
 
                     <div className="metadata-item">
                         <FiCalendar className="icon" />
                         <span className="label">Published:</span>
                         <span className="value">
-                            {new Date(quiz.time_date).toLocaleString()}
+                            {new Date(quiz?.time_date).toLocaleString()}
                         </span>
                     </div>
 
@@ -149,7 +165,7 @@ function Admin_View_Quize() {
                     <div className="metadata-item">
                         <FiClock className="icon" />
                         <span className="label">Time Limit:</span>
-                        <span className="value">{quiz.timelimit} minutes</span>
+                        <span className="value">{quiz?.timelimit} minutes</span>
                     </div>
                 </div>
 
@@ -166,25 +182,38 @@ function Admin_View_Quize() {
                             >
                                 <FiEdit /> Edit Questions
                             </button>
-                            <button className="btn btn-primary">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() =>
+                                    navigate(
+                                        "/admin/course_management/add_new_quize_questions/",
+                                        {
+                                            state: {
+                                                quizeId: quiz._id,
+                                                courseId: quiz?.courseId,
+                                            },
+                                        }
+                                    )
+                                }
+                            >
                                 <FiPlus /> Add Question
                             </button>
                         </div>
                     </div>
 
-                    {quiz.questions.length === 0 ? (
+                    {quiz?.questions?.length === 0 ? (
                         <p className="no-questions">No questions available.</p>
                     ) : (
                         <div className="questions-list">
-                            {quiz.questions.map((q, index) => (
-                                <div key={q.id} className="question-card">
+                            {quiz?.questions?.map((q, index) => (
+                                <div key={q?.id} className="question-card">
                                     <div className="question-header">
                                         <div className="question-title-container">
                                             <div className="question-number">
                                                 {index + 1}
                                             </div>
                                             <h3 className="question-title">
-                                                {q.question}
+                                                {q?.question}
                                             </h3>
                                         </div>
                                         <div className="question-actions">
@@ -199,7 +228,7 @@ function Admin_View_Quize() {
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    handleDeleteQuestion(q.id)
+                                                    handleDeleteQuestion(q?.id)
                                                 }
                                                 className="icon-button delete"
                                                 aria-label="Delete question"
@@ -214,12 +243,12 @@ function Admin_View_Quize() {
                                             <div
                                                 key={i}
                                                 className={`option-item ${
-                                                    option === q.correctAnswer
+                                                    option === q?.currectAns
                                                         ? "correct-answer"
                                                         : ""
                                                 }`}
                                             >
-                                                {option === q.correctAnswer && (
+                                                {option === q?.currectAns && (
                                                     <FiCheck className="check-icon" />
                                                 )}
                                                 <span>{option}</span>
@@ -230,7 +259,7 @@ function Admin_View_Quize() {
                                     {q.summary && (
                                         <div className="question-summary">
                                             <FiInfo className="info-icon" />
-                                            <p>{q.summary}</p>
+                                            <p>{q?.summary}</p>
                                         </div>
                                     )}
                                 </div>

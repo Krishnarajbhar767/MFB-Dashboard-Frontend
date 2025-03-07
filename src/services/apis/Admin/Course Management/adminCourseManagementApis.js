@@ -152,4 +152,16 @@ export const adminCourseManagementApis = {
         );
         return res.data;
     },
+    // Add Question to Quizee
+    addQuestionsToQuize: async (question, courseId, quizeId) => {
+        console.log("Printing Question data From ---API ", question);
+        const res = await axiosInstance.post(
+            adminCourseManagementEndpoints.addQuestionsToQuize(
+                courseId,
+                quizeId
+            ),
+            ...question
+        );
+        return res.data;
+    },
 };

@@ -1,5 +1,3 @@
-"use client";
-
 import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -15,6 +13,7 @@ import { setIsQuizModified } from "../../../../../../../Redux/Slices/quizesSlice
 
 const Admin_Course_Management_Quize_Card = memo(
     function Admin_Course_Management_Quize_Card({ quize }) {
+        console.log("Quiz Data From Quiz Card --->", quize);
         const navigate = useNavigate();
         const dispatch = useDispatch();
         const [confirmationModal, setConfirmationModal] = useState(null);
@@ -118,9 +117,16 @@ const Admin_Course_Management_Quize_Card = memo(
 
                     <button
                         onClick={() => {
+                            console.log(quize);
                             navigate(
-                                "/admin/course_management/add_new_quize_questions/",
-                                { state: { quizeId: quize._id } }
+                                `/admin/course_management/add_new_quize_questions/${quize.title}`,
+                                {
+                                    state: {
+                                        quizeId: quize._id,
+                                        quizTitle: quize.title,
+                                        courseId: quize?.courseId,
+                                    },
+                                }
                             );
                         }}
                         className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"

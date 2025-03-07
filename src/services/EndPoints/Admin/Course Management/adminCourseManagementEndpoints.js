@@ -31,4 +31,6 @@ export const adminCourseManagementEndpoints = {
     createQuize: (courseId) => `admin/coursemanagement/course/${courseId}/quiz`,
     deleteQuiz: (courseId, quizId) =>
         `/admin/coursemanagement/course/${courseId}/quiz/${quizId}`,
+    addQuestionsToQuize: (courseId, quizeId) =>
+        `/admin/coursemanagement/course/${courseId}/quiz/${quizeId}/questoin/insertmany`,
 };
