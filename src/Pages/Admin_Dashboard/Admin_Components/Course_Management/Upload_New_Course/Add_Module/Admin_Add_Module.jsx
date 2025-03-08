@@ -82,7 +82,10 @@ function Admin_Add_Module() {
         // check is This Module Already Exist Or Not ? If Exist Then Check and Ask are You Sure For Make Copy Of That Module if User Allow Then Create All Api And Create Duplicate Module
         // step 1 check is moduleExist if
         if (isModuleExist(data)) {
-            toast.error("A module with this title already exists.");
+            toast.error(
+                "Oops! A module with this title already exists. Try a different name."
+            );
+
             return;
         }
         //  if Module dose Not exit then call create Module Api If SuccessFull Then get All Module Data And Set All Module... For Realtime Module Update
@@ -132,7 +135,7 @@ function Admin_Add_Module() {
     // Function Handle Edit Module When I Am On Edit Mode of Module
     const editModuleHandler = async (data) => {
         if (!isModuleUpdated(data)) {
-            toast.error("Opps! No Changes Made Module.");
+            toast.success("Module updated! Review your changes now.");
             return;
         }
 
@@ -154,7 +157,7 @@ function Admin_Add_Module() {
             // step3 - setcourse modified true
             dispatch(setIsCoursesModified(true));
             // step4 - toast.success
-            toast.success("Module updated Successfully.");
+            toast.success("Module updated! Review your changes now.");
             // step5 - go back to coursePreview
             navigate(-1);
         } catch (error) {

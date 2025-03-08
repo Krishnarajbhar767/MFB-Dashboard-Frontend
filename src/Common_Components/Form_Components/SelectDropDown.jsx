@@ -10,6 +10,7 @@ function SelectDropDown({
     inputName,
     required,
     defaultOption,
+    disabled,
 }) {
     return (
         <div className={`flex flex-col gap-1`}>
@@ -24,6 +25,7 @@ function SelectDropDown({
                 </label>
             )}
             <select
+                disabled={disabled ? disabled : false}
                 name={selectName}
                 id={selectId}
                 {...register(inputName, {

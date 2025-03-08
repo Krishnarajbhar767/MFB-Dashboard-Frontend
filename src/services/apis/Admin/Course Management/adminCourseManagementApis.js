@@ -141,7 +141,7 @@ export const adminCourseManagementApis = {
     //Create OR ADD New Quizzes
     createQuize: async (quize) => {
         const res = await axiosInstance.post(
-            adminCourseManagementEndpoints.createQuize(quize.course),
+            adminCourseManagementEndpoints.createQuize(quize.courseId),
             quize
         );
         return res.data;
@@ -160,7 +160,30 @@ export const adminCourseManagementApis = {
                 courseId,
                 quizeId
             ),
-            ...question
+            question
+        );
+        return res.data;
+    },
+    getQuizById: async (courseId, quizId) => {
+        const res = await axiosInstance.get(
+            adminCourseManagementEndpoints.getQuizById(courseId, quizId)
+        );
+        return res.data.data;
+    },
+    deleteQuestionOfQuiz: async (questionId, courseId, quizId) => {
+        const res = await axiosInstance.delete(
+            adminCourseManagementEndpoints.deleteQuestionOfQuiz(
+                questionId,
+                courseId,
+                quizId
+            )
+        );
+        return await res.data;
+    },
+    editQuiz: async (quiz, courseId, quizId) => {
+        const res = await axiosInstance.patch(
+            adminCourseManagementEndpoints.editQuiz(courseId, quizId),
+            quiz
         );
         return res.data;
     },

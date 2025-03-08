@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaEdit, FaPlus } from "react-icons/fa";
 import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 
@@ -12,32 +12,71 @@ import {
     AdminCustomInput,
     AdminCustomSelect,
 } from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
+import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
+import toast from "react-hot-toast";
+import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { useDispatch } from "react-redux";
+import { setIsQuizModified } from "../../../../../../Redux/Slices/quizesSlice";
 
 function Admin_Add_Question_To_quiz() {
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     // Initialize react-hook-form
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
     const quizTitle = location?.state?.quizTitle;
+    const courseId = location?.state?.courseId;
+    const quizId = location?.state?.quizId;
     // Simple onSubmit handler (for demonstration purposes only)
     const onSubmit = (data) => {
-        console.log("Form Data Submitted:", data);
+        isEditing ? editQuestionHandler(data) : addQuestionHandler(data);
     };
 
-    const [tempQuestions, setTempQuestions] = useState([]);
-    const [isEditing, setIsEditing] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
     // Function For Handler Add Question To Temp quiz
-    function addQuestionHandler() {}
-    console.log("quizTitle", quizTitle);
+    async function addQuestionHandler(data) {
+        const toastId = toast.loading("Adding Question...");
+        try {
+            const res = await adminCourseManagementApis.addQuestionsToQuize(
+                data,
+                courseId,
+                quizId
+            );
+            if (!res) return toast.error("Something went wrong");
+            toast.dismiss(toastId);
+            toast.success("Question added successfully...");
+            clearInputs();
+            dispatch(setIsQuizModified(true));
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "Error While Adding New Question To Quiz"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
+    }
+    async function editQuestionHandler(data) {}
+    // function for clear input after task done
+    const clearInputs = () => {
+        reset({
+            question: "",
+            options: ["", "", "", ""],
+            currectAns: null,
+            summary: "",
+        });
+    };
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex justify-center gap-6 p-4"
         >
-            {/* LEFT PANEL: Form to add a new quiz question */}
             <div className="w-1/2">
                 <h2 className="text-lg font-semibold text-gray-800 capitalize">
                     {isEditing
@@ -125,18 +164,17 @@ function Admin_Add_Question_To_quiz() {
                     />
                     {/* Action Buttons */}
                     <div className="flex items-center justify-center gap-4">
-                        <button type="submit" onClick={addQuestionHandler}>
+                        <button type="submit">
                             <IconBtn color="#000f">
                                 <FaPlus /> Add Question
                             </IconBtn>
                         </button>
-                        {isEditing && (
-                            <button type="button">
-                                <IconBtn color="#000f">
-                                    <MdOutlineCancel /> Cancel
-                                </IconBtn>
-                            </button>
-                        )}
+
+                        <button type="button" onClick={() => navigate(-1)}>
+                            <IconBtn color="#000f">
+                                <MdOutlineCancel /> Cancel
+                            </IconBtn>
+                        </button>
                     </div>
                 </div>
             </div>

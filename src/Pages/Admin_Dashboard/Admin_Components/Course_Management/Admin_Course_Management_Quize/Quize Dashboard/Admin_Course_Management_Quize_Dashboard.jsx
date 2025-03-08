@@ -15,7 +15,7 @@ import Admin_Course_Management_Quize_Card from "./Quize Card/Admin_Course_Manage
 function Admin_Course_Management_Quize_Dashboard() {
     const { register, handleSubmit, getValues, setValue } = useForm();
     const navigate = useNavigate();
-    const { allQuizzes } = useSelector((state) => state.quize);
+    const { allQuizzes } = useSelector((state) => state?.quize);
 
     return (
         <div className="bg-gray-50 min-h-screen p-6">
@@ -87,15 +87,16 @@ function Admin_Course_Management_Quize_Dashboard() {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[500px] overflow-y-auto pr-2"
                     id="quizesCardContainer"
                 >
-                    {allQuizzes?.map((item, idx) => {
-                        return item?.quizes?.map((quize) => (
+                    {allQuizzes?.flatMap((item) =>
+                        item.quizes?.map((quize) => (
                             <div key={quize._id} className="w-full">
                                 <Admin_Course_Management_Quize_Card
                                     quize={quize}
+                                    courseTitle={item.courseTitle}
                                 />
                             </div>
-                        ));
-                    })}
+                        ))
+                    )}
                 </div>
             </div>
 

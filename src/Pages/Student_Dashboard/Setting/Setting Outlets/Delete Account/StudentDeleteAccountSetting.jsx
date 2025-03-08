@@ -17,7 +17,7 @@ function StudentDeleteAccountSetting() {
 
             <div className="px-4 mt-3 space-y-3">
                 <p className="md:w-[80%] text-sm font-normal text-gray-600">
-                    When you delete your account,You lose acces to your front
+                    When you delete your account,You lose access to your front
                     account service, and we permanently delete your personal
                     data, you can cancel your deletion before 14 days.
                 </p>

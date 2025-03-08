@@ -61,7 +61,8 @@ function Admin_Add_Resource() {
     const addResourceHandler = async (data) => {
         // Before Adding New Resource Please Check Is There COntent Or Pdf File Is Available Or Not ?
         if (!content?.replace("<p><br></p>", "") && !pdfsfile) {
-            toast.error("Content Or Pdf File Is Required.");
+            toast.error("Oops! You need to upload content or a PDF file.");
+
             return;
         }
         // Now Wee Need TO Format Our Data For Api Call;
@@ -116,7 +117,10 @@ function Admin_Add_Resource() {
         data.pdfsfile = pdfsfile;
         data.content = data?.content?.replace("<p><br></p>", "");
         if (!isResourceupdated(data)) {
-            toast.error("No Changes Detected..");
+            toast.error(
+                "Oops! Looks like nothing was changed. Try modifying the resource."
+            );
+
             return;
         }
 
@@ -127,11 +131,11 @@ function Admin_Add_Resource() {
                 currentlyEditingResourceData.resourceId
             );
             if (!response) {
-                toast.error("Opps! Something went wrong.");
+                toast.error("Oops! Something went wrong.");
                 return;
             }
             toast.dismiss(toastId);
-            toast.success("Resource updated succssfully.");
+            toast.success("Resource updated! Review your changes now.");
             dispatch(setIsCoursesModified(true));
             navigate(-1);
         } catch (error) {

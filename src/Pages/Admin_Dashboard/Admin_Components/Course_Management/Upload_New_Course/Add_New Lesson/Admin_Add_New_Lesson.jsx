@@ -93,13 +93,18 @@ function Admin_Add_New_Lesson() {
 
         // If the lesson already exists, display an error and exit
         if (isLessonAlreadyExist(course, data)) {
-            toast.error("Lesson Already Exits");
+            toast.error(
+                "Oops! A lesson with this title already exists. Try a different name."
+            );
             return;
         }
 
         // Ensure that a video has been uploaded; if not, show an error and exit
         if (!videoUrl) {
-            toast.error("Please Upload Video File First.");
+            toast.error(
+                "Oops! Please upload a video file first before proceeding."
+            );
+
             return;
         }
 
@@ -187,7 +192,10 @@ function Admin_Add_New_Lesson() {
         }
         // Check if any changes have been made; if not, show an error message
         if (!isLessonUpdated(data)) {
-            toast.error("Opps! No Changes Made To Lesson");
+            toast.error(
+                "Oops! Looks like nothing was changed. Try updating the lesson."
+            );
+
             return;
         }
 
@@ -208,7 +216,7 @@ function Admin_Add_New_Lesson() {
             }
             // Dismiss the loading toast and show a success message
             toast.dismiss(toastId);
-            toast.success("Lesson Updated...");
+            toast.success("Lesson updated! Review your changes now.");
             // Dispatch Redux action to indicate that courses have been modified
             dispatch(setIsCoursesModified(true));
             // Navigate back to the previous page (usually the list of lessons)

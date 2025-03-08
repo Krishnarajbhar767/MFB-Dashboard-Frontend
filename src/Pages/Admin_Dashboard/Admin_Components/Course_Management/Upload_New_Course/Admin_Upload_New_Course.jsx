@@ -66,7 +66,7 @@ const Admin_Upload_New_Course = () => {
             console.log("Course Creation Response:", response);
 
             if (!response) {
-                toast.error("Something went wrong. Please try again.");
+                toast.error("Something went wrong");
                 return;
             }
 
@@ -97,7 +97,10 @@ const Admin_Upload_New_Course = () => {
     const editCourseHandler = async (data) => {
         console.log("Course Data EDIT --->", data);
         if (!isCourseUpdated(data)) {
-            toast.error("Oops! No Changes Heppend In The Course..");
+            toast.error(
+                "No changes found. Update course details before saving."
+            );
+
             return;
         }
         const toastId = toast.loading("Upading Course...");
@@ -106,7 +109,8 @@ const Admin_Upload_New_Course = () => {
             if (!response) {
                 toast.error("Something Went Wrong!");
             }
-            toast.success("Course Updated...");
+            toast.success("Awesome! Your course details have been updated.");
+
             dispatch(setIsCoursesModified(true));
             navigate(-1);
         } catch (error) {

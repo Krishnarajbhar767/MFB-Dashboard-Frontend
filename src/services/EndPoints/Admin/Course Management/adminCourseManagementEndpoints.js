@@ -29,8 +29,13 @@ export const adminCourseManagementEndpoints = {
         `/admin/coursemanagement/${courseId}/module/${moduleId}/lesson/${lessonId}/resource/${resourceId}`,
     getAllQuizzes: "/admin/coursemanagement/course/quizzes/",
     createQuize: (courseId) => `admin/coursemanagement/course/${courseId}/quiz`,
+    editQuiz: (courseId, quizId) =>
+        `/admin/coursemanagement/course/${courseId}/quiz/${quizId}`,
     deleteQuiz: (courseId, quizId) =>
         `/admin/coursemanagement/course/${courseId}/quiz/${quizId}`,
     addQuestionsToQuize: (courseId, quizeId) =>
-        `/admin/coursemanagement/course/${courseId}/quiz/${quizeId}/questoin/insertmany`,
+        `/admin/coursemanagement/course/${courseId}/quiz/${quizeId}/questionOne`,
+    getQuizById: (courseId, quizeId) =>
+        `/admin/coursemanagement/course/${courseId}/quiz/${quizeId}`,
+    deleteQuestionOfQuiz: (questionId, courseId, quizId) => `Your API URL`,
 };

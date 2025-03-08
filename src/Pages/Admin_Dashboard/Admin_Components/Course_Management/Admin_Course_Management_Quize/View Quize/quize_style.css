@@ -167,6 +167,7 @@
 
 .metadata-item .value {
     font-weight: 500;
+    color: var(--gray-800);
 }
 
 /* Divider */

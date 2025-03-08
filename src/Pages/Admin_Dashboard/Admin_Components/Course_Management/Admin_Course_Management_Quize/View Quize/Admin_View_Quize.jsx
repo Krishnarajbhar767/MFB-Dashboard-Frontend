@@ -1,4 +1,3 @@
-"use client";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
     FiClock,
@@ -21,13 +20,15 @@ import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErr
 import ConfirmationModal from "../../../../../../Common_Components/modal/ConfirmationModal";
 
 function Admin_View_Quize() {
-    const tempQuize = useLocation()?.state?.quiz;
+    const location = useLocation();
+    const quizId = location?.state?.quizId;
+    const quizTitle = location?.state?.quizTitle;
+    const courseId = location?.state?.courseId;
+    const courseTitle = location?.state?.courseTitle;
     const [quiz, setQuiz] = useState([]);
-    const { allQuizzes } = useSelector((state) => state.quize);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [confirmationModal, setConfirmationModal] = useState(null);
-    // If the quiz has been deleted, show a fallback message
     if (!quiz) {
         return (
             <div className="empty-state">
@@ -64,21 +65,38 @@ function Admin_View_Quize() {
 
     // Handler for editing the quiz (demo action)
     const handleEditQuiz = () => {
-        navigate(`/admin/course_management/add_new_quize/:${quiz._id}`, {
+        navigate(`/admin/course_management/add_new_quize/${quiz._id}`, {
             state: {
-                quize: quiz,
-                viewQuizePage: true,
-                viewQuizePageData: quiz,
+                editingQuiz: quiz,
+                quizId,
+                courseId,
             },
         });
     };
 
     // Handler for deleting a question by filtering it out from state
-    const handleDeleteQuestion = (questionId) => {
-        // setQuiz({
-        //     ...quiz,
-        //     questions: quiz.questions.filter((q) => q.id !== questionId),
-        // });
+    const handleDeleteQuestion = async (questionId, courseId, quizId) => {
+        const toastId = toast.loading("Deleting Question...");
+        try {
+            const res = await adminCourseManagementApis.deleteQuestionOfQuiz(
+                questionId,
+                courseId,
+                quizId
+            );
+            if (!res) return toast.error("Something Went Wrong");
+            toast.dismiss(toastId);
+            toast.success("Question Deleted Successfully..");
+            dispatch(setIsQuizModified(true));
+            fetchQuizById(courseId, quizId);
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "Error While Deleting Quiz Question"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
     };
 
     // Handler for editing a question (demo action)
@@ -89,22 +107,33 @@ function Admin_View_Quize() {
                 state: {
                     quizeId: quiz._id,
                     quize: quiz,
-
                     courseId: quiz.courseId,
                 },
             }
         );
     };
 
+    async function fetchQuizById(courseId, quizId) {
+        try {
+            const res = await adminCourseManagementApis.getQuizById(
+                courseId,
+                quizId
+            );
+            if (!res) return toast.error("Something went wrong...");
+            setQuiz(() => res);
+            return res;
+        } catch (error) {
+            const err = customApiErrorHandler(error, "Failed to fetch quiz");
+            toast.error(err);
+        }
+    }
+
     useEffect(() => {
-        allQuizzes.forEach((course) =>
-            course.quizes.map((quiz) => {
-                if (quiz._id === tempQuize._id) {
-                    setQuiz(quiz);
-                }
-            })
-        );
+        if (quizId && courseId) {
+            fetchQuizById(courseId, quizId);
+        }
     }, []);
+
     return (
         <div className="quiz-container">
             <div className="quiz-card">
@@ -159,7 +188,7 @@ function Admin_View_Quize() {
                     <div className="metadata-item">
                         <FiBook className="icon" />
                         <span className="label">Course:</span>
-                        <span className="value">{quiz?.courseId}</span>
+                        <span className="value">{courseTitle}</span>
                     </div>
 
                     <div className="metadata-item">
@@ -177,19 +206,14 @@ function Admin_View_Quize() {
                         <h2 className="section-title">Questions</h2>
                         <div className="questions-actions">
                             <button
-                                onClick={handleEditQuestion}
-                                className="btn btn-secondary"
-                            >
-                                <FiEdit /> Edit Questions
-                            </button>
-                            <button
                                 className="btn btn-primary"
                                 onClick={() =>
                                     navigate(
                                         "/admin/course_management/add_new_quize_questions/",
                                         {
                                             state: {
-                                                quizeId: quiz._id,
+                                                quizId: quiz._id,
+                                                quizTitle: quiz.title,
                                                 courseId: quiz?.courseId,
                                             },
                                         }
@@ -228,7 +252,22 @@ function Admin_View_Quize() {
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    handleDeleteQuestion(q?.id)
+                                                    setConfirmationModal({
+                                                        text1: "Delete Question",
+                                                        text2: "Are you sure you want to delete this question? This action is irreversible.",
+                                                        btn1Handler: () =>
+                                                            handleDeleteQuestion(
+                                                                q._id,
+                                                                courseId,
+                                                                quizId
+                                                            ),
+                                                        btn1Text: "Delete",
+                                                        btn2Handler: () =>
+                                                            setConfirmationModal(
+                                                                null
+                                                            ),
+                                                        btn2Text: "Cancel",
+                                                    })
                                                 }
                                                 className="icon-button delete"
                                                 aria-label="Delete question"
@@ -243,12 +282,12 @@ function Admin_View_Quize() {
                                             <div
                                                 key={i}
                                                 className={`option-item ${
-                                                    option === q?.currectAns
+                                                    i == q.currectAns
                                                         ? "correct-answer"
                                                         : ""
                                                 }`}
                                             >
-                                                {option === q?.currectAns && (
+                                                {i == q?.currectAns && (
                                                     <FiCheck className="check-icon" />
                                                 )}
                                                 <span>{option}</span>

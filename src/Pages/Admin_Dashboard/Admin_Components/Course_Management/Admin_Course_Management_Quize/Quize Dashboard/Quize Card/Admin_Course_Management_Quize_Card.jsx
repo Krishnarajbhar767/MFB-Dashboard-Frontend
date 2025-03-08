@@ -12,8 +12,7 @@ import { useDispatch } from "react-redux";
 import { setIsQuizModified } from "../../../../../../../Redux/Slices/quizesSlice";
 
 const Admin_Course_Management_Quize_Card = memo(
-    function Admin_Course_Management_Quize_Card({ quize }) {
-        console.log("Quiz Data From Quiz Card --->", quize);
+    function Admin_Course_Management_Quize_Card({ quize, courseTitle }) {
         const navigate = useNavigate();
         const dispatch = useDispatch();
         const [confirmationModal, setConfirmationModal] = useState(null);
@@ -52,7 +51,7 @@ const Admin_Course_Management_Quize_Card = memo(
                         <h3 className="font-semibold text-gray-800 line-clamp-1">
                             {quize?.title}
                         </h3>
-                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full text-nowrap">
                             {quize?.questions?.length || 0} questions
                         </span>
                     </div>
@@ -67,19 +66,19 @@ const Admin_Course_Management_Quize_Card = memo(
                 <div className="px-5 py-3 bg-gray-50">
                     <div className="grid grid-cols-3 gap-2">
                         <div className="flex flex-col">
-                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                            <div className="flex items-center text-xs text-gray-800 mb-1 font-semibold">
                                 <FiClock className="mr-1" size={12} />
                                 <span>Created</span>
                             </div>
                             <p className="text-xs font-medium text-gray-700">
                                 {new Date(
                                     quize?.createdAt || Date.now()
-                                ).toLocaleDateString()}
+                                ).toLocaleDateString("en-GB")}
                             </p>
                         </div>
 
                         <div className="flex flex-col">
-                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                            <div className="flex items-center text-xs text-gray-800 mb-1 font-semibold">
                                 <HiOutlineUsers className="mr-1" size={12} />
                                 <span>Participants</span>
                             </div>
@@ -89,7 +88,7 @@ const Admin_Course_Management_Quize_Card = memo(
                         </div>
 
                         <div className="flex flex-col">
-                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                            <div className="flex items-center text-xs mb-1 text-gray-800 mb-1 font-semibold">
                                 <HiOutlineChartBar className="mr-1" size={12} />
                                 <span>Avg. Score</span>
                             </div>
@@ -105,8 +104,15 @@ const Admin_Course_Management_Quize_Card = memo(
                     <button
                         onClick={() =>
                             navigate(
-                                `/admin/course_management/quizes/view_quize/:${quize._id}`,
-                                { state: { quiz: quize } }
+                                `/admin/course_management/quizes/view_quize/${quize._id}`,
+                                {
+                                    state: {
+                                        quizId: quize._id,
+                                        quizTitle: quize.quizTitle,
+                                        courseId: quize.courseId,
+                                        courseTitle,
+                                    },
+                                }
                             )
                         }
                         className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
@@ -122,7 +128,7 @@ const Admin_Course_Management_Quize_Card = memo(
                                 `/admin/course_management/add_new_quize_questions/${quize.title}`,
                                 {
                                     state: {
-                                        quizeId: quize._id,
+                                        quizId: quize._id,
                                         quizTitle: quize.title,
                                         courseId: quize?.courseId,
                                     },
@@ -138,8 +144,15 @@ const Admin_Course_Management_Quize_Card = memo(
                     <button
                         onClick={() => {
                             navigate(
-                                `/admin/course_management/add_new_quize/:${quize._id}`,
-                                { state: { quize } }
+                                `/admin/course_management/add_new_quize/${quize._id}`,
+                                {
+                                    state: {
+                                        editingQuiz: quize,
+                                        quizId: quize._id,
+                                        quizTitle: quize.quizTitle,
+                                        courseId: quize.courseId,
+                                    },
+                                }
                             );
                         }}
                         className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-50 transition-colors"

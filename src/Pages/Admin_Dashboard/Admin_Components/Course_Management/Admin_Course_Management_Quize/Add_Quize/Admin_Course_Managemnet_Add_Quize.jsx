@@ -1,127 +1,99 @@
-import React, { useEffect, useState } from "react";
-// Import custom Input and SelectDropDown components for form fields
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
+
+// Import form components and icons
 import Input from "../../../../../../Common_Components/Form_Components/Input";
 import SelectDropDown from "../../../../../../Common_Components/Form_Components/SelectDropDown";
-// Import a custom IconBtn component used for styled action buttons
 import IconBtn from "../../../../../../Common_Components/IconBtn";
-// Import only the required icons (unused ones have been removed)
-import { FaPlus } from "react-icons/fa";
-import { MdOutlineCancel } from "react-icons/md";
-import { IoSaveSharp } from "react-icons/io5";
+import { FaPlus, FaSave } from "react-icons/fa";
 
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-// Import the Redux action to add a new quiz
-import {
-    addNewQuize,
-    setIsQuizModified,
-} from "../../../../../../Redux/Slices/quizesSlice";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+// Import API & Redux action
 import { adminCourseManagementApis } from "../../../../../../services/apis/Admin/Course Management/adminCourseManagementApis";
+import { setIsQuizModified } from "../../../../../../Redux/Slices/quizesSlice";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
+import { MdCancel } from "react-icons/md";
 
 function Admin_Course_Managemnet_Add_Quize() {
-    // Retrieve all quizzes from the Redux store (if needed for rendering elsewhere)
-    const { allQuizes } = useSelector((state) => state.quize);
     const { allCourses } = useSelector((state) => state.allCourses);
-    // Get quizId from URL parameters and quiz object from the location state.
-    // If either is not provided, we default to false.
-    const quizeId = useParams()?.quizeId ?? false;
-    const quize = useLocation().state?.quize ?? false;
-    const viewQuizePage = useLocation().state?.viewQuizePage ?? false;
-    const viewQuizePageData = useLocation().state?.viewQuizePageData ?? false;
-
-    // useNavigate hook to programmatically navigate between routes.
-    const navigate = useNavigate();
-
-    // State to hold the quiz data for editing.
-    // If a quiz object is provided in the location state, initialize with that; otherwise, null.
-    const [currentlyEditingQuize, setCurrentlyEditingQuize] = useState(
-        quize ? quize : null
-    );
-
-    // State to track whether we are editing an existing quiz.
-    // We are in edit mode if both a quizId and a quiz object exist.
-    const [isEditingQuize, setIsEditingQuize] = useState(
-        quizeId && quize ? true : false
-    );
-
-    // Redux dispatch hook for dispatching actions.
     const dispatch = useDispatch();
-
-    // Initialize react-hook-form for managing form state, validation, and handling submissions.
+    const location = useLocation();
+    const navigate = useNavigate();
+    const editingQuiz = location?.state?.editingQuiz ?? null;
+    console.log("editingQuiz", editingQuiz);
+    // Initialize form with react-hook-form
     const {
         register,
         handleSubmit,
         setValue,
-        getValues,
+        reset,
         formState: { errors },
     } = useForm();
 
-    /**
-     * isQuizeUpdated
-     * ---------------
-     * Compares the current form values with the original quiz data.
-     * Returns true if any field has been updated.
-     *
-     * Note: In the "else" branch, no explicit false is returned. This is kept as-is per your logic.
-     */
-    function isQuizeUpdated() {
-        const data = getValues();
-        if (
-            data.author !== currentlyEditingQuize.author ||
-            data.title !== currentlyEditingQuize.title ||
-            data.time_date !== currentlyEditingQuize.time_date ||
-            data.course !== currentlyEditingQuize.course ||
-            data.timelimit !== currentlyEditingQuize.timelimit
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // Clears input fields after quiz creation
 
-    /**
-     * clearInput
-     * ----------
-     * Clears the form fields by setting their values to an empty string.
-     */
+    const isQuizeUpdated = (currentData, originalData) => {
+        return (
+            currentData.author !== originalData.author ||
+            currentData.title !== originalData.title ||
+            currentData.time_date !== originalData.time_date ||
+            currentData.course !== originalData.course ||
+            currentData.timelimit !== originalData.timelimit ||
+            currentData.status !== originalData.status
+        );
+    };
     function clearInput() {
         setValue("author", "");
-        setValue("course", "");
+        setValue("courseId", "");
         setValue("time_date", "");
         setValue("timelimit", "");
         setValue("title", "");
         setValue("status", "");
     }
 
-    /**
-     * addQuize
-     * --------
-     * Handler for adding a new quiz.
-     * It builds a new quiz object (with an auto-generated _id and an empty questions array),
-     * dispatches a Redux action to add the quiz, shows a success toast, and clears the form.
-     */
-    const addQuize = async (data) => {
-        console.log("Printing Data From....JSX", data);
-        const toastId = toast.loading("Creating Quize...");
+    // Adds a new quiz
+    const addQuizHandler = async (data) => {
+        const toastId = toast.loading("Creating Quiz...");
         try {
-            const response = await adminCourseManagementApis.createQuize({
-                ...data,
-                questions: [],
-            });
-            if (!response) {
-                toast.error("Something went wrong.");
-            }
+            const response = await adminCourseManagementApis.createQuize(data);
+            if (!response) return toast.error("Something went wrong.");
             dispatch(setIsQuizModified(true));
-            toast.dismiss(toastId);
-            toast.success("Quize created successfully..");
+            toast.success("Quiz created successfully.");
             clearInput();
         } catch (error) {
             const err = customApiErrorHandler(
                 error,
-                "Error While Creating New Quize"
+                "Error while creating quiz"
+            );
+            toast.error(err);
+        } finally {
+            toast.dismiss(toastId);
+        }
+    };
+    const editQuizHandler = async (data) => {
+        if (!isQuizeUpdated(data, editingQuiz))
+            return toast.error(
+                "Nothing has changed. Try updating some fields before saving."
+            );
+
+        const toastId = toast.loading("Hang tight! Updating your quiz...");
+        try {
+            const res = await adminCourseManagementApis.editQuiz(
+                data,
+                data.courseId,
+                editingQuiz._id
+            );
+            if (!res) return toast.error("Something went wrong...");
+            toast.dismiss(toastId);
+            toast.success("Awesome! Your quiz has been updated.");
+            dispatch(setIsQuizModified(true));
+            navigate(-1);
+        } catch (error) {
+            const err = customApiErrorHandler(
+                error,
+                "Error While updating Quiz"
             );
             toast.error(err);
         } finally {
@@ -129,267 +101,130 @@ function Admin_Course_Managemnet_Add_Quize() {
         }
     };
 
-    /**
-     * editQuize
-     * ---------
-     * Handler for editing an existing quiz.
-     * It first checks whether any changes have been made using isQuizeUpdated().
-     * If changes exist, it constructs an updated quiz object (including the original quiz _id),
-     * displays a success toast, navigates back to the quiz list, clears the form,
-     * and resets the editing state.
-     */
-    const editQuize = (data) => {
-        if (isQuizeUpdated()) {
-            try {
-                const reponse = { ...data, quizeId: quize._id };
-                if (reponse) {
-                    console.log("Printing New Quize Data..", reponse);
-                    toast.success("Quize Updated Successfully.");
-                    navigate("/admin/course_management/quizes/");
-                    clearInput();
-                    setCurrentlyEditingQuize(null);
-                    setIsEditingQuize(false);
-                } else {
-                    toast.error("Something went wrong.");
-                }
-            } catch (error) {
-                toast.error(error.message);
-            }
-        } else {
-            toast.error("No Changes Made.");
-        }
-    };
-
-    /**
-     * onSubmit
-     * --------
-     * The main form submission handler.
-     * Depending on whether we are editing an existing quiz or adding a new one,
-     * it calls the appropriate handler (editQuize or addQuize).
-     */
-    async function onSubmit(data) {
-        if (isEditingQuize) {
-            editQuize(data);
-        } else {
-            addQuize(data);
-        }
-    }
-
-    /**
-     * useEffect Hook
-     * --------------
-     * When the component mounts and if we're in edit mode,
-     * populate the form fields with the existing quiz data.
-     */
     useEffect(() => {
-        if (isEditingQuize) {
-            console.log("Editing  Quize Data --->", quize);
-            setValue("title", quize.title);
-            setValue("author", quize.author);
-            setValue("time_date", quize.time_date);
-            setValue("course", quize.courseId);
-            setValue("timelimit", quize.timelimit);
-            setValue("status", quize.status);
+        if (editingQuiz) {
+            setValue("title", editingQuiz.title);
+            setValue("author", editingQuiz.author);
+            setValue("time_date", editingQuiz.time_date);
+            setValue("courseId", editingQuiz.courseId);
+            setValue("timelimit", editingQuiz.timelimit);
+            setValue("status", editingQuiz.status);
         }
-    }, []); // Empty dependency array so this runs only once on mount.
+    }, [editingQuiz]);
 
     return (
         <form
             className="flex justify-center gap-6"
-            onSubmit={handleSubmit(onSubmit, (err) => {
-                console.log(
-                    "Error Accured WHile Submiting The Add New Quize",
-                    err
-                );
-            })}
+            onSubmit={handleSubmit(
+                editingQuiz ? editQuizHandler : addQuizHandler
+            )}
         >
             <div className="w-1/2 h-full">
-                {/* Form Title and Description */}
-                <h1 className="text-lg font-medium">Add Quize To Course</h1>
+                <h1 className="text-lg font-medium">Add Quiz To Course</h1>
                 <p className="text-sm font-normal">
-                    Create A New Quize For your course module
+                    Create a new quiz for your course module
                 </p>
-                <div className="w-full h-fit bg-white shadow-md mt-4 rounded-md border p-4">
-                    {/* Quiz Title Input Field */}
+
+                <div className="w-full h-fit bg-white shadow-md mt-4 rounded-md border p-4 space-y-2">
+                    {/* Quiz Title */}
                     <Input
-                        label={"Quize Title*"}
-                        placeholder={"Enter quize title"}
-                        type={"text"}
+                        label="Quiz Title*"
+                        placeholder="Enter quiz title"
+                        type="text"
                         register={register}
                         inputName="title"
-                        required={true}
+                        required
                         minLength={3}
-                        maxLength={25}
+                        maxLength={100}
                         error={errors?.title}
                     />
 
-                    {/* Two-column layout for Author and Publish Date inputs */}
-                    <div className="flex gap-2">
-                        <div className="mt-2 w-1/2">
+                    {/* Author & Publish Date */}
+                    <div className="flex gap-2 w-full">
+                        <div className="w-1/2">
                             <Input
-                                label={"Author Name*"}
-                                placeholder={"Enter Quize Author Name"}
-                                type={"text"}
+                                label="Author Name*"
+                                placeholder="Enter quiz author"
+                                type="text"
                                 register={register}
                                 inputName="author"
-                                required={true}
-                                validation={{
-                                    required: "Full name is required", // Error message if the field is empty
-                                    pattern: {
-                                        value: /^[A-Za-z\s]+$/, // Only letters and spaces allowed
-                                        message:
-                                            "Full name must contain only letters and spaces",
-                                    },
-                                    minLength: {
-                                        value: 3,
-                                        message:
-                                            "Full name must be at least 3 characters long",
-                                    },
-                                    maxLength: {
-                                        value: 50,
-                                        message:
-                                            "Full name cannot exceed 50 characters",
-                                    },
-                                }}
+                                required
                                 error={errors?.author}
                             />
                         </div>
-                        <div className="mt-2 w-1/2">
+                        <div className="w-1/2">
                             <Input
-                                label={"Quize Publish Date*"}
-                                placeholder={"Quize Publish Date"}
-                                type={"datetime-local"}
+                                label="Publish Date*"
+                                type="datetime-local"
                                 register={register}
                                 inputName="time_date"
-                                required={true}
+                                required
                                 error={errors?.time_date}
-                                validation={{
-                                    required: "Date is required",
-                                    // Validate that the selected date is in the future.
-                                    validate: (value) => {
-                                        const getCurrentDateTime = () => {
-                                            const now = new Date();
-                                            // Format date as yyyy-MM-dd
-                                            const date = now
-                                                .toISOString()
-                                                .split("T")[0];
-                                            // Format time as HH:mm
-                                            const time = now
-                                                .toTimeString()
-                                                .split(":")
-                                                .slice(0, 2)
-                                                .join(":");
-                                            return `${date}T${time}`;
-                                        };
-                                        const currentDateTime =
-                                            getCurrentDateTime();
-                                        return (
-                                            value > currentDateTime ||
-                                            "Schdule date must bew valid"
-                                        );
-                                    },
-                                }}
                             />
                         </div>
                     </div>
 
-                    {/* Dropdown to select the quiz's course */}
-                    <div className="mt-2">
-                        <SelectDropDown
-                            register={register}
-                            inputName={"course"}
-                            required={true}
-                            error={errors?.course}
-                            selectName={"Quize Course"}
-                            selectId={"course"}
-                            label={"Select Course*"}
-                            // options={[
-                            //     { value: "8e278eh28746b78", name: "Option 1" },
-                            //     { value: "nd89y3r4349j39r", name: "Option 2" },
-                            //     { value: "fdejf93ry8l3p9", name: "Option 3" },
-                            // ]}
-                            options={allCourses?.map((course) => {
-                                return {
-                                    value: course._id,
-                                    name: course.courseTitle,
-                                };
-                            })}
-                            defaultOption={"Choose A Course"}
-                        />
-                    </div>
+                    {/* Course Selection */}
+                    <SelectDropDown
+                        disabled={editingQuiz ? true : false}
+                        register={register}
+                        inputName="courseId"
+                        required
+                        error={errors?.courseId}
+                        selectName="Quiz Course"
+                        selectId="courseId"
+                        label="Select Course*"
+                        options={allCourses?.map((course) => ({
+                            value: course._id,
+                            name: course.courseTitle,
+                        }))}
+                        defaultOption="Choose A Course"
+                    />
 
-                    {/* Quiz Time Limit Input Field */}
-                    <div className="mt-2">
-                        <Input
-                            label={"Quize Time Limit (Minute)*"}
-                            placeholder={"Enter Quize Time Limit"}
-                            type={"number"}
-                            register={register}
-                            inputName="timelimit"
-                            required={true}
-                            error={errors?.timelimit}
-                        />
-                    </div>
-                    <div className="mt-2">
-                        <SelectDropDown
-                            register={register}
-                            inputName={"status"}
-                            required={true}
-                            error={errors?.status}
-                            selectName={"Status"}
-                            selectId={"status"}
-                            label={"Status of quize*"}
-                            options={[
-                                { value: "draft", name: "Darft" },
-                                { value: "public", name: "Public" },
-                            ]}
-                            defaultOption={"Status"}
-                        />
-                    </div>
-                    {/* Action Buttons: Submit (Add/Update) and Cancel (if editing) */}
-                    <div className="mt-4 space-x-2">
+                    {/* Quiz Time Limit */}
+                    <Input
+                        label="Quiz Time Limit (Minutes)*"
+                        placeholder="Enter time limit"
+                        type="number"
+                        register={register}
+                        inputName="timelimit"
+                        required
+                        error={errors?.timelimit}
+                    />
+
+                    {/* Quiz Status */}
+                    <SelectDropDown
+                        register={register}
+                        inputName="status"
+                        required
+                        error={errors?.status}
+                        selectName="Status"
+                        selectId="status"
+                        label="Status of quiz*"
+                        options={[
+                            { value: "draft", name: "Draft" },
+                            { value: "public", name: "Public" },
+                        ]}
+                        defaultOption="Status"
+                    />
+
+                    {/* Submit Button */}
+                    <div className="mt-4 space-x-4">
                         <button type="submit">
                             <IconBtn color={"#000f"}>
-                                {!isEditingQuize ? (
-                                    <span className="flex items-center gap-2 justify-center">
-                                        <FaPlus /> Add Quize
-                                    </span>
-                                ) : (
-                                    <span className="flex items-center gap-2 justify-center">
-                                        <IoSaveSharp /> Update Quize
-                                    </span>
-                                )}
+                                <span className="flex items-center gap-2 justify-center">
+                                    {editingQuiz ? <FaSave /> : <FaPlus />}{" "}
+                                    {editingQuiz ? "Save Quiz" : "Add Quiz"}
+                                </span>
                             </IconBtn>
                         </button>
-                        {isEditingQuize && (
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    // Cancel edit mode: reset editing states and navigate back.
-                                    setIsEditingQuize(false);
-                                    setCurrentlyEditingQuize(null);
-                                    if (viewQuizePage) {
-                                        navigate(
-                                            `/admin/course_management/quizes/view_quize/${quizeId}`,
-                                            {
-                                                state: {
-                                                    quiz: viewQuizePageData,
-                                                },
-                                            }
-                                        );
-                                    } else {
-                                        //
-                                        navigate(
-                                            `/admin/course_management/quizes/`
-                                        );
-                                    }
-                                }}
-                            >
-                                <IconBtn textColor={"#1f2937"}>
-                                    <MdOutlineCancel /> Cancel
-                                </IconBtn>
-                            </button>
-                        )}
+                        <button type="button" onClick={() => navigate(-1)}>
+                            <IconBtn color={"#000f"}>
+                                <span className="flex items-center gap-2 justify-center">
+                                    <MdCancel /> Cancel
+                                </span>
+                            </IconBtn>
+                        </button>
                     </div>
                 </div>
             </div>
