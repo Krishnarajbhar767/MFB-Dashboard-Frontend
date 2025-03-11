@@ -34,12 +34,7 @@ function StudentDashboard_Page() {
                 },
             ],
         },
-        {
-            id: 2,
-            lable: "classroom/module",
-            icon: <SiGoogleclassroom />,
-            route: "/student/classroom_&_module",
-        },
+
         {
             id: 4,
             lable: "performance",
@@ -52,12 +47,7 @@ function StudentDashboard_Page() {
             icon: <GiDiscussion />,
             route: "/student/discussion_forums",
         },
-        {
-            id: 6,
-            lable: "calender",
-            icon: <IoCalendarOutline />,
-            route: "/student/calender",
-        },
+
         {
             id: 6,
             lable: "Support",

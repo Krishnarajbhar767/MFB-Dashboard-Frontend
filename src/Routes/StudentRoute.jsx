@@ -1,5 +1,14 @@
 import { Route, Routes, Outlet } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
+import StudentDashboardLayout from "../Pages/Student_Dashboard/Dashboard/StudentDashboardLayout";
+import StudentDashboardIndex from "../Pages/Student_Dashboard/Dashboard/StudentDashboardIndex";
+import StudentPerformanceLayout from "../Pages/Student_Dashboard/Performance/StudentPerformanceLayout";
+import StudentDiscussionFormIndex from "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumIndex";
+import StudentDiscussionForumPost from "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumPost";
+import StudentSettingIndex from "../Pages/Student_Dashboard/Setting/StudentSettingIndex";
+import StudentSupportIndex from "../Pages/Student_Dashboard/Support/StudentSupportIndex";
+import StudentSupportTicketDetail from "../Pages/Student_Dashboard/Support/StudentSupportTicketDetail";
+import StudentDiscoverIndex from "../Pages/Student_Dashboard/Discover/StudentDiscoverIndex";
 
 // Lazy Loaded Components
 const StudentDashboard_Page = lazy(() =>
@@ -42,13 +51,13 @@ const StudentRoute = () => {
 };
 
 export const StudentRoutesConfig = [
-    { path: "dashboard", element: <h1>Dashboard Student</h1> },
+    { path: "dashboard", element: <StudentDashboardIndex /> },
     {
         path: "courses/*",
         children: [
             {
                 path: "",
-                element: <h1>Student Course Main Page</h1>,
+                element: <h1>Course Dashboard</h1>,
             },
             {
                 path: "course_details",
@@ -60,25 +69,46 @@ export const StudentRoutesConfig = [
             },
         ],
     },
-    { path: "classroom_&_module", element: <h1>ClassRoom & Modules</h1> },
-    { path: "performance", element: <h1>Performance</h1> },
-    { path: "discussion_forums", element: <h1>Discussion Forums</h1> },
-    { path: "calender", element: <h1>Calendar</h1> },
-    { path: "support", element: <h1>Support</h1> },
+
+    { path: "performance", element: <StudentPerformanceLayout /> },
+    {
+        path: "discussion_forums/*",
+        children: [
+            {
+                path: "",
+                element: <StudentDiscussionFormIndex />,
+            },
+            {
+                path: "post/:id",
+                element: <StudentDiscussionForumPost />,
+            },
+        ],
+    },
+
+    {
+        path: "support/*",
+        children: [
+            {
+                path: "",
+                element: <StudentSupportIndex />,
+            },
+            {
+                path: "ticket/:id",
+                element: <StudentSupportTicketDetail />,
+            },
+        ],
+    },
     {
         path: "profile_settings",
-        element: (
-            <Suspense fallback={<Loader />}>
-                <StudentSetting />
-            </Suspense>
-        ),
+        element: <StudentSettingIndex />,
     },
     {
         path: "discover",
         element: (
-            <Suspense fallback={<Loader />}>
-                <StudentDiscoverCourseDetailsIndex />
-            </Suspense>
+            // <Suspense fallback={<Loader />}>
+            //     <StudentDiscoverCourseDetailsIndex />
+            // </Suspense>
+            <StudentDiscoverIndex />
         ),
     },
 ];

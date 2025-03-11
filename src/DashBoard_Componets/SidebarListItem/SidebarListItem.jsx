@@ -3,7 +3,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 
 // Sidebar List Item Component (Memoized)
-const SIdebarListIconAndText = React.memo(({ item }) => {
+const SidebarListItem = React.memo(({ item }) => {
     const [openDropMenu, setOpenDropMenu] = useState(false);
 
     return (
@@ -21,12 +21,10 @@ const SIdebarListIconAndText = React.memo(({ item }) => {
                     {/* Icon of the item */}
                     <div className="flex items-center gap-2">
                         <div className="rounded-full w-fit h-fit p-2 group-hover:animate-wiggle group-hover:animate-once group-hover:animate-duration-200">
-                            <span className="text-[19px] hover:font-semibold ">
-                                {item.icon}
-                            </span>
+                            <span className="text-[19px]  ">{item.icon}</span>
                         </div>
                         {/* Label for the item */}
-                        <span className="text-[0.8rem] font-normal tracking-wider hidden lg:block hover:font-semibold capitalize">
+                        <span className="text-[0.8rem] font-normal tracking-wider hidden lg:block capitalize">
                             {item.lable}
                         </span>
                     </div>
@@ -62,4 +60,4 @@ const SIdebarListIconAndText = React.memo(({ item }) => {
     );
 });
 
-export default SIdebarListIconAndText;
+export default SidebarListItem;

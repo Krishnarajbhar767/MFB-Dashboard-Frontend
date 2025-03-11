@@ -7,7 +7,7 @@ import Parent_Context from "./Utils/Context/Parent_Context";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import store from "./Redux/Store/store.js";
-
+import { MantineProvider } from "@mantine/core";
 createRoot(document.getElementById("root")).render(
     // <StrictMode>
     <Provider store={store}>
