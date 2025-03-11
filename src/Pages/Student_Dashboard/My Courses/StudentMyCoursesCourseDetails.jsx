@@ -9,7 +9,7 @@ import {
 } from "react-icons/bi";
 import { BsPlayCircle } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
-import { CourseAccordion } from "../../My Courses/CourseAccordians/CourseAccordians";
+import { CourseAccordion } from "./CourseAccordians/CourseAccordians";
 
 // Course sections data
 const courseSections = [
@@ -72,7 +72,7 @@ const learningPoints = [
     "Start building beautiful websites",
 ];
 
-export default function CourseView() {
+export default function StudentMyCoursesCourseDetails({ course, onBack }) {
     const [activeTab, setActiveTab] = useState("overview");
     const [expandedSection, setExpandedSection] = useState("01");
 
@@ -88,7 +88,10 @@ export default function CourseView() {
                 <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                         <div className="flex items-center space-x-2 sm:space-x-4 overflow-hidden">
-                            <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors shrink-0">
+                            <button
+                                className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors shrink-0"
+                                onClick={onBack}
+                            >
                                 <BiArrowBack className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
                             <div className="min-w-0">

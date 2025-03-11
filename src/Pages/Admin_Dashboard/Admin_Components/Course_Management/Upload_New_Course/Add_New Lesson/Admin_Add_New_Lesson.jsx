@@ -385,7 +385,20 @@ function Admin_Add_New_Lesson() {
                         label="Lesson Title*"
                         placeholder="Enter lesson title"
                         registerOptions={register("lessontitle", {
-                            required: "Lesson title is required",
+                            required: "Title is required",
+                            minLength: {
+                                value: 10,
+                                message: "Title must be at least 10 characters",
+                            },
+                            maxLength: {
+                                value: 200,
+                                message: "Title cannot exceed 200 characters",
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z0-9 ]+$/,
+                                message:
+                                    "Only letters, numbers, and spaces are allowed",
+                            },
                         })} // Register lesson title with validation
                         error={errors.lessontitle}
                     />
@@ -410,7 +423,11 @@ function Admin_Add_New_Lesson() {
                         label="Lesson Duration (Minutes)*"
                         placeholder="Enter lesson run time"
                         registerOptions={register("duration", {
-                            required: "Lesson duration is required",
+                            required: "Invalid lesson duration.",
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: "Only numbers are allowed.",
+                            },
                         })} // Register duration with validation
                         error={errors.duration}
                     />

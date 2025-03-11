@@ -9,6 +9,7 @@ import StudentSettingIndex from "../Pages/Student_Dashboard/Setting/StudentSetti
 import StudentSupportIndex from "../Pages/Student_Dashboard/Support/StudentSupportIndex";
 import StudentSupportTicketDetail from "../Pages/Student_Dashboard/Support/StudentSupportTicketDetail";
 import StudentDiscoverIndex from "../Pages/Student_Dashboard/Discover/StudentDiscoverIndex";
+import StudentMyCoursesIndex from "../Pages/Student_Dashboard/My Courses/StudentMyCoursesIndex";
 
 // Lazy Loaded Components
 const StudentDashboard_Page = lazy(() =>
@@ -53,21 +54,8 @@ const StudentRoute = () => {
 export const StudentRoutesConfig = [
     { path: "dashboard", element: <StudentDashboardIndex /> },
     {
-        path: "courses/*",
-        children: [
-            {
-                path: "",
-                element: <h1>Course Dashboard</h1>,
-            },
-            {
-                path: "course_details",
-                element: (
-                    <Suspense fallback={<Loader />}>
-                        <StudentCourseDetailsAfterEnrolled />
-                    </Suspense>
-                ),
-            },
-        ],
+        path: "courses",
+        element: <StudentMyCoursesIndex />,
     },
 
     { path: "performance", element: <StudentPerformanceLayout /> },

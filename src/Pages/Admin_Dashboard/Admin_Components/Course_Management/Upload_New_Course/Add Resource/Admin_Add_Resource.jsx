@@ -275,7 +275,20 @@ function Admin_Add_Resource() {
                     label="Resource Title*"
                     placeholder="Enter resource title"
                     registerOptions={register("resourcetitle", {
-                        required: "Title is required*",
+                        required: "Title is required",
+                        minLength: {
+                            value: 10,
+                            message: "Title must be at least 10 characters",
+                        },
+                        maxLength: {
+                            value: 200,
+                            message: "Title cannot exceed 200 characters",
+                        },
+                        pattern: {
+                            value: /^[a-zA-Z0-9 ]+$/,
+                            message:
+                                "Only letters, numbers, and spaces are allowed",
+                        },
                     })}
                     error={errors.resourcetitle}
                 />

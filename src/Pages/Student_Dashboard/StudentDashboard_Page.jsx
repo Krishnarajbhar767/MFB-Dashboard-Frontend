@@ -26,13 +26,6 @@ function StudentDashboard_Page() {
             lable: "My Courses",
             icon: <IoBook />,
             route: "/student/courses",
-            children: [
-                {
-                    path: "/student/courses/course_details",
-                    icon: <VscFolderLibrary />,
-                    lable: "Course Details",
-                },
-            ],
         },
 
         {
@@ -76,7 +69,7 @@ function StudentDashboard_Page() {
 
             <div className="w-full flex flex-row h-screen bg-green-400 ">
                 {/* Sidebar */}
-                <div className="lg:w-[250px] h-full  text-black px-2 pb-20 pt-4 hidden md:block bg-[#F8F8F8]">
+                <div className="lg:w-[250px] h-full  text-black px-2 pb-20 pt-4 hidden md:block bg-[#F8F8F8] border-2 shadow-md">
                     <div className="w-full px-2 h-full overflow-scroll scroller ">
                         {/* Side Bar For Laptop And Tablet */}
                         <Sidebar sidebarList={sidebarList} />

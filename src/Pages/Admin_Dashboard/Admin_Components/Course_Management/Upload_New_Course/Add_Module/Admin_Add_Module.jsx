@@ -229,7 +229,22 @@ function Admin_Add_Module() {
                         <AdminCustomInput
                             label="Module Name*"
                             registerOptions={register("moduletitle", {
-                                required: "Module name is required.*",
+                                required: "Title is required",
+                                minLength: {
+                                    value: 10,
+                                    message:
+                                        "Title must be at least 10 characters",
+                                },
+                                maxLength: {
+                                    value: 200,
+                                    message:
+                                        "Title cannot exceed 200 characters",
+                                },
+                                pattern: {
+                                    value: /^[a-zA-Z0-9 ]+$/,
+                                    message:
+                                        "Only letters, numbers, and spaces are allowed",
+                                },
                             })}
                             error={errors.moduletitle}
                         />

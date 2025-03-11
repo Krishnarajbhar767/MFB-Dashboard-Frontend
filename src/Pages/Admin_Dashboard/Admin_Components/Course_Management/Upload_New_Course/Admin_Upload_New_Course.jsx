@@ -29,6 +29,7 @@ const Admin_Upload_New_Course = () => {
         formState: { errors },
         getValues,
         setValue,
+        setError,
     } = useForm();
     //importing use Dispatch For Dispatch Redux Actions
     const dispatch = useDispatch();
@@ -264,19 +265,19 @@ const Admin_Upload_New_Course = () => {
                             registerOptions={register("courseTitle", {
                                 required: "Title is required",
                                 minLength: {
-                                    value: 5,
+                                    value: 10,
                                     message:
-                                        "Title must be at least 5 characters",
+                                        "Title must be at least 10 characters",
                                 },
                                 maxLength: {
-                                    value: 100,
+                                    value: 200,
                                     message:
-                                        "Title cannot exceed 100 characters",
+                                        "Title cannot exceed 200 characters",
                                 },
                                 pattern: {
                                     value: /^[a-zA-Z0-9 ]+$/,
                                     message:
-                                        "Only letters, numbers & spaces allowed",
+                                        "Only letters, numbers, and spaces are allowed",
                                 },
                             })}
                             error={errors.courseTitle}
@@ -349,18 +350,18 @@ const Admin_Upload_New_Course = () => {
                             label="Price*"
                             placeholder="Enter price of course"
                             registerOptions={register("price", {
-                                required: "Price is required",
+                                required: "Invalid Price",
                                 pattern: {
-                                    value: /^\d+(\.\d{1,2})?$/,
+                                    value: /^(?:\d+|\d*\.\d{1,2})$/,
                                     message:
-                                        "Enter a valid price (max 2 decimal places)",
+                                        "Only positive numbers allowed (up to 2 decimal places, no symbols)",
                                 },
                                 min: {
-                                    value: 0.01,
-                                    message: "Price must be greater than zero",
+                                    value: 100,
+                                    message: "Price must be greater than 100",
                                 },
                                 max: {
-                                    value: 10000,
+                                    value: 100000,
                                     message: "Price cannot exceed $10,000",
                                 },
                             })}
@@ -390,6 +391,7 @@ const Admin_Upload_New_Course = () => {
                         >
                             Tags
                         </label>
+
                         <input
                             type="text"
                             id="tags"
@@ -402,6 +404,15 @@ const Admin_Upload_New_Course = () => {
                                             "Tag should not be empty."
                                         );
                                     }
+                                    const regex = /^[a-zA-Z0-9# ]+$/;
+                                    if (!regex.test(tag)) {
+                                        toast.error(
+                                            "Only letters, numbers, and # allowed."
+                                        );
+                                        return;
+                                    } else {
+                                        console.log("Going Forward...");
+                                    }
                                     setTempTags((prev) => [...prev, tag]);
                                     setValue("tags", "");
                                 }
@@ -409,6 +420,7 @@ const Admin_Upload_New_Course = () => {
                             placeholder="Enter tags separated by commas"
                             className="w-full border border-gray-300 rounded-md p-2 text-gray-600 outline-none focus:ring-1 ring-blue-500"
                         />
+
                         {/* Display entered tags */}
                         <div className="mt-3 flex flex-wrap gap-2">
                             {tempTags.map((item, idx) => (

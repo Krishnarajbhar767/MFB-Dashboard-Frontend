@@ -15,6 +15,7 @@ import { adminCourseManagementApis } from "../../../../../../services/apis/Admin
 import { setIsQuizModified } from "../../../../../../Redux/Slices/quizesSlice";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import { MdCancel } from "react-icons/md";
+import { AdminCustomInput } from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
 
 function Admin_Course_Managemnet_Add_Quize() {
     const { allCourses } = useSelector((state) => state.allCourses);
@@ -127,15 +128,52 @@ function Admin_Course_Managemnet_Add_Quize() {
 
                 <div className="w-full h-fit bg-white shadow-md mt-4 rounded-md border p-4 space-y-2">
                     {/* Quiz Title */}
-                    <Input
+                    {/* <Input
                         label="Quiz Title*"
                         placeholder="Enter quiz title"
                         type="text"
                         register={register}
                         inputName="title"
-                        required
                         minLength={3}
                         maxLength={100}
+                        error={errors?.title}
+                        validation={{
+                            required: "Title is required",
+                            minLength: {
+                                value: 10,
+                                message: "Title must be at least 10 characters",
+                            },
+                            maxLength: {
+                                value: 200,
+                                message: "Title cannot exceed 200 characters",
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z0-9 ]+$/,
+                                message:
+                                    "Only letters, numbers, and spaces are allowed",
+                            },
+                        }}
+                    /> */}
+                    {/* 11/03/25 Added Need To Change all Inputs */}
+                    <AdminCustomInput
+                        label="Quiz Title*"
+                        placeholder="Enter quiz title"
+                        registerOptions={register("title", {
+                            required: "Title is required",
+                            minLength: {
+                                value: 10,
+                                message: "Title must be at least 10 characters",
+                            },
+                            maxLength: {
+                                value: 200,
+                                message: "Title cannot exceed 200 characters",
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z0-9 ]+$/,
+                                message:
+                                    "Only letters, numbers, and spaces are allowed",
+                            },
+                        })}
                         error={errors?.title}
                     />
 
