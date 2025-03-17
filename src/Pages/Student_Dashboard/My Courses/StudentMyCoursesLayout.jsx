@@ -13,7 +13,7 @@ const StudentMyCoursesLayout = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="container mx-auto px-4 py-8"
+            className="container mx-auto lg:px-4 lg:py-8"
         >
             <h1 className="text-2xl md:text-3xl font-bold mb-6">My Courses</h1>
 

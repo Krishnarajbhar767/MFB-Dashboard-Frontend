@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { FiEdit } from "react-icons/fi"; // Icon for edit action.
 import { MdDeleteForever } from "react-icons/md"; // Icon for delete action.
 import Admin_Edit_User_Purchase_Modal from "./Admin_Edit_User_Purchase_Modal"; // Modal component for editing user purchases.
-import trash2 from "react-useanimations/lib/trash2";
-import edit from "react-useanimations/lib/edit";
-import UseAnimations from "react-useanimations";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 function Admin_Student_Course_Purchase_Data_Table({
     tableData,
@@ -32,15 +30,11 @@ function Admin_Student_Course_Purchase_Data_Table({
     };
 
     return (
-        <div className={`relative ${isFilterOpen ? "mt-16" : "mt-0"}`}>
+        <div className={`relative`}>
             {/* Render table */}
             <table>
                 {/* Render table header */}
-                <tr
-                    className={`sticky bg-white border-none ${
-                        isFilterOpen ? "top-[7.5rem]" : "top-[2.8rem]"
-                    }`}
-                >
+                <tr className={`sticky bg-white border-none top-0`}>
                     {tableHeadTitle.map((title) => (
                         <th
                             key={title} // Add a key for list rendering.
@@ -110,12 +104,8 @@ function Admin_Student_Course_Purchase_Data_Table({
                                 </button>
 
                                 {/* Delete button */}
-                                <button className="text-red-500 text-base">
-                                    <UseAnimations
-                                        animation={trash2}
-                                        size={25}
-                                        strokeColor="red"
-                                    />
+                                <button className="text-red-500 text-base hover:animate-jump">
+                                    <FaRegTrashAlt />
                                 </button>
                             </td>
                         </tr>

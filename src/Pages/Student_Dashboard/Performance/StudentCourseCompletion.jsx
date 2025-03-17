@@ -30,7 +30,7 @@ const StudentCourseCompletion = () => {
                 <h2 className="text-xl font-bold">Course Completion</h2>
             </div>
 
-            <div className="h-64">
+            <div className="md:h-80 h-96">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie

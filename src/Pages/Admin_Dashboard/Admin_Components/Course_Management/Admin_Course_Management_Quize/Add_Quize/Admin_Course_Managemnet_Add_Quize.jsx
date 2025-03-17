@@ -15,7 +15,10 @@ import { adminCourseManagementApis } from "../../../../../../services/apis/Admin
 import { setIsQuizModified } from "../../../../../../Redux/Slices/quizesSlice";
 import { customApiErrorHandler } from "../../../../../../Utils/Error/cutomApiErrorHandler";
 import { MdCancel } from "react-icons/md";
-import { AdminCustomInput } from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
+import {
+    AdminCustomInput,
+    AdminCustomSelect,
+} from "../../../../../../Common_Components/Form_Components/AdminCustomInputs";
 
 function Admin_Course_Managemnet_Add_Quize() {
     const { allCourses } = useSelector((state) => state.allCourses);
@@ -159,7 +162,7 @@ function Admin_Course_Managemnet_Add_Quize() {
                         label="Quiz Title*"
                         placeholder="Enter quiz title"
                         registerOptions={register("title", {
-                            required: "Title is required",
+                            required: "Quiz title is required*",
                             minLength: {
                                 value: 10,
                                 message: "Title must be at least 10 characters",
@@ -180,70 +183,96 @@ function Admin_Course_Managemnet_Add_Quize() {
                     {/* Author & Publish Date */}
                     <div className="flex gap-2 w-full">
                         <div className="w-1/2">
-                            <Input
-                                label="Author Name*"
-                                placeholder="Enter quiz author"
-                                type="text"
-                                register={register}
-                                inputName="author"
-                                required
+                            <AdminCustomInput
+                                label="Quiz Author*"
+                                placeholder="Author name"
+                                registerOptions={register("author", {
+                                    required: "Author is required*",
+                                    minLength: {
+                                        value: 3,
+                                        message:
+                                            "Author name must be at least 3 characters",
+                                    },
+                                    maxLength: {
+                                        value: 30,
+                                        message:
+                                            "Author name exceed 30 characters",
+                                    },
+                                    pattern: {
+                                        value: /^[a-zA-Z ]+$/,
+                                        message:
+                                            "Only letters and spaces are allowed",
+                                    },
+                                })}
                                 error={errors?.author}
                             />
                         </div>
                         <div className="w-1/2">
-                            <Input
+                            <AdminCustomInput
                                 label="Publish Date*"
                                 type="datetime-local"
-                                register={register}
-                                inputName="time_date"
-                                required
+                                placeholder="Publish Date"
+                                registerOptions={register("time_date", {
+                                    required: "Publish date is required*",
+                                    validate: (value) => {
+                                        const today = new Date()
+                                            .toISOString()
+                                            .slice(0, 16); //new Date().toISOString() → Converts the date to ISO 8601 format (YYYY-MM-DDTHH:MM:SS.sssZ).
+                                        //.slice(0, 16) → Extracts only the "YYYY-MM-DDTHH:MM" part.
+
+                                        const d1 = new Date(value);
+                                        const d2 = new Date(today);
+                                        if (d1 < d2) {
+                                            return "Publish date cannot be in the past.";
+                                        }
+                                    },
+                                })}
                                 error={errors?.time_date}
                             />
                         </div>
                     </div>
 
-                    {/* Course Selection */}
-                    <SelectDropDown
-                        disabled={editingQuiz ? true : false}
-                        register={register}
-                        inputName="courseId"
-                        required
-                        error={errors?.courseId}
-                        selectName="Quiz Course"
-                        selectId="courseId"
-                        label="Select Course*"
-                        options={allCourses?.map((course) => ({
-                            value: course._id,
-                            name: course.courseTitle,
-                        }))}
+                    <AdminCustomSelect
                         defaultOption="Choose A Course"
+                        disabled={editingQuiz ? true : false}
+                        label="Course*"
+                        registerOptions={register("courseId", {
+                            required: "Course is required*",
+                        })}
+                        error={errors.courseId}
+                        options={allCourses?.map((item) => ({
+                            value: item?._id,
+                            id: item?._id,
+                            label: item?.courseTitle,
+                        }))}
                     />
 
-                    {/* Quiz Time Limit */}
-                    <Input
+                    <AdminCustomInput
+                        type="number"
                         label="Quiz Time Limit (Minutes)*"
                         placeholder="Enter time limit"
-                        type="number"
-                        register={register}
-                        inputName="timelimit"
-                        required
+                        registerOptions={register("timelimit", {
+                            required: "Timelimit is required*",
+
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: "Only numbers are allowed",
+                            },
+                        })}
                         error={errors?.timelimit}
                     />
 
-                    {/* Quiz Status */}
-                    <SelectDropDown
-                        register={register}
-                        inputName="status"
-                        required
-                        error={errors?.status}
-                        selectName="Status"
-                        selectId="status"
-                        label="Status of quiz*"
-                        options={[
-                            { value: "draft", name: "Draft" },
-                            { value: "public", name: "Public" },
-                        ]}
+                    <AdminCustomSelect
                         defaultOption="Status"
+                        label="Status of quiz"
+                        registerOptions={register("status", {
+                            required: "Status is required*",
+                        })}
+                        error={errors.status}
+                        options={[
+                            { value: "draft", label: "Draft" },
+                            { value: "public", label: "Public" },
+                        ]}
                     />
 
                     {/* Submit Button */}

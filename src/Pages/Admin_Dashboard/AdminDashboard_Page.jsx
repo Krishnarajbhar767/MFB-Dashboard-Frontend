@@ -32,87 +32,102 @@ import { setAllCourses } from "../../Redux/Slices/All_Courses";
 import { customApiErrorHandler } from "../../Utils/Error/cutomApiErrorHandler";
 import toast from "react-hot-toast";
 import { setAllQuizzes } from "../../Redux/Slices/quizesSlice";
-
+import {
+    LayoutDashboard,
+    UserCog,
+    BookOpenText,
+    FolderCog,
+    GalleryHorizontalEnd,
+    ImageUp,
+    FilePlus,
+    FolderPlus,
+    GitBranchPlus,
+    CircleHelp,
+    ChartNoAxesCombined,
+    Landmark,
+    Headset,
+    Settings,
+} from "lucide-react";
 function AdminDashboard() {
     const sidebarList = useMemo(() => [
         {
             id: 1,
             lable: "Dashboard",
-            icon: <RxDashboard />,
+            icon: <LayoutDashboard size={20} />,
             route: "/admin/dashboard",
         },
         {
             id: 3,
             lable: "User Management",
-            icon: <FaRegUser />,
+            icon: <UserCog size={20} />,
             route: "/admin/user_management",
         },
         {
             id: 2,
             lable: "Course Management",
-            icon: <FiBookOpen />,
+            icon: <BookOpenText size={20} />,
             route: "/admin/course_management/",
             children: [
                 {
                     path: "/admin/course_management/my_courses",
-                    icon: <VscFolderLibrary />,
+                    icon: <GalleryHorizontalEnd size={20} />,
                     lable: "My Courses",
                 },
                 {
                     path: "/admin/course_management/upload_new_course/",
                     lable: "Upload New Course",
-                    icon: <MdOutlineCloudUpload />,
+                    icon: <ImageUp size={20} />,
                 },
                 {
                     path: "/admin/course_management/add_new_module/",
                     lable: "Add Module",
-                    icon: <FaBookMedical />,
+                    icon: <FolderPlus size={20} />,
                 },
                 {
                     path: "/admin/course_management/add_new_lesson/",
                     lable: "Add Lesson",
-                    icon: <MdPlayLesson />,
+                    icon: <FilePlus size={20} />,
                 },
                 {
                     path: "/admin/course_management/add_resource/",
                     lable: "Add Resourse",
-                    icon: <GiNotebook />,
+                    icon: <GitBranchPlus size={20} />,
                 },
                 {
                     path: "/admin/course_management/quizes/",
                     lable: "Quizes ",
-                    icon: <GoQuestion />,
+                    icon: <CircleHelp size={20} />,
                 },
             ],
         },
         {
             id: 4,
             lable: "Content Management",
-            icon: <GrDocumentStore />,
+            icon: <FolderCog size={20} />,
             route: "/admin/content_management",
         },
         {
             id: 5,
             lable: "Reports & Analytics",
-            icon: <BsGraphUpArrow />,
+            icon: <ChartNoAxesCombined size={20} />,
             route: "/admin/repost_&_analytics",
         },
         {
             id: 6,
             lable: "Payment Management",
-            icon: <PiMoneyLight />,
+            icon: <Landmark size={20} />,
             route: "/admin/payment_management",
         },
         {
             id: 6,
             lable: "Support Management",
-            icon: <MdSupportAgent />,
+            icon: <Headset size={20} />,
             route: "/admin/support_management",
         },
         {
             id: 6,
             lable: "Settings",
-            icon: <IoSettingsOutline />,
+            icon: <Settings size={20} />,
             route: "/admin/settings",
         },
     ]);
@@ -168,7 +183,11 @@ function AdminDashboard() {
             {/* our Navbar  */}
             <Navbar />
 
-            <div className="flex flex-row h-screen w-full">
+            <div
+                className="flex flex-row h-screen w-full"
+                onMouseEnter={(e) => setIsMouseEnter(true)}
+                onMouseLeave={(e) => setIsMouseEnter(false)}
+            >
                 <div className=" h-full lg:w-[250px]  text-black  pb-20 w-[20%] py-3">
                     {/* <h1 className="font-semibold cursor-pointer px-4 py-2 text-center uppercase bg-gray-200 text-sm text-gray-800 ">
                         Welcome to Media Fleetblue Course Platform

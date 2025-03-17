@@ -1,39 +1,42 @@
 import { Route, Routes, Outlet } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
-import StudentDashboardLayout from "../Pages/Student_Dashboard/Dashboard/StudentDashboardLayout";
-import StudentDashboardIndex from "../Pages/Student_Dashboard/Dashboard/StudentDashboardIndex";
-import StudentPerformanceLayout from "../Pages/Student_Dashboard/Performance/StudentPerformanceLayout";
-import StudentDiscussionFormIndex from "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumIndex";
-import StudentDiscussionForumPost from "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumPost";
-import StudentSettingIndex from "../Pages/Student_Dashboard/Setting/StudentSettingIndex";
-import StudentSupportIndex from "../Pages/Student_Dashboard/Support/StudentSupportIndex";
-import StudentSupportTicketDetail from "../Pages/Student_Dashboard/Support/StudentSupportTicketDetail";
-import StudentDiscoverIndex from "../Pages/Student_Dashboard/Discover/StudentDiscoverIndex";
-import StudentMyCoursesIndex from "../Pages/Student_Dashboard/My Courses/StudentMyCoursesIndex";
 
 // Lazy Loaded Components
 const StudentDashboard_Page = lazy(() =>
     import("../Pages/Student_Dashboard/StudentDashboard_Page")
 );
-const StudentDiscoverCourseIndex = lazy(() =>
+const StudentPerformanceLayout = lazy(() =>
+    import("../Pages/Student_Dashboard/Performance/StudentPerformanceLayout")
+);
+const StudentDiscussionFormIndex = lazy(() =>
     import(
-        "../Pages/Student_Dashboard/Components/Student Discover Courses/Student_Discover_Course_Index"
+        "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumIndex"
     )
 );
-const StudentDiscoverCourseDetailsIndex = lazy(() =>
+const StudentDiscussionForumPost = lazy(() =>
     import(
-        "../Pages/Student_Dashboard/Components/Student Discover Courses/StudentDiscoverCourseDetails/StudentDiscoverCourseDetailsIndex"
+        "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumPost"
     )
 );
-const StudentCourseDetailsAfterEnrolled = lazy(() =>
-    import(
-        "../Pages/Student_Dashboard/Components/StudentCourseDetailsAfterEnrolled/StudentCourseDetailsAfterEnrolledIndex"
-    )
+const StudentSettingIndex = lazy(() =>
+    import("../Pages/Student_Dashboard/Setting/StudentSettingIndex")
 );
-const StudentSetting = lazy(() =>
-    import("../Pages/Student_Dashboard/Setting/StudentSetting")
+const StudentSupportIndex = lazy(() =>
+    import("../Pages/Student_Dashboard/Support/StudentSupportIndex")
+);
+const StudentSupportTicketDetail = lazy(() =>
+    import("../Pages/Student_Dashboard/Support/StudentSupportTicketDetail")
+);
+const StudentDiscoverIndex = lazy(() =>
+    import("../Pages/Student_Dashboard/Discover/StudentDiscoverIndex")
+);
+const StudentMyCoursesIndex = lazy(() =>
+    import("../Pages/Student_Dashboard/My Courses/StudentMyCoursesIndex")
 );
 
+const StudentDashboardIndex = lazy(() =>
+    import("../Pages/Student_Dashboard/Dashboard/StudentDashboardIndex")
+);
 // Loader Component
 const Loader = () => (
     <div className="w-full h-screen flex items-center justify-center text-center p-4">
@@ -52,23 +55,49 @@ const StudentRoute = () => {
 };
 
 export const StudentRoutesConfig = [
-    { path: "dashboard", element: <StudentDashboardIndex /> },
+    {
+        path: "dashboard",
+        element: (
+            <Suspense>
+                <StudentDashboardIndex />
+            </Suspense>
+        ),
+    },
     {
         path: "courses",
-        element: <StudentMyCoursesIndex />,
+        element: (
+            <Suspense>
+                <StudentMyCoursesIndex />
+            </Suspense>
+        ),
     },
 
-    { path: "performance", element: <StudentPerformanceLayout /> },
+    {
+        path: "performance",
+        element: (
+            <Suspense>
+                <StudentPerformanceLayout />
+            </Suspense>
+        ),
+    },
     {
         path: "discussion_forums/*",
         children: [
             {
                 path: "",
-                element: <StudentDiscussionFormIndex />,
+                element: (
+                    <Suspense>
+                        <StudentDiscussionFormIndex />
+                    </Suspense>
+                ),
             },
             {
                 path: "post/:id",
-                element: <StudentDiscussionForumPost />,
+                element: (
+                    <Suspense>
+                        <StudentDiscussionForumPost />
+                    </Suspense>
+                ),
             },
         ],
     },

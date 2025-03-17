@@ -198,7 +198,11 @@ function Admin_User_Managements() {
             )}
 
             {/* Main table to display student purchase data */}
-            <div className="p-5">
+            <div
+                className={`p-5 pt-0   overflow-y-scroll  ${
+                    isFilterOpen ? "mt-24" : "mt-8"
+                }`}
+            >
                 <Admin_Student_Course_Purchase_Data_Table
                     tableData={studentPurchaseData}
                     setTableData={setStudentPurchaseData}

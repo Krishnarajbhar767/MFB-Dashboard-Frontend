@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { IoCloudUploadOutline } from "react-icons/io5";
+
 import SidebarListItem from "./SidebarListItem/SidebarListItem";
 
 const Sidebar = React.memo(function Sidebar({ sidebarList }) {

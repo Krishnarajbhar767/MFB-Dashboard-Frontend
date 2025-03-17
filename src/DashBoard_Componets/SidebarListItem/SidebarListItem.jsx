@@ -20,7 +20,7 @@ const SidebarListItem = React.memo(({ item }) => {
                 >
                     {/* Icon of the item */}
                     <div className="flex items-center gap-2">
-                        <div className="rounded-full w-fit h-fit p-2 group-hover:animate-wiggle group-hover:animate-once group-hover:animate-duration-200">
+                        <div className="rounded-full w-fit h-fit p-2  group-hover:animate-once group-hover:animate-duration-200">
                             <span className="text-[19px]  ">{item.icon}</span>
                         </div>
                         {/* Label for the item */}

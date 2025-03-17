@@ -12,52 +12,61 @@ import { IoBook } from "react-icons/io5";
 import Sidebar from "../../DashBoard_Componets/Sidebar";
 import { VscFolderLibrary } from "react-icons/vsc";
 import { MdOutlineCloudUpload } from "react-icons/md";
+import {
+    BookOpenText,
+    Telescope,
+    Settings,
+    Headset,
+    ChartNoAxesCombined,
+    LayoutDashboard,
+    MessagesSquare,
+} from "lucide-react";
 function StudentDashboard_Page() {
     const location = useLocation();
     const sidebarList = useMemo(() => [
         {
             id: 1,
             lable: "Dashboard",
-            icon: <RiDashboardHorizontalFill />,
+            icon: <LayoutDashboard size={20} />,
             route: "/student/dashboard",
         },
         {
             id: 3,
             lable: "My Courses",
-            icon: <IoBook />,
+            icon: <BookOpenText size={20} />,
             route: "/student/courses",
         },
 
         {
             id: 4,
             lable: "performance",
-            icon: <BsGraphUpArrow />,
+            icon: <ChartNoAxesCombined size={20} />,
             route: "/student/performance",
         },
         {
             id: 5,
             lable: "discussion forums",
-            icon: <GiDiscussion />,
+            icon: <MessagesSquare size={20} />,
             route: "/student/discussion_forums",
         },
 
         {
             id: 6,
             lable: "Support",
-            icon: <BiSupport />,
+            icon: <Headset size={20} />,
             route: "/student/support",
         },
 
         {
             id: 6,
             lable: "profile settings",
-            icon: <IoSettingsOutline />,
+            icon: <Settings size={20} />,
             route: "/student/profile_settings",
         },
         {
             id: 7,
             lable: "Discover",
-            icon: <RiGlobalLine />,
+            icon: <Telescope size={20} />,
             route: "/student/discover",
         },
     ]);
