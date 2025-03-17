@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiPlay, FiBook, FiUser } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function StudentOngoingCourses() {
     const courses = [
@@ -44,12 +45,15 @@ export default function StudentOngoingCourses() {
             thumbnail: "https://picsum.photos/200",
         },
     ];
+
     return (
         <div className="bg-card rounded-xl p-3 md:p-6  shadow-md">
-            <h2 className="text-xl font-bold mb-4 flex items-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center text-gray-900">
                 <FiBook className="mr-2 text-primary" /> Ongoing Courses
             </h2>
-
+            {/* <h1 className="text-2xl md:text-3xl font-bold mb-6">
+                Discover Courses
+            </h1> */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {courses.map((course) => (
                     <CourseCard key={course.id} course={course} />
@@ -61,7 +65,7 @@ export default function StudentOngoingCourses() {
 
 function CourseCard({ course }) {
     const [isHovered, setIsHovered] = useState(false);
-
+    const navigate = useNavigate();
     return (
         <div
             className="bg-background rounded-lg overflow-hidden border border-border transition-all duration-300 hover:shadow-md flex flex-col  justify-between "
@@ -108,7 +112,17 @@ function CourseCard({ course }) {
                     </div>
                 </div>
 
-                <button className="w-full mt-3 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2 rounded-md transition-colors duration-200 border">
+                <button
+                    onClick={() =>
+                        navigate(
+                            `/student/my_courses/course/${course.title.replace(
+                                /[\s/]+/g,
+                                "-"
+                            )}`
+                        )
+                    }
+                    className="w-full mt-3 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2 rounded-md transition-colors duration-200 border"
+                >
                     Continue
                 </button>
             </div>

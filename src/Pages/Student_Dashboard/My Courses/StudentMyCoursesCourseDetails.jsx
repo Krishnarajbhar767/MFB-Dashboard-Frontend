@@ -9,7 +9,8 @@ import {
 } from "react-icons/bi";
 import { BsPlayCircle } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
-import { CourseAccordion } from "./CourseAccordians/CourseAccordians";
+import { CourseAccordion } from "./CourseAccordians/CourseAccordion";
+import { useNavigate } from "react-router-dom";
 
 // Course sections data
 const courseSections = [
@@ -80,7 +81,7 @@ export default function StudentMyCoursesCourseDetails({ course, onBack }) {
     const toggleSection = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? "" : sectionId);
     };
-
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen ">
             {/* Header */}
@@ -90,7 +91,7 @@ export default function StudentMyCoursesCourseDetails({ course, onBack }) {
                         <div className="flex items-center space-x-2 sm:space-x-4 overflow-hidden">
                             <button
                                 className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors shrink-0"
-                                onClick={onBack}
+                                onClick={() => navigate(-1)}
                             >
                                 <BiArrowBack className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>

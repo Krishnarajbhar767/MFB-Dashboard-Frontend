@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Image, Link, Smile, Send, X } from "lucide-react";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const StudentDiscussionForumCreatePost = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -97,14 +98,15 @@ const StudentDiscussionForumCreatePost = () => {
                         >
                             Content
                         </label>
-                        <textarea
+                        {/* <textarea
                             id="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[150px]"
                             placeholder="Write your post content here..."
                             required
-                        />
+                        /> */}
+                        <ReactQuill value={content} onChange={setContent} />
                     </div>
 
                     {attachments.length > 0 && (

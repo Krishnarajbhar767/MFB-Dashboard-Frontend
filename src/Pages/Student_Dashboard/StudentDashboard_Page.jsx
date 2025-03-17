@@ -34,7 +34,7 @@ function StudentDashboard_Page() {
             id: 3,
             lable: "My Courses",
             icon: <BookOpenText size={20} />,
-            route: "/student/courses",
+            route: "/student/my_courses",
         },
 
         {
@@ -88,10 +88,6 @@ function StudentDashboard_Page() {
                 {/* main section where all outlet will be render  */}
                 <div className="w-full flex flex-col  h-full bg-white  flex-shrink">
                     <div className="w-full  px-4  py-3 lg:py-3 h-auto overflow-y-scroll scroller overflow-x-hidden mx-auto">
-                        <h1 className="text-xs font-medium mb-3 text-gray-700 tracking-wide underline">
-                            {location.pathname}
-                        </h1>
-
                         <Outlet />
                     </div>
                 </div>

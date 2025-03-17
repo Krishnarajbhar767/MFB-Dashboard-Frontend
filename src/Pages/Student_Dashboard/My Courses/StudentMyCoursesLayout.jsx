@@ -1,13 +1,12 @@
-"use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 import StudentMyCoursesEnrolledCourses from "./StudentMyCoursesEnrolledCourses";
 import StudentMyCoursesCourseDetails from "./StudentMyCoursesCourseDetails";
+import StudentCourseRecommendations from "../Discover/StudentCourseRecommendations";
+import StudentMyCoursesRecommendedCourseCard from "./StudentMyCoursesRecommendedCourseCard";
 
 const StudentMyCoursesLayout = () => {
-    const [selectedCourse, setSelectedCourse] = useState(null);
-
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -17,16 +16,15 @@ const StudentMyCoursesLayout = () => {
         >
             <h1 className="text-2xl md:text-3xl font-bold mb-6">My Courses</h1>
 
-            {selectedCourse ? (
-                <StudentMyCoursesCourseDetails
-                    course={selectedCourse}
-                    onBack={() => setSelectedCourse(null)}
-                />
-            ) : (
-                <StudentMyCoursesEnrolledCourses
-                    onSelectCourse={setSelectedCourse}
-                />
-            )}
+            <div>
+                <StudentMyCoursesEnrolledCourses />
+            </div>
+            <div className="mt-6">
+                <h1 className="text-2xl md:text-3xl font-bold mb-6">
+                    Recommended Courses For You
+                </h1>
+                <StudentMyCoursesRecommendedCourseCard />
+            </div>
         </motion.div>
     );
 };

@@ -1,8 +1,8 @@
-"use client";
 import { motion } from "framer-motion";
 import { Book, Clock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const StudentMyCoursesEnrolledCourses = ({ onSelectCourse }) => {
+const StudentMyCoursesEnrolledCourses = () => {
     const enrolledCourses = [
         {
             id: 1,
@@ -36,6 +36,7 @@ const StudentMyCoursesEnrolledCourses = ({ onSelectCourse }) => {
         },
     ];
 
+    const navigate = useNavigate();
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +49,14 @@ const StudentMyCoursesEnrolledCourses = ({ onSelectCourse }) => {
                     key={course.id}
                     whileHover={{ scale: 1.03 }}
                     className="bg-card rounded-lg shadow-md overflow-hidden cursor-pointer"
-                    onClick={() => onSelectCourse(course)}
+                    onClick={() =>
+                        navigate(
+                            `/student/my_courses/course/${course.title.replace(
+                                /[\s/]+/g,
+                                "-"
+                            )}`
+                        )
+                    }
                 >
                     <img
                         src={course.image || "/placeholder.svg"}

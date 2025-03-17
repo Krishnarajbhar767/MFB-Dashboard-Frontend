@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MessageSquare, Plus } from "lucide-react";
 import StudentDiscussionForumSearchBar from "./StudentDiscussionForumSearchBar";
 import StudentDiscussionForumThreadList from "./StudentDiscussionForumThreadList";
+import { Link } from "react-router-dom";
 
 const StudentDiscussionForumLayout = () => {
     return (
@@ -24,7 +25,9 @@ const StudentDiscussionForumLayout = () => {
                     <StudentDiscussionForumSearchBar />
                     <button className="bg-primary text-primary-foreground rounded-lg px-4 py-2 flex items-center gap-2">
                         <Plus className="h-5 w-5" />
-                        <span className="hidden sm:inline">New Thread</span>
+                        <Link to={"/student/discussion_forums/create_post"}>
+                            <span className="hidden sm:inline">New Thread</span>
+                        </Link>
                     </button>
                 </div>
             </div>

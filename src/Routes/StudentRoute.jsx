@@ -1,7 +1,15 @@
 import { Route, Routes, Outlet } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
+import StudentDiscussionForumCreatePost from "../Pages/Student_Dashboard/Discussion Forum/StudentDiscussionForumCreatePost";
+import CourseDetails from "../Pages/Student_Dashboard/Components/Course Details/CourseDetails";
+import StudentCourseDetailsLayout from "../Pages/Student_Dashboard/Components/Course Details/StudentCourseDetailsLayout";
 
 // Lazy Loaded Components
+const StudentMyCoursesCourseDetails = lazy(() =>
+    import(
+        "../Pages/Student_Dashboard/My Courses/StudentMyCoursesCourseDetails"
+    )
+);
 const StudentDashboard_Page = lazy(() =>
     import("../Pages/Student_Dashboard/StudentDashboard_Page")
 );
@@ -64,12 +72,33 @@ export const StudentRoutesConfig = [
         ),
     },
     {
-        path: "courses",
+        path: "course/:title",
         element: (
             <Suspense>
-                <StudentMyCoursesIndex />
+                <StudentCourseDetailsLayout />
             </Suspense>
         ),
+    },
+    {
+        path: "my_courses/*",
+        children: [
+            {
+                path: "",
+                element: (
+                    <Suspense>
+                        <StudentMyCoursesIndex />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "course/:title",
+                element: (
+                    <Suspense>
+                        <StudentMyCoursesCourseDetails />
+                    </Suspense>
+                ),
+            },
+        ],
     },
 
     {
@@ -96,6 +125,14 @@ export const StudentRoutesConfig = [
                 element: (
                     <Suspense>
                         <StudentDiscussionForumPost />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "create_post",
+                element: (
+                    <Suspense>
+                        <StudentDiscussionForumCreatePost />
                     </Suspense>
                 ),
             },

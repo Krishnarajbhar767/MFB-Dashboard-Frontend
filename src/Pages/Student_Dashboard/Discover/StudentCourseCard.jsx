@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const StudentCourseCard = ({ course }) => {
+    const navigate = useNavigate();
     return (
         <motion.div
             whileHover={{ scale: 1.03 }}
@@ -26,7 +28,17 @@ const StudentCourseCard = ({ course }) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="font-bold">${course.price}</span>
-                    <button className="bg-primary text-primary-foreground rounded-lg px-3 py-1 text-sm">
+                    <button
+                        className="bg-primary text-primary-foreground rounded-lg px-3 py-1 text-sm"
+                        onClick={() =>
+                            navigate(
+                                `/student/course/${course.title.replace(
+                                    /[\s/]+/g,
+                                    "-"
+                                )}`
+                            )
+                        }
+                    >
                         Enroll Now
                     </button>
                 </div>

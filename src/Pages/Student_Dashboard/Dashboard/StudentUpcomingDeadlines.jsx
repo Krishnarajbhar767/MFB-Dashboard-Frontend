@@ -43,7 +43,10 @@ const StudentUpcomingDeadlines = () => {
             className="bg-card rounded-xl shadow-md md:p-6 p-3"
         >
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Upcoming Deadlines</h2>
+                <h2 className="text-2xl md:text-3xl font-bold">
+                    Upcoming Deadlines
+                </h2>
+
                 <button className="text-sm text-primary flex items-center">
                     View All <ArrowRight className="ml-1 h-4 w-4" />
                 </button>
