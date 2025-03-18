@@ -1,6 +1,7 @@
 import { Clock, UsersRound, Star } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 function StudentMyCoursesRecommendedCourseCard() {
     const data = new Array(5).fill(0);
     return (
@@ -15,6 +16,7 @@ function StudentMyCoursesRecommendedCourseCard() {
 export default StudentMyCoursesRecommendedCourseCard;
 
 function Card({ course }) {
+    const navigate = useNavigate();
     return (
         <motion.div
             whileHover={{ scale: 1.02 }}
@@ -24,7 +26,17 @@ function Card({ course }) {
             className="h-52 border  rounded-md shadow-md flex items-center py-4 px-2"
         >
             {/* Image Course Card */}
-            <div className="h-full lg:w-[500px]  px-2 ">
+            <div
+                className="h-full lg:w-[500px] md:w-2/3  px-2 cursor-pointer"
+                onClick={() =>
+                    navigate(
+                        `/student/course/${course?.title?.replace(
+                            /[\s/]+/g,
+                            "-"
+                        )}`
+                    )
+                }
+            >
                 <img
                     src="https://picsum.photos/200"
                     alt="Author Name"
@@ -34,13 +46,23 @@ function Card({ course }) {
             {/* Course Content */}
             <div className=" px-4  h-full">
                 {/* Course Title */}
-                <h1 className="text-primary font-semibold text-lg">
+                <h1
+                    className="text-foreground font-semibold text-lg hover:text-primary cursor-pointer"
+                    onClick={() =>
+                        navigate(
+                            `/student/course/${course?.title?.replace(
+                                /[\s/]+/g,
+                                "-"
+                            )}`
+                        )
+                    }
+                >
                     Advanced UI/ Ux Master Classs
                 </h1>
                 {/* TIme Enrolled Student  */}
                 <div className="flex items-center gap-8 text-foreground font-medium text-sm">
                     {/* TIMe Rating */}
-                    <div className="flex gap-1 items-center">
+                    <div className="flex gap-1 items-center text-sm md:text-xs">
                         <Clock size={18} />
                         <span>4 Hours</span>
                     </div>

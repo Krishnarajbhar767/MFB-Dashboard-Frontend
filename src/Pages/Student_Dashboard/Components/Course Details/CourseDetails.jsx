@@ -14,6 +14,7 @@ import CertificationDetails from "./CertificationDetails";
 import CourseDuration from "./CourseDuration";
 import LanguageOptions from "./LanguageOptions";
 import AccessibilityFeatures from "./AccessibilityFeatures";
+import { useNavigate } from "react-router-dom";
 
 const CourseDetails = ({ courseId, onBack }) => {
     // In a real app, you would fetch course data based on courseId
@@ -47,7 +48,7 @@ const CourseDetails = ({ courseId, onBack }) => {
             avatar: "/placeholder.svg?height=200&width=200",
         },
     };
-
+    const navigate = useNavigate();
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -58,8 +59,8 @@ const CourseDetails = ({ courseId, onBack }) => {
             {/* Back button and share options */}
             <div className="flex justify-between items-center mb-6">
                 <button
-                    onClick={onBack}
                     className="flex items-center text-primary hover:underline"
+                    onClick={() => navigate(-1)}
                 >
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back to Courses
