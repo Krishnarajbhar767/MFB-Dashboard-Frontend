@@ -165,6 +165,31 @@ export const StudentRoutesConfig = [
             <StudentDiscoverIndex />
         ),
     },
+    {
+        path: "affiliate/*",
+        children: [
+            {
+                path: "",
+                element: <h1>Affiliate Dashboard</h1>,
+            },
+            {
+                path: "earning",
+                element: <h1>Affiliate Earning</h1>,
+            },
+            {
+                path: "referral",
+                element: <h1>Affiliate referral</h1>,
+            },
+            {
+                path: "payout",
+                element: <h1>Affiliate Payout</h1>,
+            },
+            {
+                path: "setting",
+                element: <h1>Affiliate Setting</h1>,
+            },
+        ],
+    },
 ];
 
 export default StudentRoute;

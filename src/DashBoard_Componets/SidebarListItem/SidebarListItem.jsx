@@ -50,7 +50,7 @@ const SidebarListItem = React.memo(({ item }) => {
                                 {childrenItem.icon}
                             </span>
                             {/* Label for the child item */}
-                            <span className="text-[0.8rem] uppercase font-normal hidden lg:block">
+                            <span className="text-[0.8rem] capitalize font-normal hidden lg:block">
                                 {childrenItem.lable}
                             </span>
                         </div>

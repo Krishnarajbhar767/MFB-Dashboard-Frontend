@@ -20,6 +20,12 @@ import {
     ChartNoAxesCombined,
     LayoutDashboard,
     MessagesSquare,
+    GalleryHorizontalEnd,
+    Network,
+    CircleDollarSign,
+    Workflow,
+    Wallet,
+    SlidersHorizontal,
 } from "lucide-react";
 function StudentDashboard_Page() {
     const location = useLocation();
@@ -68,6 +74,34 @@ function StudentDashboard_Page() {
             lable: "Discover",
             icon: <Telescope size={20} />,
             route: "/student/discover",
+        },
+        {
+            id: 7,
+            lable: "affiliate",
+            icon: <Network size={20} />,
+            route: "/student/affiliate",
+            children: [
+                {
+                    path: "/student/affiliate/earning",
+                    icon: <CircleDollarSign size={20} />,
+                    lable: "earning",
+                },
+                {
+                    path: "/student/affiliate/referral",
+                    icon: <Workflow size={20} />,
+                    lable: "referral",
+                },
+                {
+                    path: "/student/affiliate/payout",
+                    icon: <Wallet size={20} />,
+                    lable: "payout",
+                },
+                {
+                    path: "/student/affiliate/setting",
+                    icon: <SlidersHorizontal size={20} />,
+                    lable: "setting",
+                },
+            ],
         },
     ]);
 
